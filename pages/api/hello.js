@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { serialize } from 'cookie';
-const jwt = require('jsonwebtoken');
-
-export default function handler(req, res) {
-  res.setHeader('set-cookie', serialize('test2', '1234'))
-  res.status(200).json({t: 'd'})
+const model = require('../../orm/index')
+export default async function handler(req, res) {
+  const user = await model.Users.findOne({where : {username: '1234'}})
+  
+  res.status(200).json({username: user.username})
 }
