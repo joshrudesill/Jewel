@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import styles from '../styles/Home.module.css'
+import { useState } from 'react'
 
 export default function Home() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [verified, setVerified] = useState('not checked')
   const router = useRouter();
   const handleInputChange = e => {
     const { value, name } = e.target;
@@ -16,7 +16,7 @@ export default function Home() {
   }
 
   const onSubmit = async () => {
-    const user = await fetch('/api/hello', {
+    const user = await fetch('/api/login', {
       method: 'POST',
       withCredentials: true,
       body: JSON.stringify({
@@ -27,7 +27,26 @@ export default function Home() {
         'Content-Type': 'application/json'
       }
     });
-    router.push('/')
+    const ud = await user.json()
+    router.push(`/creator/${ud.username}`)
+  }
+
+  const verifyAuth = async () => {
+    const verify = await fetch('/api/verifyAuth', {
+      method: 'POST',
+      withCredentials: true,
+      body: JSON.stringify({
+        username: email
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if(verify.status === 200) {
+      setVerified('Verified')
+    } else {
+      setVerified('Not verified')
+    }
   }
   return (
     <>
@@ -49,13 +68,15 @@ export default function Home() {
       required
     />
   </form>
-    <button onClick={() => onSubmit()}>Submt</button>
+  {
+    verified
+  }
+  <button onClick={() => onSubmit()}>Submt</button>
+  <button onClick={() => verifyAuth()}>verify</button>
     </>
   )
 }
-const s = require('sequelize')
 export async function getServerSideProps() {
-  s
   return {
     props: {
       p: ''
