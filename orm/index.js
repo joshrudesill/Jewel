@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-require('dotenv').config()
+//require('dotenv').config()
 const sequelize = new Sequelize(process.env.pscale,
 {
   dialect: "mysql2",
@@ -18,6 +18,7 @@ sequelize
       .catch(err => {
         console.error('Unable to connect to the database:', err);
       });
+      
 const Users = sequelize.define('users', 
   { 
     id: {
@@ -43,4 +44,25 @@ const Users = sequelize.define('users',
     freezeTableName: true 
   });
 
-module.exports = { Users, sequelize }
+const Appointments = sequelize.define('appointments', 
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    userID: {
+      type: Sequelize.INTEGER
+    },
+    adminID: {
+      type: Sequelize.INTEGER
+    },
+    startTime: {
+      type: Sequelize.DATE
+    },
+    endTime: {
+      type: Sequelize.DATE
+    }
+  });
+
+module.exports = { Users, Appointments, sequelize }

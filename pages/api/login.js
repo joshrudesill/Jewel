@@ -11,8 +11,18 @@ export default async function handler(req, res) {
     res.status(401).send();
   }
   if(user.password === req.body.password) {
-    const token = await jwt.sign({u: user.username}, process.env.secret)
-    res.setHeader('Set-Cookie', serialize('token', token,  {httpOnly: true, secure: true, sameSite: 'none', expiresIn: '1h', path: '/'}) )
-    res.status(200).json({username: user.username})
+    const token = await jwt.sign(
+      {
+        u: user.username,
+        id: user.id,
+        act: user.accountType
+      }, 
+      process.env.secret)
+    res.setHeader('Set-Cookie', serialize('token', token,  {httpOnly: true, secure: true, sameSite: 'none', maxAge: '250000', path: '/'}) )
+    res.status(200).json(
+      {
+        username: user.username,
+        act: user.accountType
+      })
   }
 }

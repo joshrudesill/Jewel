@@ -4,6 +4,7 @@ import { useState } from 'react'
 export default function Home() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [acType, setAcType] = useState('standard')
   const [verified, setVerified] = useState('not checked')
   const router = useRouter();
   const handleInputChange = e => {
@@ -28,9 +29,32 @@ export default function Home() {
       }
     });
     const ud = await user.json()
-    router.push(`/creator/${ud.username}`)
+    if(ud.act === 'admin') {
+      router.push(`/creator/${ud.username}`)
+    } else {
+      router.push(`/user/${ud.username}`)
+    }
   }
 
+  const register = async () => {
+    const user = await fetch('/api/register', {
+      method: 'POST',
+      withCredentials: true,
+      body: JSON.stringify({
+        username: email,
+        password: password,
+        accountType: acType
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  const handleSelectChange = e => {
+    const { target } = e;
+    setAcType(target.value)
+  }
   const verifyAuth = async () => {
     const verify = await fetch('/api/verifyAuth', {
       method: 'POST',
@@ -67,11 +91,16 @@ export default function Home() {
       onChange={handleInputChange}
       required
     />
+    <select value={acType} onChange={handleSelectChange}>
+      <option value='admin'>Admin</option>
+      <option value='standard'>Standard</option>
+    </select>
   </form>
   {
     verified
   }
-  <button onClick={() => onSubmit()}>Submt</button>
+  <button onClick={() => onSubmit()}>Submit</button>
+  <button onClick={() => register()}>Register</button>
   <button onClick={() => verifyAuth()}>verify</button>
     </>
   )
