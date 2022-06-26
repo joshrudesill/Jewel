@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function Home() {
   const [email, setEmail] = useState('')
@@ -29,6 +30,7 @@ export default function Home() {
       }
     });
     const ud = await user.json()
+    console.log(ud)
     if(ud.act === 'admin') {
       router.push(`/creator/${ud.username}`)
     } else {
@@ -73,35 +75,64 @@ export default function Home() {
     }
   }
   return (
-    <>
-    <form>
-    <h1>log</h1>
-    <input
-      name="email"
-      placeholder="Enter email"
-      value={email}
-      onChange={handleInputChange}
-      required
-    />
-    <input
-      type="password"
-      name="password"
-      placeholder="Enter password"
-      value={password}
-      onChange={handleInputChange}
-      required
-    />
-    <select value={acType} onChange={handleSelectChange}>
-      <option value='admin'>Admin</option>
-      <option value='standard'>Standard</option>
-    </select>
-  </form>
-  {
-    verified
-  }
-  <button onClick={() => onSubmit()}>Submit</button>
-  <button onClick={() => register()}>Register</button>
-  <button onClick={() => verifyAuth()}>verify</button>
+  <>
+  <div className="container">
+        <div className="columns mt-5">
+            <div className="column is-half is-offset-one-quarter border">
+                <div className="is-size-2 mb-4 has-text-weight-semibold">
+                    Log In
+                </div>
+                <div className="card">
+                    <div className="card-content">
+                        <div className="field">
+                            <label className="label">Username or Email</label>
+                            <div className="control has-icons-left">
+                                <input 
+                                  name='email'
+                                  className="input" 
+                                  type="text" 
+                                  placeholder="e.g. JohnDoe@example.com" 
+                                  onChange={handleInputChange}
+                                  value={email}
+                                  required
+                                  >
+                                    
+                                </input>
+                                <span className="icon has-text-primary is-left">
+                                    <ion-icon size="small" name="mail-outline"></ion-icon>
+                                </span>
+                            </div>
+                        </div>
+                        <div className="field">
+                            <label className="label">Password</label>
+                                <div className="control has-icons-left">
+                                    <input 
+                                      className="input" 
+                                      type="password"
+                                      name='password' 
+                                      placeholder="******"
+                                      value={password}
+                                      onChange={handleInputChange}
+                                      required
+                                      >
+                                    </input>
+                                    <span className="icon has-text-primary is-left">
+                                        <ion-icon name="lock-closed-outline"></ion-icon>
+                                    </span>
+                                </div>
+                        </div>
+                    </div>
+                    <div className="card-footer">
+                        <a onClick={onSubmit} className="card-footer-item has-text-dark has-background-success-light">Log in</a>
+                        <Link href='/register'>
+                          <a className="card-footer-item has-text-dark ">Sign Up</a>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
     </>
   )
 }

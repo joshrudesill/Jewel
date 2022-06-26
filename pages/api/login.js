@@ -18,8 +18,8 @@ export default async function handler(req, res) {
         act: user.accountType
       }, 
       process.env.secret)
-    res.setHeader('Set-Cookie', serialize('token', token,  {httpOnly: true, secure: true, sameSite: 'none', maxAge: '250000', path: '/'}) )
-    res.status(200).json(
+      res.setHeader('Set-Cookie', serialize('token', token,  {httpOnly: true, secure: true, sameSite: 'none', maxAge: '250000', path: '/'}) )
+      res.status(200).json(
       {
         username: user.username,
         act: user.accountType

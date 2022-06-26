@@ -10,7 +10,8 @@ const verifyJWT = (token, username) => {
     if (decoded.u === username) {
       tor.auth = true
       tor.username = username
-      tor.id = decoded.id
+      tor.id = decoded.id,
+      tor.act = decoded.act
       return tor
     } else {
       tor.auth = false
