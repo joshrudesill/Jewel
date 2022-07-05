@@ -53,10 +53,6 @@ export default function Home() {
     });
   }
 
-  const handleSelectChange = e => {
-    const { target } = e;
-    setAcType(target.value)
-  }
   const verifyAuth = async () => {
     const verify = await fetch('/api/verifyAuth', {
       method: 'POST',

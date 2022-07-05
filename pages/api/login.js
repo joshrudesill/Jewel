@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { serialize } from 'cookie';
 const model = require('../../orm/index')
 const jwt = require('jsonwebtoken');

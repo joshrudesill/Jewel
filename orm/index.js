@@ -18,7 +18,7 @@ sequelize
       .catch(err => {
         console.error('Unable to connect to the database:', err);
       });
-      
+const op = Sequelize.Op;
 const Users = sequelize.define('users', 
   { 
     id: {
@@ -54,6 +54,9 @@ const Appointments = sequelize.define('appointments',
     userID: {
       type: Sequelize.INTEGER
     },
+    userEmail: {
+      type: Sequelize.STRING
+    },
     adminID: {
       type: Sequelize.INTEGER
     },
@@ -65,4 +68,4 @@ const Appointments = sequelize.define('appointments',
     }
   });
 
-module.exports = { Users, Appointments, sequelize }
+module.exports = { Users, Appointments, sequelize, op }
