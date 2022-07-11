@@ -1,38 +1,24 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import MonthOptions from "./month-options";
 const CreateAppointment = ({ username }) => {
-    const [month, setMonth] = useState('June');
-    const [day, setDay] = useState(0);
-    const [hour, setHour] = useState(0);
-    const [minute, setMinute] = useState(0);
-    const [duration, setDuration] = useState(15);
+    const { register, handleSubmit, watch, formState: { errors } } = useForm({mode: 'onChange'});
+    const [cn, setCn] = useState('')
     const router = useRouter();
-    const changeVal = e => {
-        const { name, value } = e.target;
-        if(name === 'day') {
-            setDay(value)
-            return
-        }
-        else if(name === 'hour') {
-            setHour(value)
-            return
-        }
-        else if(name === 'minute') {
-            setMinute(value)
-            return
-        }
-        else if(name === 'duration') {
-            setDuration(value)
-            return
-        }
-        else if(name === 'month') {
-            setMonth(value)
-            return
+
+    const verifyDay = (v) => {
+        if (v > 0) {
+            setCn('')
+            return 
+        } else {
+            setCn('is-danger')
+            return 'danger'
         }
     }
-
-    const createApt = async () => {
+    const createApt = async data => {
+        console.log(data)
+        /* 
         const apt = await fetch('/api/createapt' ,{
             method: 'POST',
             withCredentials: true,
@@ -51,64 +37,145 @@ const CreateAppointment = ({ username }) => {
         if (apt.status === 200) {
             router.reload();
         }
+        */
     }
 
     return (
-        <div class="columns p-0">
-                        <div class="column">
-                            <div class="card mt-5">
-                                <div class="card-content has-text-weight-medium p-3">
-                                    <div class="columns">
-                                        <div class="column is-narrow has-background-success-light">
-                                            <span class="has-text-weight-medium is-size-5">Create<br></br> Appointment</span>
-                                        </div>
-                                        <div class="column is-narrow">
-                                            <label class="label is-size-7 p-0">Month</label>
-                                            <div class="select is-small is-rounded">
-                                                <select name='month' value={month} onChange={changeVal}>
-                                                    <option value='June'>June</option>
-                                                    <option value='July'>July</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="column is-1">
-                                            <label class="label is-size-7 p-0">Day</label>
-                                            <input class="input is-small is-rounded" type="text" placeholder="Day" name='day'onChange={changeVal} value={day}></input>
-                                        </div>
-                                        <div class="column is-1">
-                                            <label class="label is-size-7 p-0">Hour</label>
-                                            <input class="input is-small is-rounded" type="text" placeholder="Hour" name="hour"onChange={changeVal} value={hour}></input>
-                                        </div>
-                                        <div class="column is-1">
-                                            <label class="label is-size-7 p-0">Minute</label>
-                                            <input class="input is-small is-rounded" type="text" placeholder="Min." name="minute"onChange={changeVal} value={minute}></input>
-                                        </div>
-                                        <div class="column is-1">
-                                            <label class="label is-size-7 p-0">Duration</label>
-                                            <input class="input is-small is-rounded" type="text" placeholder="Duration" name="duration"onChange={changeVal} value={duration}></input>
-                                        </div>
-                                        <div class="column is-narrow">
-                                            <label class="label is-size-7 p-0">Type</label>
-                                            <div class="select is-small is-rounded">
-                                                <select>
-                                                <option>Hair Cut</option>
-                                                <option>With options</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="column has-text-right">
-                                            <button class="button mt-2 is-link is-outlined is-rounded">Preview</button>
-                                        </div>
-                                        <div class="column is-narrow has-text-right">
-                                            <button class="button mt-2 mr-2 is-info is-outlined is-light is-rounded" onClick={createApt}>Save</button>
-                                        </div>
-                                    </div>
-                                </div>
+    <div className="card mt-5">
+        <div className="card-content has-text-weight-medium p-3">
+            <div className="columns">
+                <div className="column has-background-success-light">
+                    <span>Create Appointment</span>
+                </div>
+            </div>
+            <form onSubmit={handleSubmit(createApt)}>
+            <div className="columns">
+                <div className="column">
+                    <div className="field">
+                        <label className="label is-size-7">Month</label>
+                        <div className="control">
+                            <div className="select is-small is-fullwidth is-rounded">
+                                <select {...register('month')}>
+                                    <MonthOptions />
+                                </select>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="column">
+                    <div className="field">
+                        <label className="label is-size-7">Day {errors.day?.message ? <span className="has-text-danger">({errors.day?.message})</span> : ''}</label>
+                         <div className="control has-icons-right">
+                           <input className='input is-small is-rounded' type="text" placeholder="Day" required
+                           {...register('day' , 
+                           { 
+                                required: true, 
+                                max: {
+                                    value: 31,
+                                    message: 'Too High'
+                                }, 
+                                min: {
+                                    value: 1,
+                                    message: 'Too Low'
+                                }, 
+                                valueAsNumber: true, 
+                                validate: value => value > 0 || 'Must be a number'
+                            } )}>
+                            </input>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div className="columns">
+                <div className="column">
+                    <div className="field">
+                        <label className="label is-size-7">Hour {errors.hour?.message ? <span className="has-text-danger">({errors.hour?.message})</span> : ''}</label>
+                         <div className="control">
+                           <input className="input is-small is-rounded" type="text" placeholder="Day" 
+                           {...register('hour', 
+                           { 
+                                required: true, 
+                                max: {
+                                    value: 24,
+                                    message: '0 to 23 only!'
+                                }, 
+                                min: {
+                                    value: 1,
+                                    message: '0 to 23 only!'
+                                }, 
+                                valueAsNumber: true, 
+                                validate: value => value > 0 || 'Must be a number'
+                            })}></input>
+                         </div>
+                    </div>
+                </div>
+                <div className="column">
+                    <div className="field">
+                        <label className="label is-size-7">Minute {errors.minute?.message ? <span className="has-text-danger">({errors.minute?.message})</span> : ''}</label>
+                         <div className="control">
+                           <input className="input is-small is-rounded" type="text" placeholder="Day" 
+                           {...register('minute', 
+                           { 
+                                required: true, 
+                                max: {
+                                    value: 59,
+                                    message: '1 to 59 only!'
+                                }, 
+                                min: {
+                                    value: 1,
+                                    message: '1 to 59 only!'
+                                }, 
+                                valueAsNumber: true, 
+                                validate: value => value > 0 || 'Must be a number'
+                            })}></input>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <div className="field">
+                <label className="label is-size-7">Duration (minutes) {errors.duration?.message ? <span className="has-text-danger">({errors.duration?.message})</span> : ''}</label>
+                 <div className="control">
+                   <input className="input is-small is-rounded" type="text" placeholder="Day" 
+                   {...register('duration', 
+                           { 
+                                required: true, 
+                                 
+                                min: {
+                                    value: 1,
+                                    message: 'Greater than 1!'
+                                }, 
+                                valueAsNumber: true, 
+                                validate: value => value > 0 || 'Must be a number'
+                            })}></input>
+                 </div>
+            </div>
+            <div className="columns">
+                <div className="column">
+                    <div className="field">
+                        <label className="label is-size-7">Type</label>
+                        <div className="control">
+                            <div className="select is-small is-fullwidth is-rounded">
+                                <select {...register('type')}>
+                                    <option>Normal</option>
+                                    <option>Creator</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="columns">
+                <div className="column">
+                    <button className="button is-rounded is-small is-primary" type="submit">Save</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
     )
 }
+
 
 
 export default CreateAppointment;
