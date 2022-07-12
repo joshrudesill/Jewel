@@ -1,33 +1,22 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import MonthOptions from "./month-options";
 const CreateAppointment = ({ username }) => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({mode: 'onChange'});
-    const [cn, setCn] = useState('')
+    const { getValues, setValue, register, handleSubmit, watch, formState: { errors } } = useForm({mode: 'onChange'});
     const router = useRouter();
 
-    const verifyDay = (v) => {
-        if (v > 0) {
-            setCn('')
-            return 
-        } else {
-            setCn('is-danger')
-            return 'danger'
-        }
-    }
     const createApt = async data => {
         console.log(data)
-        /* 
+        
         const apt = await fetch('/api/createapt' ,{
             method: 'POST',
             withCredentials: true,
             body: JSON.stringify({
-                day: day,
-                hour: hour,
-                minute: minute,
-                duration: duration,
-                month: 7,
+                day: data.day,
+                hour: data.hour,
+                minute: data.minute,
+                duration: data.duration,
+                month: data.month,
                 username: username
         }),
       headers: {
@@ -37,7 +26,7 @@ const CreateAppointment = ({ username }) => {
         if (apt.status === 200) {
             router.reload();
         }
-        */
+        
     }
 
     return (
@@ -55,9 +44,8 @@ const CreateAppointment = ({ username }) => {
                         <label className="label is-size-7">Month</label>
                         <div className="control">
                             <div className="select is-small is-fullwidth is-rounded">
-                                <select {...register('month')}>
-                                    <MonthOptions />
-                                </select>
+                                    <MonthOptions reg={register} setVal={setValue}/>
+                                    <button onClick={() => console.log(getValues())}>gr4</button>
                             </div>
                         </div>
                     </div>
@@ -67,7 +55,7 @@ const CreateAppointment = ({ username }) => {
                         <label className="label is-size-7">Day {errors.day?.message ? <span className="has-text-danger">({errors.day?.message})</span> : ''}</label>
                          <div className="control has-icons-right">
                            <input className='input is-small is-rounded' type="text" placeholder="Day" required
-                           {...register('day' , 
+                           {...register('day', 
                            { 
                                 required: true, 
                                 max: {

@@ -12,7 +12,7 @@ const UserProfile = ({username, apt}) => {
         } else {
             setApts([])
         }
-    }, [])
+    }, [apt])
     return (
         <section className="section">
     <div className="container.is-widescreen">
@@ -23,7 +23,7 @@ const UserProfile = ({username, apt}) => {
                         <div className="columns">
                             <div className="column  is-2 has-text-weight-bold">
                                 <figure className="image is-48x48">
-                                    <img src="http://placeimg.com/48/48/arch"></img>
+                                    <img alt='profile' src="http://placeimg.com/48/48/arch"></img>
                                 </figure>
                             </div>
                             <div className="column is-size-4 p-2">
@@ -42,7 +42,8 @@ const UserProfile = ({username, apt}) => {
                 </div>
                 <div className="columns p-0">
                     <div className="column">
-                            <CreateAppointment />
+                            <CreateAppointment username={username}/>
+                            
                     </div>
                 </div>
                 <div className="card mt-2">
@@ -95,51 +96,55 @@ const UserProfile = ({username, apt}) => {
                         </div>
                     </div>
                 </div>
-                
-                
             </div>
             <div className="column is-three-quarters">
-            <div className="columns has-background-success-light is-rounded m-1" style={{borderBottom: '1px solid rgba(0, 0, 0, 0.14)'}}>
+            <div className="columns">
                     <div className="column">
-                        <div className="columns">
-                            <div className="column is-three-quarters">
-                                <span className="is-size-3">Appointments</span>
-                            </div>
-                            <div className="column">
-                                <div className="field">
-                                    <label className="label is-size-7">Sort By</label>
-                                    <div className="control">
-                                        <div className="select is-small is-rounded">
-                                            <select>
-                                                <option>Normal</option>
-                                                <option>Creator</option>
-                                            </select>
+                        <div className="box is-shadowless has-background-success-light p-1">
+                            <div className="columns is-rounded m-1">
+                                <div className="column">
+                                    <div className="columns">
+                                        <div className="column is-three-quarters">
+                                            <span className="is-size-3">Appointments</span>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="field">
-                                    <label className="label is-size-7">Sort By Type</label>
-                                    <div className="control">
-                                        <div className="select is-small is-rounded">
-                                            <select>
-                                                <option>Normal</option>
-                                                <option>Creator</option>
-                                            </select>
+                                        <div className="column">
+                                            <div className="field">
+                                                <label className="label is-size-7">Sort By</label>
+                                                <div className="control">
+                                                    <div className="select is-small is-rounded">
+                                                        <select>
+                                                            <option>Normal</option>
+                                                            <option>Creator</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="field">
-                                    <label className="label is-size-7">Show</label>
-                                    <div className="control">
-                                        <div className="select is-small is-rounded">
-                                            <select>
-                                                <option>Normal</option>
-                                                <option>Creator</option>
-                                            </select>
+                                        <div className="column">
+                                            <div className="field">
+                                                <label className="label is-size-7">Sort By Type</label>
+                                                <div className="control">
+                                                    <div className="select is-small is-rounded">
+                                                        <select>
+                                                            <option>Normal</option>
+                                                            <option>Creator</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="column">
+                                            <div className="field">
+                                                <label className="label is-size-7">Show</label>
+                                                <div className="control">
+                                                    <div className="select is-small is-rounded">
+                                                        <select>
+                                                            <option>Normal</option>
+                                                            <option>Creator</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -147,53 +152,9 @@ const UserProfile = ({username, apt}) => {
                         </div>
                     </div>
                 </div>
-                <div className="columns mt-3">
-                    <div className="column">
-                        <div className="card">
-                            <div className="card-header">
-                                <div className="card-header-title">
-                                    <div className="icon-text">
-                                        <span className='icon'><ion-icon name="alert-outline" className="is-size-4 has-text-danger"></ion-icon></span>
-                                        <span>Haircut - Today, 3:30</span>
-                                    </div>
-                                </div>
-                                <div className="card-header-icon">
-                                    <div className="has-text-right">
-                                        <span className="tag is-success is-light is-medium"><ion-icon className='mr-1 is-size-5' name="stopwatch-outline"></ion-icon>30 min</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card-content">
-                                <div className="columns">
-                                    <div className="column is-narrow icon-text">
-                                        <span className='icon'>
-                                            <ion-icon name="time-outline" className=" is-size-4 mr-2 has-text-success"></ion-icon>
-                                        </span>
-                                        <span className="has-text-weight-bold mr-2">Times:</span>
-                                        <span>Today, 3:30 to 4:00</span>
-                                    </div>
-                                    <div className="column is-narrow icon-text">
-                                        <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="cash-outline"></ion-icon></span>
-                                        <span className="has-text-weight-bold mr-2">Price:</span>
-                                        <span>$31.25</span>
-                                    </div>
-                                </div>
-                                <div className="columns">
-                                    <div className="column is-narrow icon-text">
-                                        <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="person-outline"></ion-icon></span>
-                                        <span className="has-text-weight-bold mr-2">Claimed by:</span>
-                                        <span>exampleUser123 <button className="button is-small ml-3 is-rounded">Message</button></span>
-                                    </div>
-                                </div>
-                                <div className="columns">
-                                    <div className="column has-text-right p-0">
-                                        <button className="button is-small is-danger is-rounded">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {
+                    apts ? apts.map(a => <Appointment key={a.id} a={a}/>) : ''
+                }
             </div>
         </div>
     </div>
