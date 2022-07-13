@@ -1,10 +1,11 @@
 import * as cookie from 'cookie'
 import { useEffect, useState } from 'react'
-import Appointment from '../../components/appointment';
+import AptList from '../../components/apt-list';
 import CreateAppointment from '../../components/create-apt'
 
 const UserProfile = ({username, apt}) => {
     const [apts, setApts] = useState();
+    const [sortBy, setSortBy] = useState('dd');
     useEffect(() => {
         if(apt) {
             const parsed = JSON.parse(apt);
@@ -13,6 +14,11 @@ const UserProfile = ({username, apt}) => {
             setApts([])
         }
     }, [apt])
+
+    const onSortBy = e => {
+        const { value } = e.target;
+        setSortBy(value);
+    }
     return (
         <section className="section">
     <div className="container.is-widescreen">
@@ -98,50 +104,53 @@ const UserProfile = ({username, apt}) => {
                 </div>
             </div>
             <div className="column is-three-quarters">
-            <div className="columns">
-                    <div className="column">
-                        <div className="box is-shadowless has-background-success-light p-1">
-                            <div className="columns is-rounded m-1">
-                                <div className="column">
-                                    <div className="columns">
-                                        <div className="column is-three-quarters">
-                                            <span className="is-size-3">Appointments</span>
-                                        </div>
-                                        <div className="column">
-                                            <div className="field">
-                                                <label className="label is-size-7">Sort By</label>
-                                                <div className="control">
-                                                    <div className="select is-small is-rounded">
-                                                        <select>
-                                                            <option>Normal</option>
-                                                            <option>Creator</option>
-                                                        </select>
+                <div className="columns">
+                        <div className="column">
+                            <div className="box is-shadowless has-background-success-light p-1">
+                                <div className="columns is-rounded m-1">
+                                    <div className="column">
+                                        <div className="columns">
+                                            <div className="column is-three-quarters">
+                                                <span className="is-size-3">Appointments</span>
+                                            </div>
+                                            <div className="column">
+                                                <div className="field">
+                                                    <label className="label is-size-7">Sort By</label>
+                                                    <div className="control">
+                                                        <div className="select is-small is-rounded">
+                                                            <select value={sortBy} onChange={onSortBy}>
+                                                                <option value='dd'>Date desc</option>
+                                                                <option value='da'>Date asc</option>
+                                                                <option value='p'>Price</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="column">
-                                            <div className="field">
-                                                <label className="label is-size-7">Sort By Type</label>
-                                                <div className="control">
-                                                    <div className="select is-small is-rounded">
-                                                        <select>
-                                                            <option>Normal</option>
-                                                            <option>Creator</option>
-                                                        </select>
+                                            <div className="column">
+                                                <div className="field">
+                                                    <label className="label is-size-7">Type</label>
+                                                    <div className="control">
+                                                        <div className="select is-small is-rounded">
+                                                            <select>
+                                                                <option>All</option>
+                                                                <option>Type1</option>
+                                                                <option>Type2</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="column">
-                                            <div className="field">
-                                                <label className="label is-size-7">Show</label>
-                                                <div className="control">
-                                                    <div className="select is-small is-rounded">
-                                                        <select>
-                                                            <option>Normal</option>
-                                                            <option>Creator</option>
-                                                        </select>
+                                            <div className="column">
+                                                <div className="field">
+                                                    <label className="label is-size-7">Show</label>
+                                                    <div className="control">
+                                                        <div className="select is-small is-rounded">
+                                                            <select>
+                                                                <option>Claimed</option>
+                                                                <option>Unclaimed</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -151,10 +160,7 @@ const UserProfile = ({username, apt}) => {
                             </div>
                         </div>
                     </div>
-                </div>
-                {
-                    apts ? apts.map(a => <Appointment key={a.id} a={a}/>) : ''
-                }
+                    <AptList apts={apts} sortBy={sortBy}/>
             </div>
         </div>
     </div>

@@ -45,7 +45,6 @@ const CreateAppointment = ({ username }) => {
                         <div className="control">
                             <div className="select is-small is-fullwidth is-rounded">
                                     <MonthOptions reg={register} setVal={setValue}/>
-                                    <button onClick={() => console.log(getValues())}>gr4</button>
                             </div>
                         </div>
                     </div>
