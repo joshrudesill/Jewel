@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Appointment from '../components/appointment';
 const dayjs = require('dayjs');
 
-const AptList = ({ apts, sortBy }) => {
+const AptList = ({ apts, sortBy, claimedSort }) => {
   const [appointments, setAppointments] = useState();
   const [sortedApts, setSortedApts] = useState();
   useEffect(() => {
@@ -12,8 +12,7 @@ const AptList = ({ apts, sortBy }) => {
   }, [apts]);
 
   useEffect(() => {
-    console.log('sorting')
-    const sortApts = sb => {
+    const sortApts = (sb, fb) => {
       if(sb === 'dd' || sb === 'da') {
         const srt = appointments.sort(
           (a, b) => {
@@ -31,15 +30,21 @@ const AptList = ({ apts, sortBy }) => {
         if(sb === 'dd') {
           srt.reverse()
         }
+
+        if (fb === 'c') {
+          return srt.filter(a => a.userEmail)
+        } else if(fb === 'uc') {
+          return srt.filter(a => !a.userEmail)
+        }
         return srt;
       }
     }
 
     if(appointments && sortBy) {
-      const sorted = sortApts(sortBy);
+      const sorted = sortApts(sortBy, claimedSort);
       setSortedApts([...sorted])
     }
-  }, [appointments, sortBy])
+  }, [appointments, sortBy, claimedSort])
 
   return (
     <>

@@ -1,11 +1,16 @@
+import { useState } from "react";
 import AptDate from "./apt-date";
 import AptTime from "./apt-time";
 
-const Appointment = ({ a }) => (
-    <div className="columns mt-1">
+const Appointment = ({ a }) => {
+    const [show, setShow] = useState(false)
+    const toggleShow = () => setShow(!show)
+    
+    return (
+    <div className="columns">
         <div className="column">
             <div className="card">
-                <div className="card-header">
+                <div className="card-header" onClick={toggleShow}>
                     <div className="card-header-title">
                         <div className="icon-text">
                             <span className='icon is-size-4 has-text-danger'><ion-icon name="alert-outline" ></ion-icon></span>
@@ -14,7 +19,7 @@ const Appointment = ({ a }) => (
                     </div>
                     <AptTime start={a.startTime} end={a.endTime}/>
                 </div>
-                <div className="card-content">
+                <div className={`${show ? '' : 'is-hidden'} card-content`}>
                     <div className="columns">
                         <div className="column is-narrow icon-text">
                             <span className='icon'>
@@ -33,7 +38,7 @@ const Appointment = ({ a }) => (
                         <div className="column is-narrow icon-text">
                             <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="person-outline"></ion-icon></span>
                             <span className="has-text-weight-bold mr-2">Claimed by:</span>
-                            <span>exampleUser123 <button className="button is-small ml-3 is-rounded">Message</button></span>
+                            <span>{a.userEmail ? a.userEmail : 'Unclaimed'} {a.userEmail ? <button className="button is-small ml-3 is-rounded">Message</button> : null}</span>
                         </div>
                     </div>
                     <div className="columns">
@@ -45,6 +50,6 @@ const Appointment = ({ a }) => (
             </div>
         </div>
     </div>
-)  
+)}
 
 export default Appointment;
