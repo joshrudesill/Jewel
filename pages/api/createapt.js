@@ -1,11 +1,14 @@
 import { verifyJWT } from "../../auth/helpers";
 import * as cookie from 'cookie';
 import dayjs from "dayjs";
+var utc = require('dayjs/plugin/utc')
+var timezone = require('dayjs/plugin/timezone') 
+dayjs.extend(utc)
+dayjs.extend(timezone)
 const model = require('../../orm/index')
 
 export default async function handler(req, res) {
-    const { minute, hour, day, duration, month } = req.body;
-    console.log("DAY:" , day)
+    const { minute, hour, day, duration, month, tz } = req.body;
     const cook = req.headers.cookie;
     const parsed = cookie.parse(cook)
     const auth = await verifyJWT(parsed.token, req.body.username)
@@ -17,8 +20,9 @@ export default async function handler(req, res) {
             .set('hour', hour)
             .set('minute', minute)
         const end = start.add(duration, 'm')
-        console.log(start)
         const apt = await model.Appointments.findOne({ where: { startTime: start, endTime: end }});
+        dayjs.tz(start, tz)
+        dayjs.tz(end, tz)
         if (!apt) {
             const create = await model.Appointments.create({
                 userId: null,

@@ -10,7 +10,6 @@ const AptList = ({ apts, sortBy, claimedSort }) => {
       setAppointments(apts)
     }
   }, [apts]);
-
   useEffect(() => {
     const sortApts = (sb, fb) => {
       if(sb === 'dd' || sb === 'da') {

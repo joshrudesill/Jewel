@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AptDate from "./apt-date";
+import AptIcon from "./apt-icon";
 import AptTime from "./apt-time";
 
 const Appointment = ({ a }) => {
@@ -13,8 +14,8 @@ const Appointment = ({ a }) => {
                 <div className="card-header" onClick={toggleShow}>
                     <div className="card-header-title">
                         <div className="icon-text">
-                            <span className='icon is-size-4 has-text-danger'><ion-icon name="alert-outline" ></ion-icon></span>
-                            <span>Haircut - <AptDate startTime={a.startTime} endTime={a.endTime}/></span>
+                            <AptIcon startTime={a.startTime}/>
+                            <span>Haircut - <AptDate startTime={a.startTime} endTime={a.endTime} /></span>
                         </div>
                     </div>
                     <AptTime start={a.startTime} end={a.endTime}/>

@@ -1,13 +1,19 @@
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import MonthOptions from "./month-options";
+const dayjs = require('dayjs');
+var utc = require('dayjs/plugin/utc')
+var timezone = require('dayjs/plugin/timezone') 
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 const CreateAppointment = ({ username }) => {
     const { getValues, setValue, register, handleSubmit, watch, formState: { errors } } = useForm({mode: 'onChange'});
     const router = useRouter();
 
     const createApt = async data => {
-        console.log(data)
-        
+        const tz = dayjs.tz.guess();
+        console.log(tz)
         const apt = await fetch('/api/createapt' ,{
             method: 'POST',
             withCredentials: true,
@@ -17,7 +23,8 @@ const CreateAppointment = ({ username }) => {
                 minute: data.minute,
                 duration: data.duration,
                 month: data.month,
-                username: username
+                username: username,
+                tz: tz
         }),
       headers: {
         'Content-Type': 'application/json'
