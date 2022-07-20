@@ -10,7 +10,7 @@ dayjs.extend(timezone)
 const CreateAppointment = ({ username }) => {
     const { setValue, register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onChange'});
     const router = useRouter();
-
+    const tz = dayjs.tz.guess()
     const createApt = async data => {
         const apt = await fetch('/api/createapt' ,{
             method: 'POST',
@@ -22,6 +22,7 @@ const CreateAppointment = ({ username }) => {
                 duration: data.duration,
                 month: data.month,
                 username: username,
+                tz: tz
         }),
             headers: {
                 'Content-Type': 'application/json'
