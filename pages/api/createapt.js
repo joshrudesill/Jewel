@@ -3,12 +3,28 @@ import * as cookie from 'cookie';
 import dayjs from "dayjs";
 var utc = require('dayjs/plugin/utc')
 var timezone = require('dayjs/plugin/timezone') 
+var isBetween = require('dayjs/plugin/isBetween')
+dayjs.extend(isBetween)
 dayjs.extend(utc)
 dayjs.extend(timezone)
 const model = require('../../orm/index')
 
+const verifyApt = async ( aid, start, end ) => {
+    const apts = await model.Appointments.findAll({ where: { adminID: aid }});
+    for(let i = 0; i < apts.length; i++) {
+        if(start.isBetween(apts[i].startTime, apts[i].endTime, 'minute', '[)')) return false
+        
+        if(end.isBetween(apts[i].startTime, apts[i].endTime, 'minute', '(]')) return false
+        
+        if(dayjs(apts[i].startTime).isBetween(start, end, 'minute', '[]')) return false
+            
+        if(dayjs(apts[i].endTime).isBetween(start, end, 'minute', '[]')) return false
+    }
+    return true
+}
+
 export default async function handler(req, res) {
-    const { minute, hour, day, duration, month, tz } = req.body;
+    const { minute, hour, day, duration, month } = req.body;
     const cook = req.headers.cookie;
     const parsed = cookie.parse(cook)
     const auth = await verifyJWT(parsed.token, req.body.username)
@@ -20,10 +36,8 @@ export default async function handler(req, res) {
             .set('hour', hour)
             .set('minute', minute)
         const end = start.add(duration, 'm')
-        const apt = await model.Appointments.findOne({ where: { startTime: start, endTime: end }});
-        dayjs.tz(start, tz)
-        dayjs.tz(end, tz)
-        if (!apt) {
+        const result = await verifyApt(auth.id, start, end)
+        if (result) {
             const create = await model.Appointments.create({
                 userId: null,
                 adminID: auth.id,
@@ -31,14 +45,14 @@ export default async function handler(req, res) {
                 endTime: end.toDate()
             });
             if(create) {
-                res.status(200).send();
+                res.status(201).send();
             } else {
-                res.status(401).send();
+                res.status(400).send();
             }
         } else {
             res.status(401).send();
         }
     } else {
-        res.status(400).send();
+        res.status(403).send();
     }
 }

@@ -8,12 +8,10 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const CreateAppointment = ({ username }) => {
-    const { getValues, setValue, register, handleSubmit, watch, formState: { errors } } = useForm({mode: 'onChange'});
+    const { setValue, register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onChange'});
     const router = useRouter();
 
     const createApt = async data => {
-        const tz = dayjs.tz.guess();
-        console.log(tz)
         const apt = await fetch('/api/createapt' ,{
             method: 'POST',
             withCredentials: true,
@@ -24,16 +22,24 @@ const CreateAppointment = ({ username }) => {
                 duration: data.duration,
                 month: data.month,
                 username: username,
-                tz: tz
         }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
-        if (apt.status === 200) {
+
+        if (apt.status === 201) {
             router.reload();
-        }
-        
+        } else if(apt.status === 400) {
+            reset()
+            alert('Failed to create Appointment')
+        } else if(apt.status === 401) {
+            reset()
+            alert('Conflicting Appointment: Failed to create')
+        } else if(apt.status === 403) {
+            reset()
+            alert('You are not authorized to make this request')
+        } 
     }
 
     return (
