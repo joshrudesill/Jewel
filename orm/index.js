@@ -68,4 +68,32 @@ const Appointments = sequelize.define('appointments',
     }
   });
 
-module.exports = { Users, Appointments, sequelize, op }
+const AppointmentTypes = sequelize.define('appointment-types', 
+{
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  adminID: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  typeName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  typeDescription: {
+    type: Sequelize.STRING,
+    allowNull: true
+  }
+
+});
+
+module.exports = { 
+  Users, 
+  Appointments, 
+  AppointmentTypes, 
+  sequelize, 
+  op 
+}

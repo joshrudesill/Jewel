@@ -9,8 +9,13 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 const model = require('../../orm/index')
 
-const verifyApt = async ( aid, start, end ) => {
+const verifyApt = async ( aid, start, end, tz ) => {
     const apts = await model.Appointments.findAll({ where: { adminID: aid }});
+    const adjustedTime = dayjs(start).tz(tz);
+    const currentTime = dayjs().tz(tz);
+    if(currentTime.utc(true).isAfter(adjustedTime, 'minute')) {
+        return false
+    }
     for(let i = 0; i < apts.length; i++) {
         if(start.isBetween(apts[i].startTime, apts[i].endTime, 'minute', '[)')) return false
         
@@ -24,7 +29,7 @@ const verifyApt = async ( aid, start, end ) => {
 }
 
 export default async function handler(req, res) {
-    const { minute, hour, day, duration, month } = req.body;
+    const { minute, hour, day, duration, month, tz } = req.body;
     const cook = req.headers.cookie;
     const parsed = cookie.parse(cook)
     const auth = await verifyJWT(parsed.token, req.body.username)
@@ -36,7 +41,7 @@ export default async function handler(req, res) {
             .set('hour', hour)
             .set('minute', minute)
         const end = start.add(duration, 'm')
-        const result = await verifyApt(auth.id, start, end)
+        const result = await verifyApt(auth.id, start, end, tz)
         if (result) {
             const create = await model.Appointments.create({
                 userId: null,
