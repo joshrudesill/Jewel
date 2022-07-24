@@ -112,53 +112,49 @@ const UserProfile = ({username, apt}) => {
                     <div className="column is-three-quarters">
                         <div className="columns">
                                 <div className="column">
-                                    <div className="box is-shadowless has-background-success-light p-1">
-                                        <div className="columns is-rounded m-1">
+                                    <div className="box is-shadowless has-background-success-light p-3">
+                                        <div className="columns">
                                             <div className="column">
-                                                <div className="columns">
-                                                    <div className="column is-three-quarters">
-                                                        <span className="is-size-3">Appointments</span>
-                                                    </div>
-                                                    <div className="column">
-                                                        <div className="field">
-                                                            <label className="label is-size-7">Sort By</label>
-                                                            <div className="control">
-                                                                <div className="select is-small is-rounded">
-                                                                    <select value={sortBy} onChange={onSortBy}>
-                                                                        <option value='dd'>Date desc</option>
-                                                                        <option value='da'>Date asc</option>
-                                                                        <option value='p'>Price</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                <span className="is-size-3">Appointments</span>
+                                            </div>
+                                            <div className="column is-narrow">
+                                                <div className="field">
+                                                    <label className="label is-size-7">Sort By</label>
+                                                    <div className="control">
+                                                        <div className="select is-small is-rounded">
+                                                            <select value={sortBy} onChange={onSortBy}>
+                                                                <option value='dd'>Date desc</option>
+                                                                <option value='da'>Date asc</option>
+                                                                <option value='p'>Price</option>
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                    <div className="column">
-                                                        <div className="field">
-                                                            <label className="label is-size-7">Type</label>
-                                                            <div className="control">
-                                                                <div className="select is-small is-rounded">
-                                                                    <select>
-                                                                        <option>All</option>
-                                                                        <option>Type1</option>
-                                                                        <option>Type2</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                </div>
+                                            </div>
+                                            <div className="column is-narrow">
+                                                <div className="field">
+                                                    <label className="label is-size-7">Type</label>
+                                                    <div className="control">
+                                                        <div className="select is-small is-rounded">
+                                                            <select>
+                                                                <option>All</option>
+                                                                <option>Type1</option>
+                                                                <option>Type2</option>
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                    <div className="column">
-                                                        <div className="field">
-                                                            <label className="label is-size-7">Show</label>
-                                                            <div className="control">
-                                                                <div className="select is-small is-rounded">
-                                                                    <select value={claimedSort} onChange={onClaimedSort}>
-                                                                        <option value='a'>All</option>
-                                                                        <option value='c'>Claimed</option>
-                                                                        <option value='uc'>Unclaimed</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                </div>
+                                            </div>
+                                            <div className="column is-narrow">
+                                                <div className="field">
+                                                    <label className="label is-size-7">Show</label>
+                                                    <div className="control">
+                                                        <div className="select is-small is-rounded">
+                                                            <select value={claimedSort} onChange={onClaimedSort}>
+                                                                <option value='a'>All</option>
+                                                                <option value='c'>Claimed</option>
+                                                                <option value='uc'>Unclaimed</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
