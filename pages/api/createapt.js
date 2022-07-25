@@ -13,9 +13,8 @@ const verifyApt = async ( aid, start, end, tz ) => {
     const apts = await model.Appointments.findAll({ where: { adminID: aid }});
     const adjustedTime = dayjs(start).tz(tz);
     const currentTime = dayjs().tz(tz);
-    if(currentTime.utc(true).isAfter(adjustedTime, 'minute')) {
-        return false
-    }
+    if(currentTime.utc(true).isAfter(adjustedTime, 'minute')) return false
+    
     for(let i = 0; i < apts.length; i++) {
         if(start.isBetween(apts[i].startTime, apts[i].endTime, 'minute', '[)')) return false
         

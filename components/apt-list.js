@@ -5,6 +5,9 @@ const dayjs = require('dayjs');
 const AptList = ({ apts, sortBy, claimedSort }) => {
   const [appointments, setAppointments] = useState();
   const [sortedApts, setSortedApts] = useState();
+  const deleteSelf = id => {
+    setSortedApts(sortedApts.filter(a => a.id !== id))
+  }
   useEffect(() => {
     if (apts) {
       setAppointments(apts)
@@ -48,7 +51,7 @@ const AptList = ({ apts, sortBy, claimedSort }) => {
   return (
     <>
     {
-      sortedApts ? sortedApts.map((a, i) => <Appointment key={i} a={a} />) : ''
+      sortedApts ? sortedApts.map((a, i) => <Appointment key={i} a={a} deleteSelf={deleteSelf}/>) : <></>
     }
     </>
   )

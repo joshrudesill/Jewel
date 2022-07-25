@@ -3,10 +3,28 @@ import AptDate from "./apt-date";
 import AptIcon from "./apt-icon";
 import AptTime from "./apt-time";
 
-const Appointment = ({ a }) => {
+const Appointment = ({ a, deleteSelf }) => {
     const [show, setShow] = useState(false)
     const toggleShow = () => setShow(!show)
-    
+    const onCancel = async () => {
+        const apt = await fetch('/api/cancelapt', {
+            method: 'POST',
+            withCredentials: true,
+            body: JSON.stringify({
+                aptID: a.id,
+                adminID: a.adminID
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        });
+        
+        if(apt.status === 200) {
+            alert('Successfully deleted')
+            deleteSelf(a.id)
+        }
+    }
+
     return (
     <div className="columns">
         <div className="column">
@@ -44,7 +62,7 @@ const Appointment = ({ a }) => {
                     </div>
                     <div className="columns">
                         <div className="column has-text-right p-0">
-                            <button className="button is-small is-danger is-rounded">Cancel</button>
+                            <button className="button is-small is-danger is-rounded" onClick={onCancel} >Cancel</button>
                         </div>
                     </div>
                 </div>

@@ -12,8 +12,6 @@ const AptDate = ({ startTime, endTime }) => {
     const current = dayjs().tz(tz, true)
     const start = dayjs(startTime).tz(tz, true)
     const end = dayjs(endTime).tz(tz, true)
-    console.log(startTime)
-    console.log(start.toDate())
     var formattedDate = ''
     if (start.utc().date() === current.utc().date() && start.utc().month() === current.utc().month()) {
       formattedDate = `Today, ${start.utc().format('H:mm')} to ${end.utc().format('H:mm')}`

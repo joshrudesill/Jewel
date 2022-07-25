@@ -163,7 +163,7 @@ const UserProfile = ({username, apt}) => {
                                     </div>
                                 </div>
                             </div>
-                            <AptList apts={apts} sortBy={sortBy} claimedSort={claimedSort} />
+                        <AptList apts={apts} sortBy={sortBy} claimedSort={claimedSort} />
                     </div>
                 </div>
             </div>
@@ -184,6 +184,7 @@ export async function getServerSideProps(context) {
                 adminID: authen.id 
             }, 
                 attributes: [
+                    'id',
                     'adminID', 
                     'userID', 
                     'userEmail',
