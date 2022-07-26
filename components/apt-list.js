@@ -13,6 +13,7 @@ const AptList = ({ apts, sortBy, claimedSort }) => {
       setAppointments(apts)
     }
   }, [apts]);
+  
   useEffect(() => {
     const sortApts = (sb, fb) => {
       if(sb === 'dd' || sb === 'da') {
@@ -51,7 +52,7 @@ const AptList = ({ apts, sortBy, claimedSort }) => {
   return (
     <>
     {
-      sortedApts ? sortedApts.map((a, i) => <Appointment key={i} a={a} deleteSelf={deleteSelf}/>) : <></>
+      sortedApts ? sortedApts.map((a, i) => <Appointment key={i} a={a} deleteSelf={deleteSelf}/>) : <>No appointments match your search</>
     }
     </>
   )

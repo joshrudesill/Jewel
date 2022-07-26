@@ -66,6 +66,13 @@ const Appointments = sequelize.define('appointments',
     endTime: {
       type: Sequelize.DATE
     }
+  }, {
+    indexes: [
+      {
+        unique: false,
+        fields: ['adminID']
+      }
+    ]
   });
 
 const AppointmentTypes = sequelize.define('appointment-types', 
@@ -86,10 +93,20 @@ const AppointmentTypes = sequelize.define('appointment-types',
   typeDescription: {
     type: Sequelize.STRING,
     allowNull: true
+  },
+  price: {
+    type: Sequelize.FLOAT,
+    allowNull: true
   }
-
+}, {
+  indexes: [
+    {
+      unique: false,
+      fields: ['adminID']
+    }
+  ]
 });
-
+//Appointments.sync()
 module.exports = { 
   Users, 
   Appointments, 

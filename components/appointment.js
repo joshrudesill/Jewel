@@ -20,6 +20,7 @@ const Appointment = ({ a, deleteSelf }) => {
         });
         
         if(apt.status === 200) {
+            setShow(false)
             alert('Successfully deleted')
             deleteSelf(a.id)
         }
