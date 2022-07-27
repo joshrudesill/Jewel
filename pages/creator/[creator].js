@@ -1,4 +1,5 @@
 import * as cookie from 'cookie'
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
 import AptList from '../../components/apt-list';
 import CreateAppointment from '../../components/create-apt'
@@ -7,6 +8,7 @@ const UserProfile = ({username, apt}) => {
     const [apts, setApts] = useState();
     const [sortBy, setSortBy] = useState('dd');
     const [claimedSort, setClaimedSort] = useState('a');
+    const router = useRouter();
     useEffect(() => {
         if(apt) {
             const parsed = JSON.parse(apt);
@@ -23,6 +25,12 @@ const UserProfile = ({username, apt}) => {
     const onClaimedSort = e => {
         const { value } = e.target;
         setClaimedSort(value);
+    }
+    const testrouter = () => {
+        router.push({
+            pathname: router.asPath,
+            query: {test: 'test'}
+        })
     }
 
     return (
@@ -55,7 +63,7 @@ const UserProfile = ({username, apt}) => {
                         <div className="columns p-0">
                             <div className="column">
                                     <CreateAppointment username={username}/>
-                                    
+                                    <button onClick={testrouter}>TEST</button>
                             </div>
                         </div>
                         <div className="card mt-2">
