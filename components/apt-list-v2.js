@@ -1,23 +1,12 @@
-import { useEffect, useState } from 'react';
 import Appointment from '../components/appointment';
+import useFetchManager from '../util/usefetchmanager';
 
-const AptListv2 = ({ apts, sortBy, claimedSort }) => {
-  const [appointments, setAppointments] = useState();
-  useEffect(() => {
-    if (apts) {
-      setAppointments(apts)
-    }
-  }, [apts]);
-  
-  
+const AptListv2 = ({ creator }) => {
+  const { isHandlingRequest, data, error } = useFetchManager('/api/getapts', { creator: creator }, 'GET')
 
-  return (
-    <>
-    {
-      appointments ? appointments.map((a, i) => <Appointment key={i} a={a}/>) : <>No appointments match your search</>
-    }
-    </>
-  )
+  if (isHandlingRequest) return <div>Loading</div>
+  if (error) return <div>{error}</div>
+  if (data) return data.map(d => <Appointment key={d.id} a={d}/>)
 }
 
 

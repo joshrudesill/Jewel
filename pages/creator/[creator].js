@@ -1,38 +1,12 @@
 import * as cookie from 'cookie'
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react'
-import AptList from '../../components/apt-list';
+import AptListv2 from '../../components/apt-list-v2';
 import CreateAppointment from '../../components/create-apt'
+import useAuthManager from '../../util/useauthmanager';
 
 const UserProfile = ({username, apt}) => {
-    const [apts, setApts] = useState();
-    const [sortBy, setSortBy] = useState('dd');
-    const [claimedSort, setClaimedSort] = useState('a');
     const router = useRouter();
-    useEffect(() => {
-        if(apt) {
-            const parsed = JSON.parse(apt);
-            setApts(parsed)
-        } else {
-            setApts([])
-        }
-    }, [apt])
-
-    const onSortBy = e => {
-        const { value } = e.target;
-        setSortBy(value);
-    }
-    const onClaimedSort = e => {
-        const { value } = e.target;
-        setClaimedSort(value);
-    }
-    const testrouter = () => {
-        router.push({
-            pathname: router.asPath,
-            query: {test: 'test'}
-        })
-    }
-
+    const { authorized, processingAuth, error } = useAuthManager(router.query.creator, true)
     return (
         <section className="section">
             <div className="container.is-widescreen">
@@ -63,7 +37,6 @@ const UserProfile = ({username, apt}) => {
                         <div className="columns p-0">
                             <div className="column">
                                     <CreateAppointment username={username}/>
-                                    <button onClick={testrouter}>TEST</button>
                             </div>
                         </div>
                         <div className="card mt-2">
@@ -130,7 +103,7 @@ const UserProfile = ({username, apt}) => {
                                                     <label className="label is-size-7">Sort By</label>
                                                     <div className="control">
                                                         <div className="select is-small is-rounded">
-                                                            <select value={sortBy} onChange={onSortBy}>
+                                                            <select value={()=>null} onChange={()=>null}>
                                                                 <option value='dd'>Date desc</option>
                                                                 <option value='da'>Date asc</option>
                                                                 <option value='p'>Price</option>
@@ -158,7 +131,7 @@ const UserProfile = ({username, apt}) => {
                                                     <label className="label is-size-7">Show</label>
                                                     <div className="control">
                                                         <div className="select is-small is-rounded">
-                                                            <select value={claimedSort} onChange={onClaimedSort}>
+                                                            <select value={()=>null} onChange={()=>null}>
                                                                 <option value='a'>All</option>
                                                                 <option value='c'>Claimed</option>
                                                                 <option value='uc'>Unclaimed</option>
@@ -171,7 +144,7 @@ const UserProfile = ({username, apt}) => {
                                     </div>
                                 </div>
                             </div>
-                        <AptList apts={apts} sortBy={sortBy} claimedSort={claimedSort} />
+                        <AptListv2 creator={router.query.creator}/>
                     </div>
                 </div>
             </div>
@@ -198,7 +171,7 @@ export async function getServerSideProps(context) {
                     'userEmail',
                     'startTime', 
                     'endTime'
-                ] 
+                ]
             })
         if (apts) {
             return {
