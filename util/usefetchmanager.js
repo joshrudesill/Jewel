@@ -1,16 +1,21 @@
 import { useEffect, useRef, useState } from "react";
+import isDeepEqual from 'fast-deep-equal/react';
 
 const useFetchManager = (url, params, method) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const { current: param } = useRef(params);
-
+  const pRef = useRef(params);
+  if (!isDeepEqual(pRef.current, params)) {
+    pRef.current = params
+  }
   useEffect(() => {
     const getData = async () => {
+      setData(null)
+      setError(null)
       if (method === 'POST') {
         const fetchResult = await fetch(url, {
           method: method,
-          body: JSON.stringify(param),
+          body: JSON.stringify(pRef.current),
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json'
@@ -24,7 +29,7 @@ const useFetchManager = (url, params, method) => {
         }
     
       } else if(method === 'GET') {
-        const par = new URLSearchParams(param)
+        const par = new URLSearchParams(pRef.current)
         
         const parsedURL = url + '?' + par
         const fetchResult = await fetch(parsedURL, {
@@ -53,7 +58,7 @@ const useFetchManager = (url, params, method) => {
       console.error(err)
     }
 
-  }, [url, method, param])
+  }, [url, method, pRef.current])
   
   return {
     isHandlingRequest: !data && !error, 

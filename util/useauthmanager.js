@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-
-
 const useAuthManager = (username, admin) => {
   const [awaitingAuth, setAwaitingAuth] = useState(true)
   const [authorized, setAuthorized] = useState(false)
@@ -25,15 +23,13 @@ const useAuthManager = (username, admin) => {
         setAwaitingAuth(false)
       }
     }
-    if(typeof admin === 'boolean' && typeof username === 'string') {
+    if(username !== undefined) {
       try {
         checkAuth()
       } catch(err) {
         setError(err)
         console.error(err)
       }
-    } else {
-      setError('Wrong parameter types!')
     }
   }, [username, admin])
 

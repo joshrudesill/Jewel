@@ -14,9 +14,9 @@ export default async function handler(req, res) {
   const cook = req.headers.cookie;
   const parsed = cookie.parse(cook)
   const auth = await verifyJWT(parsed.token, req.query.creator)
-  console.log(auth)
   if(auth.auth && auth.act === 'admin' && auth.username === req.query.creator) {
-    const apts = await model.Appointments.findAll({ where: { adminID: auth.id }})
+    const sortby = req.query.sortby === 'dd' ? 'DESC' : 'ASC'
+    const apts = await model.Appointments.findAll({ where: { adminID: auth.id } , order: [['startTime' , sortby]]})
     if (apts) {
         res.status(200).json(apts)
     } else {
