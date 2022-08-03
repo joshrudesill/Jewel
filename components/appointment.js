@@ -27,6 +27,7 @@ const Appointment = ({ a }) => {
         }
     }
     if (deleted) return null
+    
     return (
     <div className='columns'>
         <div className="column">

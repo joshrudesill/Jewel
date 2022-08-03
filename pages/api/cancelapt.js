@@ -8,7 +8,6 @@ export default async function handler(req, res) {
     const cook = req.headers.cookie;
     const parsed = cookie.parse(cook)
     const auth = await verifyJWT(parsed.token, req.body.adminID);
-    console.log(auth)
     if (auth.auth && auth.act === 'admin' && auth.id === adminID) {
         const apt = await model.Appointments.findOne({where: { id: aptID }})
         if(apt.adminID === adminID) {
