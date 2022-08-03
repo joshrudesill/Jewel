@@ -3,9 +3,11 @@ import AptDate from "./apt-date";
 import AptIcon from "./apt-icon";
 import AptTime from "./apt-time";
 
-const Appointment = ({ a, deleteSelf }) => {
+const Appointment = ({ a }) => {
     const [show, setShow] = useState(false)
     const toggleShow = () => setShow(!show)
+    const [deleted, setDeleted] = useState(false);
+
     const onCancel = async () => {
         const apt = await fetch('/api/cancelapt', {
             method: 'POST',
@@ -20,14 +22,13 @@ const Appointment = ({ a, deleteSelf }) => {
         });
         
         if(apt.status === 200) {
-            setShow(false)
+            setDeleted(true)
             alert('Successfully deleted')
-            deleteSelf(a.id)
         }
     }
-
+    if (deleted) return null
     return (
-    <div className="columns">
+    <div className='columns'>
         <div className="column">
             <div className="card">
                 <div className="card-header" onClick={toggleShow}>

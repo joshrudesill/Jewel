@@ -10,7 +10,7 @@ const UserProfile = () => {
     const { authorized, processingAuth, error } = useAuthManager(creator, true)
     const [sortBy, setSortBy] = useState('dd')
     if (error) {
-        console.log(error)
+        console.error(error)
         router.push('/')
     }
     if (processingAuth) return <div>Loading...</div>
