@@ -18,7 +18,7 @@ const Scheduler = ({ apts, creator }) => {
             </div>
             {
                 apt ? apt.map(a => 
-                    <SchedApt a={a}/>
+                    <SchedApt key={a.id} a={a}/>
                 ) : ''
             }
         </div>

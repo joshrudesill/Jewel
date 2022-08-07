@@ -58,7 +58,7 @@ const Register = () => {
                             <span className="icon has-text-primary is-left">
                                 <ion-icon name="shield-half-outline"></ion-icon>
                             </span>
-                            <p className="help has-text-grey">If you're booking an appointment normal is for you!</p>
+                            <p className="help has-text-grey">If you&apos;re booking an appointment normal is for you!</p>
                             </div>
                           </div>
                     </div>

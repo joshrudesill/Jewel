@@ -63,7 +63,7 @@ const UserProfile = () => {
                                     </div>
                                     <div className="columns">
                                         <div className="column">
-                                            <p className="is-size-6 has-text-weight-medium">Today's Outlook</p>
+                                            <p className="is-size-6 has-text-weight-medium">Today&apos;s Outlook</p>
                                         </div>
                                     </div>
                                     <div className="columns">
