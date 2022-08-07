@@ -36,7 +36,7 @@ const Appointment = ({ a }) => {
                     <div className="card-header-title">
                         <div className="icon-text">
                             <AptIcon startTime={a.startTime}/>
-                            <span>Haircut - <AptDate startTime={a.startTime} endTime={a.endTime} /></span>
+                            <span className="has-text-weight-medium"><AptDate startTime={a.startTime} endTime={a.endTime} /></span>
                         </div>
                     </div>
                     <AptTime start={a.startTime} end={a.endTime}/>

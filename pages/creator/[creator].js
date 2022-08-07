@@ -9,6 +9,7 @@ const UserProfile = () => {
     const creator = router.query.creator
     const { authorized, processingAuth, error } = useAuthManager(creator, true)
     const [sortBy, setSortBy] = useState('dd')
+    const [showClaimed, setShowClaimed] = useState('a')
     if (error) {
         console.error(error)
         router.push('/')
@@ -20,13 +21,13 @@ const UserProfile = () => {
     if (authorized) {
         return (
             <section className="section">
-                <div className="container.is-widescreen">
+                <div className="container">
                     <div className="columns">
-                        <div className="column is-one-quarter">
+                        <div className="column is-one-third">
                             <div className="card">
                                 <div className="card-content">
                                     <div className="columns">
-                                        <div className="column  is-2 has-text-weight-bold">
+                                        <div className="column is-2 has-text-weight-bold">
                                             <figure className="image is-48x48">
                                                 <img alt='profile' src="http://placeimg.com/48/48/arch"></img>
                                             </figure>
@@ -101,7 +102,7 @@ const UserProfile = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="column is-three-quarters">
+                        <div className="column is-two-thirds">
                             <div className="columns">
                                     <div className="column">
                                         <div className="box is-shadowless has-background-success-light p-3">
@@ -125,24 +126,10 @@ const UserProfile = () => {
                                                 </div>
                                                 <div className="column is-narrow">
                                                     <div className="field">
-                                                        <label className="label is-size-7">Type</label>
-                                                        <div className="control">
-                                                            <div className="select is-small is-rounded">
-                                                                <select>
-                                                                    <option>All</option>
-                                                                    <option>Type1</option>
-                                                                    <option>Type2</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="column is-narrow">
-                                                    <div className="field">
                                                         <label className="label is-size-7">Show</label>
                                                         <div className="control">
                                                             <div className="select is-small is-rounded">
-                                                                <select onChange={()=>null}>
+                                                                <select value={showClaimed} onChange={e=>setShowClaimed(e.target.value)}>
                                                                     <option value='a'>All</option>
                                                                     <option value='c'>Claimed</option>
                                                                     <option value='uc'>Unclaimed</option>
@@ -155,7 +142,7 @@ const UserProfile = () => {
                                         </div>
                                     </div>
                                 </div>
-                            <AptListv2 creator={router.query.creator} sortBy={sortBy}/>
+                            <AptListv2 creator={router.query.creator} sortBy={sortBy} showclaimed={showClaimed}/>
                         </div>
                     </div>
                 </div>
