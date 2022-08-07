@@ -1,8 +1,11 @@
 const Sequelize = require('sequelize')
 require('dotenv').config()
+import mysql2 from 'mysql2';
+
 const sequelize = new Sequelize(process.env.pscale,
 {
   dialect: "mysql2",
+  dialectModule: mysql2,
   dialectOptions: {
     ssl: {
       rejectUnauthorized: true,
