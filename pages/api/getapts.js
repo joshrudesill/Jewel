@@ -15,7 +15,11 @@ export default async function handler(req, res) {
   if(auth.auth && auth.act === 'admin' && auth.username === req.query.creator) {
     const claimed = req.query.claimed;
     const sortby = req.query.sortby === 'dd' ? 'DESC' : 'ASC'
-    var params = { adminID: auth.id }
+    var params = { 
+      adminID: auth.id, 
+      //startTime: { [model.op.gte]: dayjs().toDate() } 
+    }
+    
     if(claimed === 'c') {
       params.userID = {[model.op.not]: null}
     } else if (claimed === 'uc') {
