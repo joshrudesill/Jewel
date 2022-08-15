@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AptListv2 from '../../components/apt-list-v2';
 import CreateAppointment from '../../components/create-apt'
 import useAuthManager from '../../util/useauthmanager';
@@ -10,14 +10,19 @@ const UserProfile = () => {
     const { authorized, processingAuth, error } = useAuthManager(creator, true)
     const [sortBy, setSortBy] = useState('dd')
     const [showClaimed, setShowClaimed] = useState('a')
+    
+
     if (error) {
         console.error(error)
         router.push('/')
     }
+
     if (processingAuth) return <div>Loading...</div>
+
     if(!processingAuth && !authorized) {
         router.push('/')
     }
+
     if (authorized) {
         return (
             <section className="section">
@@ -142,7 +147,12 @@ const UserProfile = () => {
                                         </div>
                                     </div>
                                 </div>
-                            <AptListv2 creator={router.query.creator} sortBy={sortBy} showclaimed={showClaimed}/>
+                            <AptListv2 
+                                creator={router.query.creator} 
+                                sortBy={sortBy} 
+                                showclaimed={showClaimed} 
+                                
+                            />
                         </div>
                     </div>
                 </div>
