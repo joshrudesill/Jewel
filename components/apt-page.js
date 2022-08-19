@@ -2,14 +2,31 @@ import { useEffect, useState } from "react";
 
 const AptPage = ({ page, results, setPage }) => {
     const [pageNumbers, setPageNumbers] = useState([])
+    const [pageOffset, setPageOffset] = useState(0)
+
+    useEffect(() => {
+        const maxpages = Math.floor(results/10) + 1
+        const maxoffset = maxpages - 10
+        var offset = 0;
+        console.log('mo: ', maxoffset)
+        if(page < 5) {
+            offset = 0
+        } else {
+            offset = page - 5
+        }
+        if(offset > maxoffset) offset = maxoffset
+        setPageOffset(offset)
+    }, [page])
+    
     useEffect(() => {
         var pns = Math.floor(results / 10)
         if (pns > 10) pns = 10
-        const atp = Array.from(Array(pns).keys())
-        setPageNumbers(atp)
-    }, [])
+        var atp = Array.from(Array(pns).keys())
+        const toadd = atp.map(p => p += pageOffset)
+        setPageNumbers([...toadd])
+    }, [pageOffset])
 
-    return (
+    if(pageNumbers) return (
         <div className="columns is-centered">
             <div className="column is-narrow">
                 <button onClick={() => setPage(page-1)} className="button is-small" disabled={page === 1 ? true : false}>Prev</button>

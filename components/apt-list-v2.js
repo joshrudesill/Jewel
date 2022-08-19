@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 const AptListv2 = ({ creator, sortBy, showclaimed}) => {
   const { isHandlingRequest, data, error } = useFetchManager('/api/getapts', { creator: creator, sortby: sortBy, claimed: showclaimed }, 'GET')
   const [page, setPage] = useState(1)
-  
-  
 
   if (isHandlingRequest) return <div>Loading</div>
   if (error) return <div>{error}</div>

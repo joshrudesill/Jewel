@@ -8,7 +8,7 @@ dayjs.extend(isBetween)
 dayjs.extend(utc)
 dayjs.extend(timezone)
 const model = require('../../orm/index')
-
+//requests by page.
 export default async function handler(req, res) {
   const parsed = cookie.parse(req.headers.cookie)
   const auth = await verifyJWT(parsed.token, req.query.creator)

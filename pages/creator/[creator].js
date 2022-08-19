@@ -22,6 +22,9 @@ const UserProfile = () => {
     if(!processingAuth && !authorized) {
         router.push('/')
     }
+    const addapts = async () => {
+        const res = await fetch('/api/addapts')
+    }
 
     if (authorized) {
         return (
