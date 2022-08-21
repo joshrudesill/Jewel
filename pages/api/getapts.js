@@ -15,6 +15,7 @@ export default async function handler(req, res) {
   if(auth.auth && auth.act === 'admin' && auth.username === req.query.creator) {
     const claimed = req.query.claimed;
     const sortby = req.query.sortby === 'dd' ? 'DESC' : 'ASC'
+    const pages = req.query.page;
     var params = { 
       adminID: auth.id, 
       //startTime: { [model.op.gte]: dayjs().toDate() }
@@ -25,12 +26,13 @@ export default async function handler(req, res) {
     } else if (claimed === 'uc') {
       params.userID = { [model.op.is]: null }
     }
-
-    const apts = await model.Appointments.findAll(
+    const apts = await model.Appointments.findAndCountAll(
       { where: params, 
         order: [
           ['startTime' , sortby]
-        ]
+        ],
+        offset: (pages - 1) * 10,
+        limit: 10,
       })
 
     if (apts) {
