@@ -17,7 +17,7 @@ const Scheduler = () => {
             </div>
             <div className='column'>
                 {
-                    data.map(a => <SchedApt a={a}/>)
+                    data.map(a => <SchedApt key={a.id} a={a}/>)
                 }
             </div>
         </div>
