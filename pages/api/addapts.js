@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 const model = require('../../orm/index')
 
 export default async function handler(req, res) {
-    console.log('asdfasyhe')
     var ata = [];
     for(let i = 0; i < 200; i++) {
         var o = {

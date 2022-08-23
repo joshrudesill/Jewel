@@ -51,13 +51,20 @@ const useFetchManager = (url, params, method) => {
       }
     }
 
-    try {
-      getData()
-    } catch(err) {
-      setError(err)
-      console.error(err)
+    const checkUndefinedParams = () => {
+      const isDefined = v => typeof v !== 'undefined'
+      const defined = Object.values(params).every(isDefined)
+      return defined
     }
 
+    if (checkUndefinedParams() && url !== undefined && method !== undefined) {
+      try {
+        getData()
+      } catch(err) {
+        setError(err)
+        console.error(err)
+      }
+    }
   }, [url, method, pRef.current])
   
   return {

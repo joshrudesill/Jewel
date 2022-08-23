@@ -1,7 +1,7 @@
 import Appointment from '../components/appointment';
 import AptPage from '../components/apt-page';
 import useFetchManager from '../util/usefetchmanager';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const AptListv2 = ({ creator, sortBy, showclaimed }) => {
   const [page, setPage] = useState(1)

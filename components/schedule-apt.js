@@ -1,3 +1,4 @@
+import AptDate from "./apt-date";
 
 const SchedApt = ({ a }) => {
 
@@ -8,34 +9,26 @@ const SchedApt = ({ a }) => {
             body: JSON.stringify({
                 aID: a.id,
             }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
     }
 
     return (
-    <div className="card mb-2">
-        <div className="card-content">
-            <div className='columns'>
-                <div className='column'>
-                    <span className="has-text-weight-bold">Start Time</span><br></br>
-                    {
-                        a.startTime
-                    }
-                </div>
-                <div className='column'>
-                    <span className="has-text-weight-bold">End Time</span><br></br>
-                    {
-                        a.endTime
-                    }
-                </div>
-                <div className='column has-text-right'>
-                    <button className="button" onClick={bookApt}>Book</button>
+        <div className="card mb-2">
+            <div className="card-content">
+                <div className='columns'>
+                    <div className='column'>
+                        <span className="has-text-weight-bold">Time</span><br></br>
+                        <AptDate startTime={a.startTime} endTime={a.endTime}/>
+                    </div>
+                    <div className='column has-text-right'>
+                        <button className="button" onClick={bookApt}>Book</button>
+                    </div>
                 </div>
             </div>
         </div>
-     </div>
     )
 }  
 
