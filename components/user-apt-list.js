@@ -1,9 +1,8 @@
-import SchedApt from '../../components/schedule-apt';
-import useFetchManager from '../../util/usefetchmanager';
+import SchedApt from '../components/schedule-apt'
+import useFetchManager from '../util/usefetchmanager';
 import { useRouter } from 'next/router';
-import UserAptList from '../../components/user-apt-list';
 
-const Scheduler = () => {
+const UserAptList = () => {
     const router = useRouter();
     const creator = router.query.scheduler
     const { isHandlingRequest, data, error } = useFetchManager('/api/usergetapts', { creator: creator } , 'GET')
@@ -12,16 +11,12 @@ const Scheduler = () => {
     if (isHandlingRequest) return <>Loading..</>
     if (data.length === 0 && !isHandlingRequest) return <div>No appointments scheduled..</div>
     if (data) return (
-        <div className='container'>
-            <div className='is-size-3 mb-4 mt-4'>
-                {creator}
-            </div>
-            <div className='column'>
-                <UserAptList/>
-            </div>
+        <div className='columns is-multiline is-variable is-1'>
+            {
+                data.map(a => <SchedApt key={a.id} a={a}/>)
+            }
         </div>
     )
 }
 
-
-export default Scheduler;
+export default UserAptList;

@@ -21,7 +21,7 @@ const useFetchManager = (url, params, method) => {
             'Content-Type': 'application/json'
           }
         });
-
+        
         if(fetchResult.status !== 200) {
           setError('Bad Request')
         } else {

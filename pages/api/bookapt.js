@@ -7,7 +7,6 @@ export default async function handler(req, res) {
     const parsed = cookie.parse(cook)
     var authen = await verifyAuth(parsed.token)
     if(authen.auth) {
-        console.log(authen)
         const updated = await model.Appointments.update({ 
             userEmail: authen.username,
             userID: authen.id
