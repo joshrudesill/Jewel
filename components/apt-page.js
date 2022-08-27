@@ -16,7 +16,7 @@ const AptPage = ({ page, results, setPage }) => {
         }
         if(offset > maxoffset) offset = maxoffset
         setPageOffset(offset)
-    }, [page])
+    }, [page, results])
     
     useEffect(() => {
         var pns = Math.floor(results / 10)
@@ -24,7 +24,7 @@ const AptPage = ({ page, results, setPage }) => {
         var atp = Array.from(Array(pns).keys())
         const toadd = atp.map(p => p += pageOffset)
         setPageNumbers([...toadd])
-    }, [pageOffset])
+    }, [pageOffset, results])
     
     if(pageNumbers) return (
         <div className="columns is-centered">

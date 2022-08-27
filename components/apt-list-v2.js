@@ -9,8 +9,8 @@ const AptListv2 = ({ creator, sortBy, showclaimed }) => {
 
   if (isHandlingRequest) return <div>Loading</div>
   if (error) return <div>{error}</div>
-  if (data.length === 0 && !isHandlingRequest) return <div>No appointments scheduled..</div>
-  if (data.rows)
+  if (data && data.length === 0 && !isHandlingRequest) return <div>No appointments scheduled..</div>
+  if (data)
     return (
       <>
         <AptPage page={page} setPage={setPage} results={data.count}/>

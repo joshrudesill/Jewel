@@ -1,5 +1,6 @@
-
+import { useForm } from "react-hook-form";
 const UserAptModal = ({ active, setactive }) => {
+    const { register, formState: { errors } } = useForm({mode: 'onChange'});
     return (
         <div className={`modal ${active ? 'is-active' : ''}`}>
             <div className="modal-background"></div>
@@ -9,7 +10,10 @@ const UserAptModal = ({ active, setactive }) => {
                         <button className="delete" aria-label="close" onClick={() => setactive(false)}></button>
                     </header>
                 <section className="modal-card-body">
-                -- Content 
+                <textarea className='textarea is-success' placeholder="Message (optional)" {...register('message',{
+                    required: false
+                })}>
+                </textarea>
                 </section>
                 <footer className="modal-card-foot">
                     <button className="button is-success">Book</button>

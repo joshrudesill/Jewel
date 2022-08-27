@@ -39,7 +39,7 @@ const SchedApt = ({ a }) => {
                 </div>
             </div>
         </div>
-        <UserAptModal active={active} setactive={setActive}/>
+        {active ? <UserAptModal active={active} setactive={setActive}/> : <></>}
         </>
     )
 }  
