@@ -20,4 +20,4 @@ const UserAptModal = ({ active, setactive }) => {
     )
 }
 
-export default UserAptModal;
+export default UserAptModal; 

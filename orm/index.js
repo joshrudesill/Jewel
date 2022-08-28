@@ -74,6 +74,10 @@ const Appointments = sequelize.define('appointments',
       {
         unique: false,
         fields: ['adminID']
+      },
+      {
+        unique: false,
+        fields: ['startTime']
       }
     ]
   });
@@ -109,7 +113,10 @@ const AppointmentTypes = sequelize.define('appointment-types',
     }
   ]
 });
-//Appointments.sync()
+const sync = async () => {
+  const a = await Appointments.sync()
+  console.log(a)
+}
 module.exports = { 
   Users, 
   Appointments, 
