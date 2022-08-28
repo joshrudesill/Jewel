@@ -2,7 +2,7 @@ import SchedApt from '../components/schedule-apt'
 import useFetchManager from '../util/usefetchmanager';
 import { useRouter } from 'next/router';
 
-const UserAptList = () => {
+const UserAptList = ({ auth }) => {
     const router = useRouter();
     const creator = router.query.scheduler
     const { isHandlingRequest, data, error } = useFetchManager('/api/usergetapts', { creator: creator } , 'GET')

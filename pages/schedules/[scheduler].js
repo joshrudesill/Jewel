@@ -2,6 +2,7 @@ import SchedApt from '../../components/schedule-apt';
 import useFetchManager from '../../util/usefetchmanager';
 import { useRouter } from 'next/router';
 import UserAptList from '../../components/user-apt-list';
+import useAuthManager from '../../util/useauthmanager';
 
 const Scheduler = () => {
     const router = useRouter();
@@ -17,7 +18,7 @@ const Scheduler = () => {
                 {creator}
             </div>
             <div className='column'>
-                <UserAptList/>
+                <UserAptList />
             </div>
         </div>
     )
