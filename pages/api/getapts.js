@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     const pages = req.query.page;
     var params = { 
       adminID: auth.id, 
-      //startTime: { [model.op.gte]: dayjs().toDate() }
+      startTime: { [model.op.gte]: dayjs().toDate() }
     }
     
     if(claimed === 'c') {

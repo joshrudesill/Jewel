@@ -1,5 +1,5 @@
 const model = require('../../orm/index');
-
+import dayjs from "dayjs";
 
 export default async function handler(req, res) {
 
@@ -17,8 +17,10 @@ export default async function handler(req, res) {
                adminID: creatorID.id, 
                userEmail: { 
                    [model.op.is]: null 
-               } 
-           } 
+               },
+               startTime: { [model.op.gte]: dayjs().toDate() }
+           },
+            limit: 20
        });
        if (apts) {
         res.status(200).json(apts)

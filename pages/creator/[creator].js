@@ -32,12 +32,11 @@ const UserProfile = () => {
                 <div className="container">
                     <div className="columns">
                         <div className="column is-one-third">
-
                             <CreatorNamecard username={router.query.creator}/>
                             
                             <div className="columns p-0">
                                 <div className="column">
-                                        <CreateAppointment username={router.query.creator}/>
+                                    <CreateAppointment username={router.query.creator}/>
                                 </div>
                             </div>
                             

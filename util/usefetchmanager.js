@@ -10,7 +10,9 @@ const useFetchManager = (url, params, method, immediate = true) => {
     pRef.current = params
   }
   const execute = useCallback(() => {
+    console.log('execute called')
     const getData = async () => {
+      console.log('getdata called')
       setData(null)
       setError(null)
       setStatus(null)
@@ -77,6 +79,7 @@ const useFetchManager = (url, params, method, immediate = true) => {
       execute()
     }
   }, [execute, immediate])
+
   return {
     isHandlingRequest: !data && !error && !status, 
     data: data,
