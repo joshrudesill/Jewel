@@ -22,7 +22,7 @@ const UserAptSort = ({ day, setday, month, setmonth }) => (
                         <label className="label is-size-7">Day</label>
                         <div className="control">
                             <div className="select is-small is-rounded">
-                                <DayOptions month={month} setday={setday}/>
+                                <DayOptions month={month} setday={setday} day={day}/>
                             </div>
                         </div>
                     </div>

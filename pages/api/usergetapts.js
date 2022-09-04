@@ -1,5 +1,9 @@
 const model = require('../../orm/index');
-import dayjs from "dayjs";
+const dayjs = require('dayjs');
+var utc = require('dayjs/plugin/utc')
+var timezone = require('dayjs/plugin/timezone') 
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export default async function handler(req, res) {
 
@@ -12,16 +16,41 @@ export default async function handler(req, res) {
         ]
     });
     if (creatorID) {
+        const { day, month, tz } = req.query;
+        const d = parseInt(day)
+        const m = parseInt(month)
+        if (typeof d !== 'number' || typeof m !== 'number') {
+            res.status(400).send()
+        }
+        const gt = dayjs()
+            .set('year', dayjs().year())
+            .set('date', d+1)
+            .set('month', month)
+            .set('hour', 0)
+            .set('minute', 0)
+            .set('second', 0)
+            .tz(tz)
+            
+        const lt = dayjs(gt).add(86399, 'second')
+        
         const apts = await model.Appointments.findAll({
             where: { 
                adminID: creatorID.id, 
                userEmail: { 
                    [model.op.is]: null 
                },
-               startTime: { [model.op.gte]: dayjs().toDate() }
+               startTime: { 
+                [model.op.and]: [
+                    {[model.op.gte]: gt.utc(true).toDate()},
+                    {[model.op.gte]: dayjs().tz(tz).utc(true).toDate()},
+                    {[model.op.lte]: lt.utc(true).toDate()}
+                ],
+            }
            },
-            limit: 20
-       });
+           order: [
+            ['startTime' , 'ASC']
+            ]
+        });
        if (apts) {
         res.status(200).json(apts)
        } else {

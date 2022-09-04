@@ -6,7 +6,7 @@ import UserAptSort from '../../components/user-apt-sort';
 const Scheduler = () => {
     const router = useRouter();
     const creator = router.query.scheduler
-    const  [month, setMonth ] = useState()
+    const [ month, setMonth ] = useState()
     const [ day, setDay ] = useState()
     return (
         <div className='container'>
@@ -17,8 +17,8 @@ const Scheduler = () => {
                     </span>
                 </div>
             </div>
-            <UserAptSort d={day} setday={setDay} month={month} setmonth={setMonth}/>
-            <UserAptList />
+            <UserAptSort day={day} setday={setDay} month={month} setmonth={setMonth}/>
+            <UserAptList day={day} month={month} />
         </div>
     )
 }

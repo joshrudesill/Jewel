@@ -68,7 +68,7 @@ const useFetchManager = (url, params, method, immediate = true) => {
       try {
         getData()
       } catch(err) {
-        setError(err)
+        setError('Undefined params')
         console.error(err)
       }
     }
