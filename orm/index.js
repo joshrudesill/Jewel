@@ -68,6 +68,10 @@ const Appointments = sequelize.define('appointments',
     },
     endTime: {
       type: Sequelize.DATE
+    },
+    message: {
+      type: Sequelize.STRING,
+      allowNull: true
     }
   }, {
     indexes: [
@@ -114,7 +118,7 @@ const AppointmentTypes = sequelize.define('appointment-types',
   ]
 });
 const sync = async () => {
-  const a = await Appointments.sync()
+  const a = await Appointments.sync({alter: true})
   console.log(a)
 }
 module.exports = { 

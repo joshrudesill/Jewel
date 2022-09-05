@@ -39,7 +39,7 @@ export default async function handler(req, res) {
                userEmail: { 
                    [model.op.is]: null 
                },
-               startTime: { 
+               startTime: {
                 [model.op.and]: [
                     {[model.op.gte]: gt.utc(true).toDate()},
                     {[model.op.gte]: dayjs().tz(tz).utc(true).toDate()},
