@@ -1,19 +1,29 @@
 import { useForm } from "react-hook-form";
 import AptDate from "./apt-date";
 import useFetchManager from '../util/usefetchmanager';
+import { useEffect } from "react";
 
 const UserAptModal = ({ active, setactive, apt }) => {
     const { handleSubmit, register, formState: { errors, isValid, isDirty }, watch } = useForm({mode: 'onChange'});
     const watchFields = watch();
-    const { isHandlingRequest, data, error, execute } = useFetchManager('/api/bookapt', { watchFields, aID: apt.id } , 'POST', false);
+    const { isHandlingRequest, error, status, execute } = useFetchManager('/api/bookapt', { watchFields, aID: apt.id } , 'POST', false);
     const onError = err => console.log(err)
+    useEffect(() => {
+        console.log('called')
+        console.log(isHandlingRequest)
+        console.log(status)
+        if (!isHandlingRequest && status === 200) {
+            setactive(false)
+            alert('Success')
+        }
+    }, [isHandlingRequest, status])
     return (
         <div className={`modal ${active ? 'is-active' : ''}`}>
             {error}
             <div className="modal-background"></div>
                 <div className="modal-card">
                     <header className="modal-card-head">
-                        <p className="modal-card-title">Appointment at <AptDate startTime={apt.startTime} endTime={apt.endTime}/></p>
+                        <p className="modal-card-title">Appointment at {isHandlingRequest ? 't ' : 'f '} {status ? status : 'ns'} <AptDate startTime={apt.startTime} endTime={apt.endTime}/></p>
                         <button className="delete" aria-label="close" onClick={() => setactive(false)}></button>
                     </header>
                 <form onSubmit={handleSubmit(execute, onError)}>

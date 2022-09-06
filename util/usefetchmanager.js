@@ -10,9 +10,7 @@ const useFetchManager = (url, params, method, immediate = true) => {
     pRef.current = params
   }
   const execute = useCallback(() => {
-    console.log('execute called')
     const getData = async () => {
-      console.log('getdata called')
       setData(null)
       setError(null)
       setStatus(null)
@@ -25,7 +23,6 @@ const useFetchManager = (url, params, method, immediate = true) => {
             'Content-Type': 'application/json'
           }
         });
-        
         if(fetchResult.status !== 200) {
           setError('Bad Request')
           setStatus(fetchResult.status)
@@ -83,7 +80,7 @@ const useFetchManager = (url, params, method, immediate = true) => {
   return {
     isHandlingRequest: !data && !error && !status, 
     data: data,
-    status: null,
+    status: status,
     error: error,
     execute: execute
   }
