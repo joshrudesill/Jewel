@@ -13,7 +13,7 @@ const Scheduler = () => {
             <div className='columns mt-5'>
                 <div className='column'>
                     <span className='is-size-4'>
-                        {`Schedule an appointment with ${day ? day : ''}`}
+                        {`Schedule an appointment with ${creator}!`}
                     </span>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import AptListv2 from '../../components/apt-list-v2';
 import AptSort from '../../components/apt-sort';
 import AptSummary from '../../components/apt-summary';
+import AptTypeCreate from '../../components/apt-type-create';
 import CreateAppointment from '../../components/create-apt'
 import CreatorNamecard from '../../components/creator-namecard';
 import useAuthManager from '../../util/useauthmanager';
@@ -11,7 +12,7 @@ const UserProfile = () => {
     const router = useRouter();
     const creator = router.query.creator
     const { authorized, processingAuth, error } = useAuthManager(creator, true)
-    const [sortBy, setSortBy] = useState('dd')
+    const [sortBy, setSortBy] = useState('da')
     const [showClaimed, setShowClaimed] = useState('a')
     
 
@@ -34,6 +35,7 @@ const UserProfile = () => {
                         <div className="column is-one-third">
                             <CreatorNamecard username={router.query.creator}/>
                             
+                        <AptTypeCreate />    
                             <div className="columns p-0">
                                 <div className="column">
                                     <CreateAppointment username={router.query.creator}/>

@@ -82,6 +82,10 @@ const Appointments = sequelize.define('appointments',
       {
         unique: false,
         fields: ['startTime']
+      },
+      {
+        unique: false,
+        fields: ['userEmail']
       }
     ]
   });
@@ -118,7 +122,7 @@ const AppointmentTypes = sequelize.define('appointment-types',
   ]
 });
 const sync = async () => {
-  const a = await Appointments.sync({alter: true})
+  const a = await Appointments.sync()
   console.log(a)
 }
 module.exports = { 

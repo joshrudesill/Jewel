@@ -11,6 +11,7 @@ const CreateAppointment = ({ username }) => {
     const { setValue, register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onChange'});
     const router = useRouter();
     const tz = dayjs.tz.guess()
+    //need to update to fetchmanager
     const createApt = async data => {
         const apt = await fetch('/api/createapt' ,{
             method: 'POST',

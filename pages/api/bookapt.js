@@ -1,20 +1,28 @@
-import * as cookie from 'cookie';
-import { verifyAuth } from "../../auth/helpers";
 const model = require('../../orm/index')
 
 export default async function handler(req, res) {
-    const { message, email } = req.body.watchFields
-    const updated = await model.Appointments.update({ 
-            userEmail: email,
-            message: message
-        }, {
-            where: {
-                id: req.body.aID
-            }
-        })
-    if (updated) {
-        res.status(200).send();
+    const { message, email } = req.body.watchFields;
+    const { aID } = req.body;
+    const check = await model.Appointments.findOne({ 
+        where: {
+            id: aID
+        }
+    })
+    if(check) {
+        const updated = await model.Appointments.update({
+                userEmail: email,
+                message: message
+            }, {
+                where: {
+                    id: aID
+                }
+            })
+        if (updated) {
+            res.status(200).send();
+        } else {
+            res.status(400).send();
+        }
     } else {
-        res.status(400).send();
+        res.status(401).send()
     }
 }
