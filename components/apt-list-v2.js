@@ -26,11 +26,11 @@ const AptListv2 = ({ creator, sortBy, showclaimed }) => {
     return (
       <>
         <AptPage page={page} setPage={setPage} results={data.count}/>
-        {types ? types : <>Loading</>}
           { 
             data.rows.map(d => {
                 return <Appointment key={d.id} a={d}/>
-        })}
+            })
+          }
       </>
     )
 }
