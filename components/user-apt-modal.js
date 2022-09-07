@@ -4,14 +4,11 @@ import useFetchManager from '../util/usefetchmanager';
 import { useEffect } from "react";
 
 const UserAptModal = ({ active, setactive, apt }) => {
-    const { handleSubmit, register, formState: { errors, isValid, isDirty }, watch } = useForm({mode: 'onChange'});
+    const { handleSubmit, register, formState: { errors, isValid, isDirty }, watch } = useForm({mode: 'onSubmit'});
     const watchFields = watch();
     const { isHandlingRequest, error, status, execute } = useFetchManager('/api/bookapt', { watchFields, aID: apt.id } , 'POST', false);
     const onError = err => console.log(err)
     useEffect(() => {
-        console.log('called')
-        console.log(isHandlingRequest)
-        console.log(status)
         if (!isHandlingRequest && status === 200) {
             setactive(false)
             alert('Success')
@@ -55,7 +52,7 @@ const UserAptModal = ({ active, setactive, apt }) => {
                         </div>
                 </section>
                 <footer className="modal-card-foot">
-                    <input type="submit" className="button" value="Book" disabled={!isValid || !isDirty}></input>
+                    <input type="submit" className="button" value="Book" ></input>
                     <button className="button" onClick={() => setactive(false)}>Cancel</button>
                 </footer>
                 </form>

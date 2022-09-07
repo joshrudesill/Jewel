@@ -37,6 +37,7 @@ const Appointment = ({ a }) => {
                         <div className="icon-text">
                             <AptIcon startTime={a.startTime}/>
                             <span className="has-text-weight-medium"><AptDate startTime={a.startTime} endTime={a.endTime} /></span>
+                            {a.aptType}
                         </div>
                     </div>
                     <AptTime start={a.startTime} end={a.endTime}/>

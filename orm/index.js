@@ -72,6 +72,10 @@ const Appointments = sequelize.define('appointments',
     message: {
       type: Sequelize.STRING,
       allowNull: true
+    },
+    aptType: {
+      type: Sequelize.INTEGER,
+      allowNull: true
     }
   }, {
     indexes: [
@@ -112,6 +116,10 @@ const AppointmentTypes = sequelize.define('appointment-types',
   price: {
     type: Sequelize.FLOAT,
     allowNull: true
+  },
+  defaultTime: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   }
 }, {
   indexes: [
@@ -122,7 +130,7 @@ const AppointmentTypes = sequelize.define('appointment-types',
   ]
 });
 const sync = async () => {
-  const a = await Appointments.sync()
+  const a = await Appointments.sync({alter: true})
   console.log(a)
 }
 module.exports = { 
