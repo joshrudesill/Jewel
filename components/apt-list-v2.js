@@ -17,7 +17,7 @@ const AptListv2 = ({ creator, sortBy, showclaimed }) => {
       })
       setTypes(arrToAdd)
     }
-  }, [aptTypes])
+  }, [aptTypes.status])
 
   if (isHandlingRequest) return <div>Loading</div>
   if (error) return <div>{error}</div>

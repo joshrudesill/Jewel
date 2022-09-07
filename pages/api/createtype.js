@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         const { tname, tdesc, price, dtime } = req.body.watchFields;
         
         const unique = types.every(t => t.typeName.toLowerCase() !== tname.toLowerCase())
-
+        
         if(unique) {
             const newType = await model.AppointmentTypes.create({
                 adminID: auth.id,
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
                 price: price,
                 defaultTime: dtime
             });
-            
+
             if(newType) {
                 res.status(200).send()
             } else {

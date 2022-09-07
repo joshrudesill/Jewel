@@ -16,7 +16,10 @@ const CreatorNamecard = ({ username }) => {
                         <p className="is-size-7">The Example Company</p>
                     </div>
                     <div className="column is-size-3 has-text-right">
-                        <button className="button is-link is-small is-outlined" onClick={() => router.push(`/schedules/${router.query.creator}`)}>
+                        <button className="button is-link is-small is-outlined" onClick={(e) => {
+                            e.preventDefault()
+                            router.push(`/schedules/${router.query.creator}`)
+                            }}>
                             View as User
                         </button>
                     </div>
