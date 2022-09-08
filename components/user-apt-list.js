@@ -15,7 +15,7 @@ const UserAptList = ({ day, month }) => {
 
     if (error) return <>{error}</>
     if (isHandlingRequest) return <>Loading..</>
-    if (data.length === 0 && !isHandlingRequest) return <div>No appointments scheduled..</div>
+    if (data && data.length === 0 && !isHandlingRequest) return <div>No appointments scheduled..</div>
     if (data) return (
         <div className='columns is-multiline is-variable is-1'>
             {

@@ -28,7 +28,8 @@ const verifyApt = async ( aid, start, end, tz ) => {
 }
 
 export default async function handler(req, res) {
-    const { minute, hour, day, duration, month, tz } = req.body;
+    const { minute, hour, day, duration, month, type } = req.body.watchFields;
+    const tz = req.body.tz
     const cook = req.headers.cookie;
     const parsed = cookie.parse(cook)
     const auth = await verifyJWT(parsed.token, req.body.username)
@@ -46,7 +47,8 @@ export default async function handler(req, res) {
                 userId: null,
                 adminID: auth.id,
                 startTime: start.toDate(),
-                endTime: end.toDate()
+                endTime: end.toDate(), 
+                aptType: type
             });
             if(create) {
                 res.status(201).send();

@@ -22,13 +22,13 @@ const AptListv2 = ({ creator, sortBy, showclaimed }) => {
   if (isHandlingRequest) return <div>Loading</div>
   if (error) return <div>{error}</div>
   if (data && data.length === 0 && !isHandlingRequest) return <div>No appointments scheduled..</div>
-  if (data)
+  if (data && types)
     return (
       <>
         <AptPage page={page} setPage={setPage} results={data.count}/>
           { 
             data.rows.map(d => {
-                return <Appointment key={d.id} a={d}/>
+                return <Appointment type={ d.aptType ? types[d.aptType] : false } key={d.id} a={d}/>
             })
           }
       </>

@@ -14,7 +14,7 @@ const AptTypeCreate = ({ creator }) => {
                         <span>Create Appointment Type</span>
                     </div>
                 </div>
-                <form className='' onSubmit={ handleSubmit(execute) }>
+                <form className='' onSubmit={ handleSubmit(execute, onError) }>
                     <div className="columns">
                         <div className="column">
                             <div className="field">

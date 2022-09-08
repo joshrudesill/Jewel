@@ -3,7 +3,7 @@ import AptDate from "./apt-date";
 import AptIcon from "./apt-icon";
 import AptTime from "./apt-time";
 
-const Appointment = ({ a }) => {
+const Appointment = ({ a, type }) => {
     const [show, setShow] = useState(false)
     const toggleShow = () => setShow(!show)
     const [deleted, setDeleted] = useState(false);
@@ -35,9 +35,9 @@ const Appointment = ({ a }) => {
                 <div className="card-header" onClick={toggleShow}>
                     <div className="card-header-title">
                         <div className="icon-text">
+                            {type ? <span className="mr-1">{type.typeName}</span> : <></>}
                             <AptIcon startTime={a.startTime}/>
                             <span className="has-text-weight-medium"><AptDate startTime={a.startTime} endTime={a.endTime} /></span>
-                            {a.aptType}
                         </div>
                     </div>
                     <AptTime start={a.startTime} end={a.endTime}/>

@@ -5,12 +5,20 @@ const useFetchManager = (url, params, method, immediate = true) => {
   const [data, setData] = useState(null);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
+  const [isHandlingRequest, setIsHandlingRequest] = useState(false)
   const pRef = useRef(params);
   if (!isDeepEqual(pRef.current, params)) {
     pRef.current = params
   }
+  const reset = () => {
+    setData(null)
+    setStatus(null)
+    setError(null)
+  }
+  
   const execute = useCallback(() => {
     const getData = async () => {
+      setIsHandlingRequest(true)
       setData(null)
       setError(null)
       setStatus(null)
@@ -24,9 +32,11 @@ const useFetchManager = (url, params, method, immediate = true) => {
           }
         });
         if(fetchResult.status !== 200) {
+          setIsHandlingRequest(false)
           setError('Bad Request')
           setStatus(fetchResult.status)
         } else {
+          setIsHandlingRequest(false)
           setStatus(fetchResult.status)
           setData(true)
         }
@@ -44,13 +54,16 @@ const useFetchManager = (url, params, method, immediate = true) => {
         });
 
         if(fetchResult.status !== 200) {
+          setIsHandlingRequest(false)
           setError('Bad Request')
         } else {
           const d = await fetchResult.json()
           setStatus(fetchResult.status)
           setData(d)
+          setIsHandlingRequest(false)
         }
       } else {
+        setIsHandlingRequest(false)
         setError('Only POST and GET supported!')
       }
     }
@@ -73,16 +86,18 @@ const useFetchManager = (url, params, method, immediate = true) => {
 
   useEffect(() => {
     if(immediate) {
+      reset()
       execute()
     }
   }, [execute, immediate])
 
   return {
-    isHandlingRequest: !data && !error && !status, 
+    isHandlingRequest: isHandlingRequest, 
     data: data,
     status: status,
     error: error,
-    execute: execute
+    execute: execute,
+    reset: reset
   }
 }
 

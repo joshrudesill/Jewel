@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import useFetchManager from "../util/usefetchmanager";
 import MonthOptions from "./month-options";
 const dayjs = require('dayjs');
 var utc = require('dayjs/plugin/utc')
@@ -7,42 +9,29 @@ var timezone = require('dayjs/plugin/timezone')
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const CreateAppointment = ({ username }) => {
-    const { setValue, register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onChange'});
-    const router = useRouter();
+const CreateAppointment = ({ username, types }) => {
+    const { setValue, register, handleSubmit, formState: { errors }, reset, watch } = useForm({mode: 'onSubmit'});
+    const watchFields = watch()
     const tz = dayjs.tz.guess()
-    //need to update to fetchmanager
-    const createApt = async data => {
-        const apt = await fetch('/api/createapt' ,{
-            method: 'POST',
-            withCredentials: true,
-            body: JSON.stringify({
-                day: data.day,
-                hour: data.hour,
-                minute: data.minute,
-                duration: data.duration,
-                month: data.month,
-                username: username,
-                tz: tz
-        }),
-            headers: {
-                'Content-Type': 'application/json'
+    const router = useRouter();
+    const fm = useFetchManager('/api/createapt', { watchFields, tz: tz, username: username }, 'POST', false)
+    useEffect(() => {
+        if(!fm.isHandlingRequest) {
+            if (fm.status === 201) {
+                router.reload();
+            } else if(fm.status === 400) {
+                reset()
+                alert('Failed to create Appointment')
+            } else if(fm.status === 401) {
+                reset()
+                alert('Conflicting Appointment: Failed to create')
+            } else if(fm.status === 403) {
+                reset()
+                alert('You are not authorized to make this request')
             }
-        });
-
-        if (apt.status === 201) {
-            router.reload();
-        } else if(apt.status === 400) {
-            reset()
-            alert('Failed to create Appointment')
-        } else if(apt.status === 401) {
-            reset()
-            alert('Conflicting Appointment: Failed to create')
-        } else if(apt.status === 403) {
-            reset()
-            alert('You are not authorized to make this request')
-        } 
-    }
+        }
+    }, [fm.status, fm.isHandlingRequest])
+    
 
     return (
     <div className="card mt-5">
@@ -52,7 +41,7 @@ const CreateAppointment = ({ username }) => {
                     <span>Create Appointment</span>
                 </div>
             </div>
-            <form onSubmit={handleSubmit(createApt)}>
+            <form onSubmit={handleSubmit(fm.execute)}>
             <div className="columns">
                 <div className="column">
                     <div className="field">
@@ -155,12 +144,22 @@ const CreateAppointment = ({ username }) => {
             <div className="columns">
                 <div className="column">
                     <div className="field">
-                        <label className="label is-size-7">Type</label>
+                        <label className="label is-size-7">
+                            Type
+                        </label>
                         <div className="control">
                             <div className="select is-small is-fullwidth is-rounded">
-                                <select {...register('type')}>
-                                    <option>Normal</option>
-                                    <option>Creator</option>
+                                <select {...register('type')} disabled={!types}>
+                                    <option value=''>Select Type</option>
+                                    {
+                                        types ? Object.keys(types).map(t => {
+                                            return (
+                                                <option key={types[t].id} value={types[t].id}>{types[t].typeName}</option>
+                                            )
+                                        })
+                                        :
+                                        <></>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -169,7 +168,7 @@ const CreateAppointment = ({ username }) => {
             </div>
             <div className="columns">
                 <div className="column">
-                    <button className="button is-rounded is-small is-primary" type="submit">Save</button>
+                    <button className="button is-rounded is-small is-primary" type="submit">{fm.isHandlingRequest ? 'Loading..' : 'Save'}</button>
                 </div>
             </div>
             </form>
