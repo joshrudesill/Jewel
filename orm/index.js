@@ -90,6 +90,10 @@ const Appointments = sequelize.define('appointments',
       {
         unique: false,
         fields: ['userEmail']
+      },
+      {
+        unique: false,
+        fields: ['aptType']
       }
     ]
   });

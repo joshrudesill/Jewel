@@ -8,6 +8,7 @@ const Scheduler = () => {
     const creator = router.query.scheduler
     const [ month, setMonth ] = useState()
     const [ day, setDay ] = useState()
+    const [ date, setDate ] = useState()
     return (
         <div className='container'>
             <div className='columns mt-5'>
@@ -17,8 +18,8 @@ const Scheduler = () => {
                     </span>
                 </div>
             </div>
-            <UserAptSort day={day} setday={setDay} month={month} setmonth={setMonth}/>
-            <UserAptList day={day} month={month} />
+            <UserAptSort day={day} setday={setDay} month={month} setmonth={setMonth} setdate={setDate}/>
+            <UserAptList day={day} month={month} date={date}/>
         </div>
     )
 }

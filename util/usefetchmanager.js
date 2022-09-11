@@ -18,6 +18,7 @@ const useFetchManager = (url, params, method, immediate = true) => {
   
   const execute = useCallback(() => {
     const getData = async () => {
+      console.log('getdata')
       setIsHandlingRequest(true)
       setData(null)
       setError(null)
@@ -81,12 +82,14 @@ const useFetchManager = (url, params, method, immediate = true) => {
         setError('Undefined params')
         console.error(err)
       }
+    } else {
+      console.log('Params: ', checkUndefinedParams())
+      console.log('URL: ', url)
     }
   }, [url, method, pRef.current])
 
   useEffect(() => {
     if(immediate) {
-      reset()
       execute()
     }
   }, [execute, immediate])

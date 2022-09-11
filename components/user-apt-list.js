@@ -7,11 +7,11 @@ var timezone = require('dayjs/plugin/timezone')
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const UserAptList = ({ day, month }) => {
+const UserAptList = ({ day, month, date }) => {
     const router = useRouter();
     const creator = router.query.scheduler
     const tz = dayjs.tz.guess()
-    const { isHandlingRequest, data, error } = useFetchManager('/api/usergetapts', { creator: creator, day: day, month: month, tz: tz } , 'GET')
+    const { isHandlingRequest, data, error } = useFetchManager('/api/usergetapts', { creator: creator, day: date ? date.d : 0, month: date ? date.m : 0, tz: tz } , 'GET')
 
     if (error) return <>{error}</>
     if (isHandlingRequest) return <>Loading..</>
