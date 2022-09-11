@@ -54,7 +54,7 @@ const Appointment = ({ a, type }) => {
                         <div className="column is-narrow icon-text">
                             <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="cash-outline"></ion-icon></span>
                             <span className="has-text-weight-bold mr-2">Price:</span>
-                            <span>$31.25</span>
+                            <span>{type ? type.price : <></>}</span>
                         </div>
                     </div>
                     <div className="columns">

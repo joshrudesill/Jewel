@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import dayjs from "dayjs";
 
-const DayOptions = ({ month, setday, day }) => {
+const DayOptions = ({ month, setday, day, optionsOnly = false, setValue }) => {
     const [days, setDays] = useState([])
 
     useEffect(() => {
@@ -19,16 +19,28 @@ const DayOptions = ({ month, setday, day }) => {
     }, [month])
 
     useEffect(() => {
-        setday(days[0])
+        if(setday) {
+            setday(days[0])
+        } else if(setValue) {
+            setValue('day', days[0])
+        }
     }, [days])
+    
 
-    return (
+    if (!optionsOnly) return (
         <div className="select">
             <select onChange={e => setday(e.target.value)} value={day}>
                 { days ? days.map(d => <option key={d} value={d}>{d+1}</option>) : <></>}
             </select>
         </div>
-    )
+    ) 
+    if(optionsOnly) {
+        return (
+            <> 
+                { days ? days.map(d => <option key={d} value={d}>{d+1}</option>) : <></>}
+            </>
+        )
+    }
 }
 
 

@@ -1,6 +1,6 @@
 
 
-const AptSort = ({ sortby, setsortby, showclaimed, setshowclaimed }) => (
+const AptSort = ({ sortby, setsortby, showclaimed, setshowclaimed, typesort, settypesort, types }) => (
         <div className="columns">
             <div className="column">
                 <div className="box is-shadowless has-background-success-light p-3">
@@ -31,6 +31,27 @@ const AptSort = ({ sortby, setsortby, showclaimed, setshowclaimed }) => (
                                             <option value='a'>All</option>
                                             <option value='c'>Claimed</option>
                                             <option value='uc'>Unclaimed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="column is-narrow">
+                            <div className="field">
+                                <label className="label is-size-7">Type</label>
+                                <div className="control">
+                                    <div className="select is-small is-rounded">
+                                        <select value={typesort} onChange={e=>settypesort(e.target.value)}>
+                                            <option value='0'>All</option>
+                                            {
+                                                types ? Object.keys(types).map(t => {
+                                                    return (
+                                                        <option key={types[t].id} value={types[t].id}>{types[t].typeName}</option>
+                                                    )
+                                                })
+                                                :
+                                                <></>
+                                            }
                                         </select>
                                     </div>
                                 </div>

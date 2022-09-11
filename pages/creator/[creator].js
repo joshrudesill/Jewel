@@ -15,6 +15,7 @@ const UserProfile = () => {
     const { authorized, processingAuth, error } = useAuthManager(creator, true)
     const [sortBy, setSortBy] = useState('da')
     const [showClaimed, setShowClaimed] = useState('a')
+    const [typeSort, setTypeSort] = useState(0)
     const [types, setTypes] = useState()
     const aptTypes = useFetchManager('/api/getapttypes', { creator: creator }, 'GET')
     useEffect(() => {
@@ -22,6 +23,7 @@ const UserProfile = () => {
             setTypes(aptTypes.data)
         }
     }, [aptTypes.status, aptTypes.isHandlingRequest])
+    
     if (error) {
         console.error(error)
         router.push('/')
@@ -41,14 +43,15 @@ const UserProfile = () => {
                         <div className="column is-one-third">
                             <CreatorNamecard username={router.query.creator}/>
                             
-                        <AptTypeCreate creator={creator} />    
+                            <AptTypeCreate creator={creator} />    
+
                             <div className="columns p-0">
                                 <div className="column">
                                     <CreateAppointment username={router.query.creator} types={types}/>
                                 </div>
                             </div>
                             
-                        <AptSummary />
+                            <AptSummary />
                             
                         </div>
                         <div className="column is-two-thirds">
@@ -57,13 +60,17 @@ const UserProfile = () => {
                                 sortby={sortBy} 
                                 setsortby={setSortBy} 
                                 showclaimed={showClaimed} 
-                                setshowclaimed={setShowClaimed} 
+                                setshowclaimed={setShowClaimed}
+                                typesort={typeSort}
+                                settypesort={setTypeSort}
+                                types={types}
                             />
 
                             <AptListv2 
                                 creator={router.query.creator} 
                                 sortBy={sortBy} 
-                                showclaimed={showClaimed} 
+                                showclaimed={showClaimed}
+                                typesort={typeSort}
                                 types={types}
                             />
 

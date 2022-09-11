@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 const AptPage = ({ page, results, setPage }) => {
     const [pageNumbers, setPageNumbers] = useState([])
     const [pageOffset, setPageOffset] = useState(0)

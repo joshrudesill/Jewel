@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     const claimed = req.query.claimed;
     const sortby = req.query.sortby === 'dd' ? 'DESC' : 'ASC'
     const pages = req.query.page;
-
+    const type = parseInt(req.query.typesort)
     var params = { 
       adminID: auth.id, 
       startTime: { [model.op.gte]: dayjs().toDate() }
@@ -26,6 +26,9 @@ export default async function handler(req, res) {
       params.userEmail = { [model.op.not]: null }
     } else if (claimed === 'uc') {
       params.userEmail = { [model.op.is]: null }
+    }
+    if(type !== 0) {
+      params.aptType = type
     }
     
     const apts = await model.Appointments.findAndCountAll(

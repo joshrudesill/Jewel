@@ -2,7 +2,9 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useFetchManager from "../util/usefetchmanager";
+import DayOptions from "./day-options";
 import MonthOptions from "./month-options";
+import TimeOptions from "./timeoptions";
 const dayjs = require('dayjs');
 var utc = require('dayjs/plugin/utc')
 var timezone = require('dayjs/plugin/timezone') 
@@ -31,6 +33,10 @@ const CreateAppointment = ({ username, types }) => {
             }
         }
     }, [fm.status, fm.isHandlingRequest])
+
+    useEffect(() => {
+
+    }, [watchFields.month])
     
 
     return (
@@ -56,23 +62,18 @@ const CreateAppointment = ({ username, types }) => {
                 <div className="column">
                     <div className="field">
                         <label className="label is-size-7">Day {errors.day?.message ? <span className="has-text-danger">({errors.day?.message})</span> : ''}</label>
-                         <div className="control has-icons-right">
-                           <input className='input is-small is-rounded' type="text" placeholder="Day" required
-                           {...register('day', 
-                           { 
-                                required: true, 
-                                max: {
-                                    value: 31,
-                                    message: 'Too High'
-                                }, 
-                                min: {
-                                    value: 1,
-                                    message: 'Too Low'
-                                }, 
-                                valueAsNumber: true, 
-                                validate: value => value > 0 || 'Must be a number'
-                            } )}>
-                            </input>
+                         <div className="control">
+                            <div className='select is-small is-rounded is-fullwidth' >
+                                <select value={watchFields.day} required
+                                    {...register('day', 
+                                        { 
+                                            required: true, 
+                                        } 
+                                    )} >
+                                        <DayOptions month={watchFields.month} optionsOnly={true} day={watchFields.day} setValue={setValue}/>
+                                    </select>
+
+                            </div>
                          </div>
                     </div>
                 </div>
@@ -83,21 +84,15 @@ const CreateAppointment = ({ username, types }) => {
                     <div className="field">
                         <label className="label is-size-7">Hour {errors.hour?.message ? <span className="has-text-danger">({errors.hour?.message})</span> : ''}</label>
                          <div className="control">
-                           <input className="input is-small is-rounded" type="text" placeholder="Day" 
+                           <div className="select is-small is-rounded is-fullwidth" type="text" placeholder="Day" 
                            {...register('hour', 
                            { 
                                 required: true, 
-                                max: {
-                                    value: 24,
-                                    message: '0 to 23 only!'
-                                }, 
-                                min: {
-                                    value: 1,
-                                    message: '0 to 23 only!'
-                                }, 
-                                valueAsNumber: true, 
-                                validate: value => value > 0 || 'Must be a number'
-                            })}></input>
+                            })}>
+                                <select>
+                                    <TimeOptions />
+                                </select>
+                            </div>
                          </div>
                     </div>
                 </div>
