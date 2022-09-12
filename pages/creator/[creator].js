@@ -5,6 +5,7 @@ import AptSort from '../../components/apt-sort';
 import AptSummary from '../../components/apt-summary';
 import AptTypeCreate from '../../components/apt-type-create';
 import CreateAppointment from '../../components/create-apt'
+import CreateSchedule from '../../components/createschedule';
 import CreatorNamecard from '../../components/creator-namecard';
 import useAuthManager from '../../util/useauthmanager';
 import useFetchManager from '../../util/usefetchmanager';
@@ -43,6 +44,8 @@ const UserProfile = () => {
                         <div className="column is-one-third">
                             <CreatorNamecard username={router.query.creator}/>
                             
+                            <CreateSchedule />
+
                             <AptTypeCreate creator={creator} />    
 
                             <div className="columns p-0">

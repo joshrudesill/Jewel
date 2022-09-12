@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserAptList from '../../components/user-apt-list';
 import UserAptSort from '../../components/user-apt-sort';
+import useFetchManager from '../../util/usefetchmanager';
 
 const Scheduler = () => {
     const router = useRouter();
@@ -9,6 +10,16 @@ const Scheduler = () => {
     const [ month, setMonth ] = useState()
     const [ day, setDay ] = useState()
     const [ date, setDate ] = useState()
+    const [ types, setTypes ] = useState()
+    const [ sortType, setSortType ] = useState(0)
+    const { data, error, isHandlingRequest, status } = useFetchManager('/api/getapttypes', { creator: creator }, 'GET')
+
+    useEffect(() => {
+        if(!isHandlingRequest && status === 200) {
+            setTypes(data)
+        }
+    }, [status, isHandlingRequest])
+
     return (
         <div className='container'>
             <div className='columns mt-5'>
@@ -18,8 +29,23 @@ const Scheduler = () => {
                     </span>
                 </div>
             </div>
-            <UserAptSort day={day} setday={setDay} month={month} setmonth={setMonth} setdate={setDate}/>
-            <UserAptList day={day} month={month} date={date}/>
+            <UserAptSort 
+                day={day} 
+                setday={setDay} 
+                month={month} 
+                setmonth={setMonth}
+                date={date} 
+                setdate={setDate} 
+                types={types} 
+                setsorttype={setSortType}
+                sorttype={sortType}
+            />
+            <UserAptList 
+                day={day} 
+                month={month} 
+                date={date} 
+                type={sortType}
+            />
         </div>
     )
 }

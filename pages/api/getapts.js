@@ -38,7 +38,7 @@ export default async function handler(req, res) {
         ],
         offset: (pages - 1) * 10,
         limit: 10,
-        attributes: { exclude: ['message']}
+        attributes: { exclude: ['message'] }
       })
 
     if (apts) {

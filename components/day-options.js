@@ -30,7 +30,6 @@ const DayOptions = ({ month, setday, day, optionsOnly = false, setValue, setdate
                 const d = {d: days[0], m: month}
                 setdate(d)
             } else if(setValue) {
-                console.log('setval')
                 setValue('day', days[0])
             }
         }
@@ -41,7 +40,7 @@ const DayOptions = ({ month, setday, day, optionsOnly = false, setValue, setdate
     if (!optionsOnly) return (
         <div className="select">
             <select onChange={e => setday(e.target.value)} value={date ? date.d : 0}>
-                { days ? days.map(d => <option key={d} value={d}>{d+1}</option>) : <></>}
+                { days ? days.map(d => <option key={d} value={d}>{d+1}</option>) : <></> }
             </select>
         </div>
     ) 

@@ -20,7 +20,7 @@ const UserAptModal = ({ active, setactive, apt }) => {
             <div className="modal-background"></div>
                 <div className="modal-card">
                     <header className="modal-card-head">
-                        <p className="modal-card-title">Appointment at {isHandlingRequest ? 't ' : 'f '} {status ? status : 'ns'} <AptDate startTime={apt.startTime} endTime={apt.endTime}/></p>
+                        <p className="modal-card-title">Appointment at <AptDate startTime={apt.startTime} endTime={apt.endTime}/></p>
                         <button className="delete" aria-label="close" onClick={() => setactive(false)}></button>
                     </header>
                 <form onSubmit={handleSubmit(execute, onError)}>

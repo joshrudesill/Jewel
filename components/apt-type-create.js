@@ -1,20 +1,22 @@
 import { useForm } from "react-hook-form";
 import useFetchManager from '../util/usefetchmanager';
+import { useState } from "react";
 
 const AptTypeCreate = ({ creator }) => {
     const { handleSubmit, register, formState: { errors, isValid, isDirty }, watch } = useForm({ mode: 'onSubmit' })
     const watchFields = watch();
     const { isHandlingRequest, error, status, execute } = useFetchManager('/api/createtype', { watchFields, admin: creator } , 'POST', false);
     const onError = e => console.log(e)
+    const [show,  setShow] = useState(false)
     return (
-        <div className="card mt-5">
-            <div className="card-content p-3">
+        <div className="card mt-5" onClick={() => setShow(!show)}>
+            <div className="card-content has-text-weight-medium p-3">
                 <div className="columns">
                     <div className="column has-background-success-light">
-                        <span>Create Appointment Type</span>
+                        <span>Create Appointment Type <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
                     </div>
                 </div>
-                <form className='' onSubmit={ handleSubmit(execute, onError) }>
+                <form className={`${!show ? 'is-hidden' : ''}`} onSubmit={ handleSubmit(execute, onError) }>
                     <div className="columns">
                         <div className="column">
                             <div className="field">

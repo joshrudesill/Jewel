@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         ]
     });
     if (creatorID) {
-        const { day, month, tz } = req.query;
+        const { day, month, type, tz } = req.query;
         const d = parseInt(day)
         const m = parseInt(month)
         if (typeof d !== 'number' || typeof m !== 'number') {
@@ -33,22 +33,26 @@ export default async function handler(req, res) {
             
         const lt = dayjs(gt).add(86399, 'second')
         
-        const apts = await model.Appointments.findAll({
-            where: { 
-               adminID: creatorID.id, 
-               userEmail: { 
-                   [model.op.is]: null 
-               },
-               startTime: {
+        var params = {
+            adminID: creatorID.id, 
+            userEmail: { 
+                [model.op.is]: null 
+            },
+            startTime: {
                 [model.op.and]: [
                     {[model.op.gte]: gt.utc(true).toDate()},
                     {[model.op.gte]: dayjs().tz(tz).utc(true).toDate()},
                     {[model.op.lte]: lt.utc(true).toDate()}
                 ],
             }
-           },
-           order: [
-            ['startTime' , 'ASC']
+        }
+        if(type !== undefined && parseInt(type) !== 0) {
+            params.aptType = parseInt(type)
+        }
+        const apts = await model.Appointments.findAll({
+            where: params,
+            order: [
+                ['startTime' , 'ASC']
             ]
         });
        if (apts) {

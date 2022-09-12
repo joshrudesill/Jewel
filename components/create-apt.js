@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetchManager from "../util/usefetchmanager";
 import DayOptions from "./day-options";
@@ -17,6 +17,7 @@ const CreateAppointment = ({ username, types }) => {
     const tz = dayjs.tz.guess()
     const router = useRouter();
     const fm = useFetchManager('/api/createapt', { watchFields, tz: tz, username: username }, 'POST', false)
+    const [show,  setShow] = useState(false)
     useEffect(() => {
         if(!fm.isHandlingRequest) {
             if (fm.status === 201) {
@@ -40,14 +41,14 @@ const CreateAppointment = ({ username, types }) => {
     
 
     return (
-    <div className="card mt-5">
+    <div className="card mt-5" onClick={() => setShow(!show)}>
         <div className="card-content has-text-weight-medium p-3">
             <div className="columns">
                 <div className="column has-background-success-light">
-                    <span>Create Appointment</span>
+                    <span>Create Appointment <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
                 </div>
             </div>
-            <form onSubmit={handleSubmit(fm.execute)}>
+            <form onSubmit={handleSubmit(fm.execute)} className={`${!show ? 'is-hidden' : '' }`}>
             <div className="columns">
                 <div className="column">
                     <div className="field">
@@ -82,7 +83,7 @@ const CreateAppointment = ({ username, types }) => {
             <div className="columns">
                 <div className="column">
                     <div className="field">
-                        <label className="label is-size-7">Hour {errors.hour?.message ? <span className="has-text-danger">({errors.hour?.message})</span> : ''}</label>
+                        <label className="label is-size-7">Hour (unfinished feature) {errors.hour?.message ? <span className="has-text-danger">({errors.hour?.message})</span> : ''}</label>
                          <div className="control">
                            <div className="select is-small is-rounded is-fullwidth" type="text" placeholder="Day" 
                            {...register('hour', 
