@@ -41,9 +41,9 @@ const CreateAppointment = ({ username, types }) => {
     
 
     return (
-    <div className="card mt-5" onClick={() => setShow(!show)}>
+    <div className="card mt-5" >
         <div className="card-content has-text-weight-medium p-3">
-            <div className="columns">
+            <div className="columns" onClick={() => setShow(!show)}>
                 <div className="column has-background-success-light">
                     <span>Create Appointment <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
                 </div>
@@ -83,39 +83,11 @@ const CreateAppointment = ({ username, types }) => {
             <div className="columns">
                 <div className="column">
                     <div className="field">
-                        <label className="label is-size-7">Hour (unfinished feature) {errors.hour?.message ? <span className="has-text-danger">({errors.hour?.message})</span> : ''}</label>
+                        <label className="label is-size-7">Time {errors.hour?.message ? <span className="has-text-danger">({errors.hour?.message})</span> : ''}</label>
                          <div className="control">
-                           <div className="select is-small is-rounded is-fullwidth" type="text" placeholder="Day" 
-                           {...register('hour', 
-                           { 
-                                required: true, 
-                            })}>
-                                <select>
-                                    <TimeOptions />
-                                </select>
+                           <div className="select is-small is-rounded is-fullwidth" type="text" placeholder="Day">
+                                <TimeOptions value={watchFields.time} register={register} setvalue={setValue}/>
                             </div>
-                         </div>
-                    </div>
-                </div>
-                <div className="column">
-                    <div className="field">
-                        <label className="label is-size-7">Minute {errors.minute?.message ? <span className="has-text-danger">({errors.minute?.message})</span> : ''}</label>
-                         <div className="control">
-                           <input className="input is-small is-rounded" type="text" placeholder="Day" 
-                           {...register('minute', 
-                           { 
-                                required: true, 
-                                max: {
-                                    value: 59,
-                                    message: '1 to 59 only!'
-                                }, 
-                                min: {
-                                    value: 1,
-                                    message: '1 to 59 only!'
-                                }, 
-                                valueAsNumber: true, 
-                                validate: value => value > 0 || 'Must be a number'
-                            })}></input>
                          </div>
                     </div>
                 </div>
@@ -146,7 +118,7 @@ const CreateAppointment = ({ username, types }) => {
                         <div className="control">
                             <div className="select is-small is-fullwidth is-rounded">
                                 <select {...register('type')} disabled={!types}>
-                                    <option value=''>Select Type</option>
+                                    <option value='0'>Select Type</option>
                                     {
                                         types ? Object.keys(types).map(t => {
                                             return (

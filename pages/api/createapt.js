@@ -4,9 +4,11 @@ import dayjs from "dayjs";
 var utc = require('dayjs/plugin/utc')
 var timezone = require('dayjs/plugin/timezone') 
 var isBetween = require('dayjs/plugin/isBetween')
+var customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(isBetween)
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(customParseFormat)
 const model = require('../../orm/index')
 
 const verifyApt = async ( aid, start, end, tz ) => {
@@ -28,12 +30,16 @@ const verifyApt = async ( aid, start, end, tz ) => {
 }
 
 export default async function handler(req, res) {
-    const { minute, hour, day, duration, month, type } = req.body.watchFields;
+    const { day, duration, month, type, time } = req.body.watchFields;
     const tz = req.body.tz
     const cook = req.headers.cookie;
     const parsed = cookie.parse(cook)
     const auth = await verifyJWT(parsed.token, req.body.username)
     if (auth.auth && auth.act === 'admin') {
+        const hm = dayjs(time, 'H:mm')
+        const hour = hm.utc(true).get('hour')
+        const minute = hm.utc(true).get('minute')
+        console.log(hour, ':', minute)
         const start = dayjs()
             .set('year', dayjs().year())
             .set('month', month)
@@ -41,13 +47,13 @@ export default async function handler(req, res) {
             .set('hour', hour)
             .set('minute', minute)
         const end = start.add(duration, 'm')
-        const result = await verifyApt(auth.id, start, end, tz)
+        const result = await verifyApt(auth.id, start.utc(true), end.utc(true), tz)
         if (result) {
             const create = await model.Appointments.create({
                 userId: null,
                 adminID: auth.id,
-                startTime: start.toDate(),
-                endTime: end.toDate(), 
+                startTime: start.utc(true).toDate(),
+                endTime: end.utc(true).toDate(), 
                 aptType: type
             });
             if(create) {

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 const dayjs = require('dayjs');
 
-const TimeOptions = () => {
-    const [times, setTimes] = useState([])
+const TimeOptions = ({ value, register, setvalue }) => {
+    const [times, setTimes] = useState()
     useEffect(() => {
         var t = []
         for (let i = 0; i < 96; i++) {
@@ -16,12 +16,17 @@ const TimeOptions = () => {
         }
         setTimes(t)
     }, [])
+
+    useEffect(() => {
+        setvalue('time', '9:00')
+    }, [times])
+
     return (
-        <>
+        <select {...register('time')} value={value}>
             {
                 times ? times.map(t => <option key={t} value={t}>{t}</option>) : <></>
             }
-        </>
+        </select>
     )
 } 
 

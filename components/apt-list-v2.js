@@ -10,7 +10,7 @@ const AptListv2 = ({ creator, sortBy, showclaimed, typesort }) => {
   const aptTypes = useFetchManager('/api/getapttypes', { creator: creator }, 'GET')
   useEffect(() => {
     setPage(1)
-  }, [showclaimed])
+  }, [showclaimed, typesort])
   useEffect(() => {
     if(aptTypes.data && aptTypes.data.length > 0 && !aptTypes.isHandlingRequest) {
       var arrToAdd = {}

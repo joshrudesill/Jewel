@@ -9,9 +9,9 @@ const AptTypeCreate = ({ creator }) => {
     const onError = e => console.log(e)
     const [show,  setShow] = useState(false)
     return (
-        <div className="card mt-5" onClick={() => setShow(!show)}>
+        <div className="card mt-5" >
             <div className="card-content has-text-weight-medium p-3">
-                <div className="columns">
+                <div className="columns" onClick={() => setShow(!show)}>
                     <div className="column has-background-success-light">
                         <span>Create Appointment Type <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
                     </div>
