@@ -1,4 +1,6 @@
 # A web app for creating and managing schedules for your business
+## I am a highly motivated aspiring full stack developer with experience developing web applications from the ground up in the JavaScript / React / Next.js / Node.js stack. This is a portfolio project showing my skills in the afformentioned stack.
+
 ## Features - *Admin*
 - Create time-based non-conflicting appointments with ease
 - Create appointment types for easier creation and also increased user confidence
