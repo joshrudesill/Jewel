@@ -12,7 +12,23 @@ dayjs.extend(customParseFormat)
 const model = require('../../orm/index')
 
 const verifyApt = async ( aid, start, end, tz ) => {
-    const apts = await model.Appointments.findAll({ where: { adminID: aid }});
+    const apts = await model.Appointments.findAll({ 
+        where: { 
+            adminID: aid,
+            startTime: {
+                [model.op.gte]: dayjs(start)
+                    .tz(tz)
+                    .set('hour', 0)
+                    .set('minute', 0)
+                },
+            endTime: {
+                [model.op.lte]: dayjs(end)
+                    .tz(tz)
+                    .set('hour', 23)
+                    .set('minute', 59)
+                }
+            }
+        });
     const adjustedTime = dayjs(start).tz(tz);
     const currentTime = dayjs().tz(tz);
     if(currentTime.utc(true).isAfter(adjustedTime, 'minute')) return false
@@ -39,7 +55,6 @@ export default async function handler(req, res) {
         const hm = dayjs(time, 'H:mm')
         const hour = hm.utc(true).get('hour')
         const minute = hm.utc(true).get('minute')
-        console.log(hour, ':', minute)
         const start = dayjs()
             .set('year', dayjs().year())
             .set('month', month)

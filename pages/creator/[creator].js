@@ -44,7 +44,7 @@ const UserProfile = () => {
                         <div className="column is-one-third">
                             <CreatorNamecard username={router.query.creator}/>
                             
-                            <CreateSchedule />
+                            <CreateSchedule types={types}/>
 
                             <AptTypeCreate creator={creator} />    
 
