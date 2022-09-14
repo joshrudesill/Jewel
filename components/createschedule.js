@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useFetchManager from "../util/usefetchmanager";
 import TimeOptions from "./timeoptions";
@@ -6,6 +7,7 @@ var isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
 dayjs.extend(isSameOrAfter)
 const CreateSchedule = ({ types }) => {
     const { 
+        reset,
         watch, 
         register, 
         setValue, 
@@ -39,6 +41,9 @@ const CreateSchedule = ({ types }) => {
     })
 
     const watchFields = watch()
+    useEffect(() => {
+        reset()
+    }, [])
     const e = () => {
         console.log('a')
     }
@@ -50,8 +55,7 @@ const CreateSchedule = ({ types }) => {
                         <span>Create Schedule</span>
                     </div>
                 </div>
-
-
+                
                 <form onSubmit={handleSubmit(e)}>
                 <div className="columns">
                     <div className="column">
@@ -75,6 +79,9 @@ const CreateSchedule = ({ types }) => {
                                     <select value={watchFields.to} {...register('to', {
                                         validate: {
                                             checkTimes: () => {
+                                                if(watchFields.from === '0' || watchFields.to === '0') {
+                                                    return 'You must select a time for both'
+                                                }
                                                 const fh = watchFields.from.substring(0, watchFields.from.indexOf(':'))
                                                 const fm =  watchFields.from.substring(watchFields.from.indexOf(':') +1, watchFields.from.length)
                                                 const th =  watchFields.to.substring(0, watchFields.to.indexOf(':'))

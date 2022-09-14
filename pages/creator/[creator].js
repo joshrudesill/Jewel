@@ -18,7 +18,12 @@ const UserProfile = () => {
     const [showClaimed, setShowClaimed] = useState('a')
     const [typeSort, setTypeSort] = useState(0)
     const [types, setTypes] = useState()
-    const aptTypes = useFetchManager('/api/getapttypes', { creator: creator }, 'GET')
+    const aptTypes = useFetchManager('/api/getapttypes', { creator: creator }, 'GET', false)
+    useEffect(() => {
+        if(creator !== undefined) {
+            aptTypes.execute()
+        }
+    }, [creator])
     useEffect(() => {
         if(!aptTypes.isHandlingRequest && aptTypes.status === 200) {
             setTypes(aptTypes.data)

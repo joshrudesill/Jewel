@@ -19,6 +19,7 @@ const useFetchManager = (url, params, method, immediate = true) => {
   const execute = useCallback(() => {
     const getData = async () => {
       console.log('getdata')
+      console.log(url)
       setIsHandlingRequest(true)
       setData(null)
       setError(null)
