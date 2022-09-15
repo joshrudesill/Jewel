@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     const type = parseInt(req.query.typesort)
     var params = { 
       adminID: auth.id, 
-      startTime: { [model.op.gte]: dayjs().toDate() }
+      startTime: { [model.op.gte]: dayjs().utc(true).toDate() }
     }
     
     if(claimed === 'c') {

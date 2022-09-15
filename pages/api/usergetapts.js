@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         }
         const gt = dayjs()
             .set('year', dayjs().year())
-            .set('date', d+1)
+            .set('date', d)
             .set('month', month)
             .set('hour', 0)
             .set('minute', 0)
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
             startTime: {
                 [model.op.and]: [
                     {[model.op.gte]: gt.utc(true).toDate()},
-                    {[model.op.gte]: dayjs().tz(tz).utc(true).toDate()},
+                    {[model.op.gte]: dayjs().utc(true).toDate()},
                     {[model.op.lte]: lt.utc(true).toDate()}
                 ],
             }

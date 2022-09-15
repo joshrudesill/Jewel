@@ -137,6 +137,7 @@ const sync = async () => {
   const a = await Appointments.sync({alter: true})
   console.log(a)
 }
+
 module.exports = { 
   Users, 
   Appointments, 

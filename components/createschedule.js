@@ -5,7 +5,7 @@ import TimeOptions from "./timeoptions";
 const dayjs = require('dayjs');
 var isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
 dayjs.extend(isSameOrAfter)
-const CreateSchedule = ({ types }) => {
+const CreateSchedule = ({ types, creator }) => {
     const { 
         reset,
         watch, 
@@ -22,11 +22,11 @@ const CreateSchedule = ({ types }) => {
             defaultValues: {
                 days: {
                     su: false,
-                    m: true,
-                    t: true,
-                    w: true,
+                    mo: true,
+                    tu: true,
+                    we: true,
                     th: true,
-                    f: true,
+                    fr: true,
                     sa: false
                 },
                 from: '9:00',
@@ -41,6 +41,7 @@ const CreateSchedule = ({ types }) => {
     })
 
     const watchFields = watch()
+    const { execute, data, status, isHandlingRequest, error } = useFetchManager('/api/createschedule', { watchFields, creator: creator }, 'POST', false)
     useEffect(() => {
         reset()
     }, [])
@@ -56,7 +57,7 @@ const CreateSchedule = ({ types }) => {
                     </div>
                 </div>
                 
-                <form onSubmit={handleSubmit(e)}>
+                <form onSubmit={handleSubmit(execute)}>
                 <div className="columns">
                     <div className="column">
                         <div className="field">
@@ -163,29 +164,29 @@ const CreateSchedule = ({ types }) => {
                             }
                         })} className='is-hidden'></input>
                         <div className="field">
-                            <label>Apply to days {errors?.days?.type === 'checkOneDay' ? errors.days.message : ''}</label>
+                            <label>Apply to days <span className="has-text-danger">{errors?.days?.type === 'checkOneDay' ? errors.days.message : ''}</span></label>
                         </div>
                         <div className="field is-grouped">
                             <div className="control">
-                                <button className={`button is-small ${watchFields.days.su ? 'has-background-primary' : ''} `} onClick={e => setValue('days.su', !watchFields.days.su)}>Su</button>
+                                <div className={`button is-small ${watchFields.days.su ? 'has-background-primary' : ''} `} onClick={() => setValue('days.su', !watchFields.days.su)}>Su</div>
                             </div>
                             <div className="control">
-                                <button className={`button is-small ${watchFields.days.m ? 'has-background-primary' : ''} `} onClick={e => setValue('days.m', !watchFields.days.m)}>Mo</button>
+                                <div className={`button is-small ${watchFields.days.mo ? 'has-background-primary' : ''} `} onClick={() => setValue('days.mo', !watchFields.days.mo)}>Mo</div>
                             </div>
                             <div className="control">
-                                <button className={`button is-small ${watchFields.days.t ? 'has-background-primary' : ''} `} onClick={e => setValue('days.t', !watchFields.days.t)}>Tu</button>
+                                <div className={`button is-small ${watchFields.days.tu ? 'has-background-primary' : ''} `} onClick={() => setValue('days.tu', !watchFields.days.tu)}>Tu</div>
                             </div>
                             <div className="control">
-                                <button className={`button is-small ${watchFields.days.w ? 'has-background-primary' : ''} `} onClick={e => setValue('days.w', !watchFields.days.w)}>We</button>
+                                <div className={`button is-small ${watchFields.days.we ? 'has-background-primary' : ''} `} onClick={() => setValue('days.we', !watchFields.days.we)}>We</div>
                             </div>
                             <div className="control">
-                                <button className={`button is-small ${watchFields.days.th ? 'has-background-primary' : ''} `} onClick={e => setValue('days.th', !watchFields.days.th)}>Th</button>
+                                <div className={`button is-small ${watchFields.days.th ? 'has-background-primary' : ''} `} onClick={() => setValue('days.th', !watchFields.days.th)}>Th</div>
                             </div>
                             <div className="control">
-                                <button className={`button is-small ${watchFields.days.f ? 'has-background-primary' : ''} `} onClick={e => setValue('days.f', !watchFields.days.f)}>Fr</button>
+                                <div className={`button is-small ${watchFields.days.fr ? 'has-background-primary' : ''} `} onClick={() => setValue('days.fr', !watchFields.days.fr)}>Fr</div>
                             </div>
                             <div className="control">
-                                <button className={`button is-small ${watchFields.days.sa ? 'has-background-primary' : ''} `} onClick={e => setValue('days.sa', !watchFields.days.sa)}>Sa</button>
+                                <div className={`button is-small ${watchFields.days.sa ? 'has-background-primary' : ''} `} onClick={() => setValue('days.sa', !watchFields.days.sa)}>Sa</div>
                             </div>
                             
                         </div>

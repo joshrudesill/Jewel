@@ -29,6 +29,7 @@ const verifyApt = async ( aid, start, end, tz ) => {
                 }
             }
         });
+    if(apts.length === 0) return true
     const adjustedTime = dayjs(start).tz(tz);
     const currentTime = dayjs().tz(tz);
     if(currentTime.utc(true).isAfter(adjustedTime, 'minute')) return false
