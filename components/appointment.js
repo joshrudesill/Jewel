@@ -29,8 +29,6 @@ const Appointment = ({ a, type }) => {
     if (deleted) return null
     
     return (
-    <div className='columns'>
-        <div className="column">
             <div className="card">
                 <div className="card-header" onClick={toggleShow}>
                     <div className="card-header-title">
@@ -43,36 +41,50 @@ const Appointment = ({ a, type }) => {
                     <AptTime start={a.startTime} end={a.endTime}/>
                 </div>
                 <div className={`${show ? '' : 'is-hidden'} card-content`}>
-                    <div className="columns">
-                        <div className="column is-narrow icon-text">
-                            <span className='icon'>
-                                <ion-icon name="time-outline" className=" is-size-4 mr-2 has-text-success"></ion-icon>
-                            </span>
-                            <span className="has-text-weight-bold mr-2">Times:</span>
-                            <AptDate startTime={a.startTime} endTime={a.endTime}/>
+                    <div className="content">
+                        <div className="columns">
+                            <div className="column is-narrow icon-text">
+                                <span className='icon'>
+                                    <ion-icon name="time-outline" className=" is-size-4 mr-2 has-text-success"></ion-icon>
+                                </span>
+                                <span className="has-text-weight-bold mr-2">Times:</span>
+                                <AptDate startTime={a.startTime} endTime={a.endTime}/>
+                            </div>
+                            <div className="column is-narrow icon-text">
+                                <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="cash-outline"></ion-icon></span>
+                                <span className="has-text-weight-bold mr-2">Price:</span>
+                                <span>{type ? type.price : <></>}</span>
+                            </div>
                         </div>
-                        <div className="column is-narrow icon-text">
-                            <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="cash-outline"></ion-icon></span>
-                            <span className="has-text-weight-bold mr-2">Price:</span>
-                            <span>{type ? type.price : <></>}</span>
+                        <div className="columns">
+                            <div className="column is-narrow icon-text">
+                                <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="person-outline"></ion-icon></span>
+                                <span className="has-text-weight-bold mr-2">Claimed by:</span>
+                                <span>{a.userEmail ? a.userEmail : 'Unclaimed'} {a.userEmail ? <button className="button is-small ml-3 is-rounded">Message</button> : null}</span>
+                            </div>
+                        </div>
+                        {
+                            a.message ? 
+                            <div className="columns">
+                                <div className="column">
+                                    <div className="content">
+                                        <span className="has-text-weight-medium">Message:</span>
+                                        <p className="subtitle">{a.message}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            : <></>
+                        }
+                        
+                        <div className="columns">
+                            <div className="column has-text-right p-0">
+                                <button className="button is-small is-danger is-rounded" onClick={onCancel} >Cancel</button>
+                            </div>
                         </div>
                     </div>
-                    <div className="columns">
-                        <div className="column is-narrow icon-text">
-                            <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="person-outline"></ion-icon></span>
-                            <span className="has-text-weight-bold mr-2">Claimed by:</span>
-                            <span>{a.userEmail ? a.userEmail : 'Unclaimed'} {a.userEmail ? <button className="button is-small ml-3 is-rounded">Message</button> : null}</span>
-                        </div>
+
                     </div>
-                    <div className="columns">
-                        <div className="column has-text-right p-0">
-                            <button className="button is-small is-danger is-rounded" onClick={onCancel} >Cancel</button>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-    </div>
 )}
 
 export default Appointment;

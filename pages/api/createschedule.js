@@ -10,12 +10,11 @@ dayjs.extend(isBetween)
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-
 export default async function handler(req, res) {
-
     const parsed = cookie.parse(req.headers.cookie)
     const auth = await verifyJWT(parsed.token, req.body.creator)
     if(auth.auth && auth.act === 'admin' && auth.username === req.body.creator) {
+        
         const { 
             days, 
             from, 
@@ -64,7 +63,6 @@ export default async function handler(req, res) {
         })
 
         var toDeleteIDs = []
-
         aptsToDelete.forEach(a => {
             const timet = dayjs(a.startTime)
             const time = timet.utc()
@@ -74,14 +72,7 @@ export default async function handler(req, res) {
             if(daysOfWeek.includes(time.day())) {
                 if(time.utc().isBetween(from.utc(), to.utc(), 'minute', '[]')) {
                     toDeleteIDs.push(a.id)
-                } else {
-                    console.log('time')
-                    console.log(time.hour(), time.minute())
-                    console.log('from')
-                    console.log(from.utc().hour(), from.utc().minute())
-                    console.log('to')
-                    console.log(to.utc().hour(), to.utc().minute())
-                }
+                } 
             }
         })
 
@@ -92,7 +83,6 @@ export default async function handler(req, res) {
                 [model.op.in]: toDeleteIDs
             }
         });
-        console.log(deleted)
         
         const timeDiffInMin = toTime.diff(fromTime, 'minute')
         const numAptsInPeriod = Math.floor(timeDiffInMin / length)
@@ -114,6 +104,10 @@ export default async function handler(req, res) {
             const efromTime = dayjs().set('hour', parseInt(efh)).set('minute', efm).second(0).millisecond(0)
             const etoTime = dayjs().set('hour', eth).set('minute',  etm).second(0).millisecond(0)
 
+            if(!efromTime.isBetween(fromTime, toTime) && !etoTime.isBetween(fromTime, toTime)) {
+                res.status(400).send()
+            } else {
+                
             const timeDiffInMin1P = efromTime.diff(fromTime, 'minute')
             const numAptsIn1P = Math.floor(timeDiffInMin1P / length)
             const timeDiffInMin2P = toTime.diff(etoTime, 'minute')
@@ -142,8 +136,6 @@ export default async function handler(req, res) {
                                 apt.aptType = type
                             }
                             aptsToAdd.push(apt)
-                        } else {
-                            
                         }
                     }
 
@@ -170,7 +162,7 @@ export default async function handler(req, res) {
                         }
                    }
                 }
-            }
+            }}
 
         } else {
 
@@ -200,7 +192,7 @@ export default async function handler(req, res) {
 
         
 
-        if(aptsToAdd.length > 0) {
+        if(aptsToAdd && aptsToAdd.length > 0) {
             const newSchedule = await model.Appointments.bulkCreate(aptsToAdd)
             if(newSchedule) {
                 res.status(200).send()
@@ -210,8 +202,11 @@ export default async function handler(req, res) {
         } else {
             res.status(404).send()
         }
+
     } else {
         res.status(401).send()
     }
+
+    
 
 }

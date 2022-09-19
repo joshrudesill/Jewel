@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetchManager from "../util/usefetchmanager";
 import TimeOptions from "./timeoptions";
@@ -18,7 +18,7 @@ const CreateSchedule = ({ types, creator }) => {
     } 
     = useForm(
         {
-            mode: 'onChange', 
+            mode: 'onSubmit', 
             defaultValues: {
                 days: {
                     su: false,
@@ -42,22 +42,31 @@ const CreateSchedule = ({ types, creator }) => {
 
     const watchFields = watch()
     const { execute, data, status, isHandlingRequest, error } = useFetchManager('/api/createschedule', { watchFields, creator: creator }, 'POST', false)
+    const [show, setShow] = useState(false)
     useEffect(() => {
         reset()
     }, [])
-    const e = () => {
-        console.log('a')
-    }
+
+    useEffect(() => {
+        if(!isHandlingRequest && data){
+            if(status === 200) {
+                alert('Success')
+            } else {
+                alert('Failed to create schedule')
+            }
+        }
+    }, [isHandlingRequest, status])
+
     return (
         <div className="card mt-5">
-            <div className="card-content p-3">
-                <div className="columns">
+            <div className="card-content has-text-weight-medium p-3">
+                <div className="columns" onClick={() => setShow(!show)}>
                     <div className="column has-background-success-light">
-                        <span>Create Schedule</span>
+                        <span>Create Schedule <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
                     </div>
                 </div>
                 
-                <form onSubmit={handleSubmit(execute)}>
+                <form onSubmit={handleSubmit(execute)} className={`${!show ? 'is-hidden' : ''}`}>
                 <div className="columns">
                     <div className="column">
                         <div className="field">
@@ -80,7 +89,9 @@ const CreateSchedule = ({ types, creator }) => {
                                     <select value={watchFields.to} {...register('to', {
                                         validate: {
                                             checkTimes: () => {
-                                                if(watchFields.from === '0' || watchFields.to === '0') {
+                                                const fromInt = parseInt(watchFields.from)
+                                                const toInt = parseInt(watchFields.to)
+                                                if(fromInt === 0 || toInt === 0) {
                                                     return 'You must select a time for both'
                                                 }
                                                 const fh = watchFields.from.substring(0, watchFields.from.indexOf(':'))
@@ -126,13 +137,15 @@ const CreateSchedule = ({ types, creator }) => {
                                     <select value={watchFields.eto} {...register('eto', {
                                             validate: {
                                                 checkTimes: () => {
-                                                    if(watchFields.efrom === 0 && watchFields.eto === 0) {
+                                                    const efromInt = parseInt(watchFields.efrom)
+                                                    const etoInt = parseInt(watchFields.eto)
+                                                    if(efromInt=== 0 && etoInt === 0) {
                                                         return true
                                                     }
-                                                    if(watchFields.efrom !== 0 && watchFields.eto === 0) {
+                                                    if(efromInt !== 0 && etoInt === 0) {
                                                         return 'You must choose a time for both'
                                                     }
-                                                    if(watchFields.efrom === 0 && watchFields.eto !== 0) {
+                                                    if(efromInt === 0 && etoInt !== 0) {
                                                         return 'You must choose a time for both'
                                                     }
                                                     const fh = watchFields.efrom.substring(0, watchFields.efrom.indexOf(':'))
@@ -260,7 +273,7 @@ const CreateSchedule = ({ types, creator }) => {
                         </div>
                     </div>
                 </div>
-                <input type='submit'></input>
+                <button type='submit' className="button is-small is-primary" disabled={isHandlingRequest}>Submit</button>
                 </form>
             </div>
         </div>

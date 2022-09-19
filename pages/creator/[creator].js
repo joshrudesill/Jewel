@@ -18,6 +18,8 @@ const UserProfile = () => {
     const [showClaimed, setShowClaimed] = useState('a')
     const [typeSort, setTypeSort] = useState(0)
     const [types, setTypes] = useState()
+    const [date, setDate] = useState()
+   
     const aptTypes = useFetchManager('/api/getapttypes', { creator: creator }, 'GET', false)
     useEffect(() => {
         if(creator !== undefined) {
@@ -72,6 +74,8 @@ const UserProfile = () => {
                                 typesort={typeSort}
                                 settypesort={setTypeSort}
                                 types={types}
+                                date={date}
+                                setdate={setDate}
                             />
 
                             <AptListv2 
@@ -80,6 +84,7 @@ const UserProfile = () => {
                                 showclaimed={showClaimed}
                                 typesort={typeSort}
                                 types={types}
+                                date={date}
                             />
 
                         </div>

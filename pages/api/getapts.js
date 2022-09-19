@@ -16,6 +16,9 @@ export default async function handler(req, res) {
     const claimed = req.query.claimed;
     const sortby = req.query.sortby === 'dd' ? 'DESC' : 'ASC'
     const pages = req.query.page;
+    const { month, day } = req.query;
+    const m = parseInt(month)
+    const d = parseInt(day)
     const type = parseInt(req.query.typesort)
     var params = { 
       adminID: auth.id, 
@@ -30,6 +33,22 @@ export default async function handler(req, res) {
     if(type !== 0) {
       params.aptType = type
     }
+    if(d !== 0 && m !== 0) {
+      const gt = dayjs()
+            .set('year', dayjs().year())
+            .set('date', day)
+            .set('month', month)
+            .set('hour', 0)
+            .set('minute', 0)
+            .set('second', 0)
+      const lt = dayjs(gt).add(86399, 'second')
+      params.startTime = {
+        [model.op.and]: [
+            {[model.op.gte]: gt.utc(true).toDate()},
+            {[model.op.lte]: lt.utc(true).toDate()}
+        ],
+    }
+    }
     
     const apts = await model.Appointments.findAndCountAll(
       { where: params, 
@@ -38,7 +57,7 @@ export default async function handler(req, res) {
         ],
         offset: (pages - 1) * 10,
         limit: 10,
-        attributes: { exclude: ['message'] }
+        
       })
 
     if (apts) {

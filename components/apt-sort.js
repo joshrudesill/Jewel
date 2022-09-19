@@ -1,6 +1,11 @@
+import DayOptions from "./day-options";
+import MonthOptions from "./month-options";
+import {useState} from 'react';
 
-
-const AptSort = ({ sortby, setsortby, showclaimed, setshowclaimed, typesort, settypesort, types }) => (
+const AptSort = ({ sortby, setsortby, showclaimed, setshowclaimed, typesort, settypesort, types, date, setdate }) => {
+        const [month, setMonth] = useState()
+        const [day, setDay] = useState()
+        return (
         <div className="columns">
             <div className="column">
                 <div className="box is-shadowless has-background-success-light p-3">
@@ -57,11 +62,42 @@ const AptSort = ({ sortby, setsortby, showclaimed, setshowclaimed, typesort, set
                                 </div>
                             </div>
                         </div>
+                        <div className="column is-narrow">
+                            <div className="field">
+                                <label className="label is-size-7">Month</label>
+                                <div className="control">
+                                    <div className="select is-small is-rounded">
+                                        <MonthOptions updateState={setMonth} includeDefault={true}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="column is-narrow">
+                            <div className="field">
+                                <label className="label is-size-7">Day</label>
+                                <div className="control">
+                                    <div className="select is-small is-rounded">
+                                        <select value={date ? date.d : 0} onChange={e=>setDay(e.target.value)}>
+                                            <option value='0'>All</option>
+                                            <DayOptions 
+                                                date={date} 
+                                                setdate={setdate} 
+                                                day={day}
+                                                setday={setDay}
+                                                optionsOnly={true}
+                                                month={month}
+                                            />
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-)
+    )
+}
 
 
 export default AptSort;

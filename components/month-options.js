@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 const dayjs = require('dayjs');
 
-const MonthOptions = ({ reg, setVal, updateState }) => {
+const MonthOptions = ({ reg, setVal, updateState, includeDefault = false }) => {
     const [months, setMonths] = useState()
     var register = {}
     useEffect(() => {
@@ -20,8 +20,10 @@ const MonthOptions = ({ reg, setVal, updateState }) => {
         if(months && setVal) {
             setVal('month', months[0].v - 1)
         }
-        if(months && updateState) {
+        if(months && updateState && !includeDefault) {
             updateState(months[0].v -1)
+        } else if(updateState && months && includeDefault){
+            updateState(-1)
         }
     }, [months, setVal])
     if(reg) {
@@ -35,6 +37,9 @@ const MonthOptions = ({ reg, setVal, updateState }) => {
     }
     return (
         <select onChange={e => onSelectChange(e)} defaultValue={dayjs().format('M') -1} {...register}>
+            {
+                includeDefault ? <option value={-1}>Select Month</option> : <></>
+            }
             {
                 months ? months.map((m, i) => <option value={m.v -1} key={m.v}>{m.m}</option>) : ''
             }
