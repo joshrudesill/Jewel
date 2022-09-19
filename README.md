@@ -16,7 +16,7 @@
 
 ## Technologies Used
 ### Big players
-- Next.js / React.js
+- Next.js / React.js (with custom hooks)
 - PlanetScale serverless MySQL database
 - Sequelize ORM
 - Dayjs
