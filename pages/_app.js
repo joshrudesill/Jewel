@@ -4,16 +4,14 @@ import Script from 'next/script'
 
 function MyApp({ Component, pageProps }) {
   return <>
-  <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=G-8X7CQ21G90`} />
+  <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=G-8X7CQ21G90`} />
 
-<Script strategy="lazyOnload" id='gtag'>
+<Script strategy="afterInteractive" id='gtag'>
     {`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-8X7CQ21G90', {
-        page_path: window.location.pathname,
-        });
+        gtag('config', 'G-8X7CQ21G90');
     `}
 </Script>
   <Component {...pageProps} />
