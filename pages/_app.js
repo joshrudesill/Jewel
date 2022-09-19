@@ -3,7 +3,7 @@ import 'bulma'
 import Script from 'next/script'
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import * as gtag from '../lib/gtag'
+import * as gtag from '../lib/gtag.js'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }) {
       router.events.off('routeChangeComplete', handleRouteChange)
       router.events.off('hashChangeComplete', handleRouteChange)
     }
+    
   }, [router.events])
   return <>
   <Script
