@@ -30,7 +30,7 @@ const Appointment = ({ a, type }) => {
     
     return (
             <div className="card">
-                <div className="card-header" onClick={toggleShow}>
+                <div className="card-header is-clickable is-unselectable" onClick={toggleShow}>
                     <div className="card-header-title">
                         <div className="icon-text">
                             {type ? <span className="mr-1">{type.typeName}</span> : <></>}

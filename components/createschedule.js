@@ -8,6 +8,7 @@ dayjs.extend(isSameOrAfter)
 const CreateSchedule = ({ types, creator }) => {
     const { 
         reset,
+        resetField,
         watch, 
         register, 
         setValue, 
@@ -36,13 +37,17 @@ const CreateSchedule = ({ types, creator }) => {
                 type: 0,
                 length: 45,
                 nextunit: 'week',
-                nextamount: 1
+                nextamount: 1,
+                price: 0
             }
     })
 
     const watchFields = watch()
     const { execute, data, status, isHandlingRequest, error } = useFetchManager('/api/createschedule', { watchFields, creator: creator }, 'POST', false)
     const [show, setShow] = useState(false)
+    const [lockDuration, setLockDuration] = useState(false)
+    const [lockPrice, setLockPrice] = useState(false)
+    const [typeIndex, setTypeIndex] = useState()
     useEffect(() => {
         reset()
     }, [])
@@ -56,11 +61,32 @@ const CreateSchedule = ({ types, creator }) => {
             }
         }
     }, [isHandlingRequest, status])
+    useEffect(() => {
+        if(parseInt(watchFields.type) === 0) {
+            resetField('length', { defaultValue: 45 })
+            setLockDuration(false)
+        } else {
+            if(types) {
+                const typefound = types.findIndex(t => t.id === parseInt(watchFields.type))
+                if(typefound !== -1) {
+                    setTypeIndex(typefound)
+                    setLockDuration(true)
+                }
+            }
+        }
+    }, [watchFields.type])
+
+    useEffect(() => {
+        if(types && lockDuration) {
+            setValue('length', types[typeIndex].defaultTime)
+        }
+    }, [typeIndex])
+
 
     return (
         <div className="card mt-5">
             <div className="card-content has-text-weight-medium p-3">
-                <div className="columns" onClick={() => setShow(!show)}>
+                <div className="columns is-clickable is-unselectable" onClick={() => setShow(!show)}>
                     <div className="column has-background-success-light">
                         <span>Create Schedule <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
                     </div>
@@ -212,13 +238,19 @@ const CreateSchedule = ({ types, creator }) => {
                             <label>Time of Appointments</label>
                             <div className="control ">
                                 <div className="select is-small is-rounded is-fullwidth">
-                                    <select {...register('length')}>
-                                        <option value={15}>15 min</option>
-                                        <option value={30}>30 min</option>
-                                        <option value={45}>45 min</option>
-                                        <option value={60}>60 min</option>
-                                        <option value={90}>90 min</option>
-                                        <option value={120}>120 min</option>
+                                    
+                                    <select value={watchFields.length} {...register('length')} disabled={lockDuration}>
+                                        {
+                                            lockDuration && types ? <option value={types[typeIndex].defaultTime}>{`${types[typeIndex].defaultTime} min`}</option> : 
+                                            <>
+                                                <option value={15}>15 min</option>
+                                                <option value={30}>30 min</option>
+                                                <option value={45}>45 min</option>
+                                                <option value={60}>60 min</option>
+                                                <option value={90}>90 min</option>
+                                                <option value={120}>120 min</option>
+                                            </>
+                                        }
                                     </select>
                                 </div>
                             </div>

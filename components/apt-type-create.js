@@ -1,19 +1,30 @@
 import { useForm } from "react-hook-form";
 import useFetchManager from '../util/usefetchmanager';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const AptTypeCreate = ({ creator }) => {
     const { handleSubmit, register, formState: { errors, isValid, isDirty }, watch } = useForm({ mode: 'onSubmit' })
     const watchFields = watch();
-    const { isHandlingRequest, error, status, execute } = useFetchManager('/api/createtype', { watchFields, admin: creator } , 'POST', false);
+    const { isHandlingRequest, error, status, execute, data } = useFetchManager('/api/createtype', { watchFields, admin: creator } , 'POST', false);
     const onError = e => console.log(e)
     const [show,  setShow] = useState(false)
+
+    useEffect(() => {
+        if(!isHandlingRequest && data){
+            if(status === 200) {
+                alert('Success')
+            } else {
+                alert('Failed to create schedule')
+            }
+        }
+    }, [isHandlingRequest, status])
+
     return (
         <div className="card mt-5" >
             <div className="card-content has-text-weight-medium p-3">
-                <div className="columns" onClick={() => setShow(!show)}>
+                <div className="columns is-clickable is-unselectable" onClick={() => setShow(!show)}>
                     <div className="column has-background-success-light">
-                        <span>Create Appointment Type <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
+                        <span>Create Appointment Type <span className="has-text-weight-light ">{`${!show ? 'Click to expand' : ''}`}</span></span>
                     </div>
                 </div>
                 <form className={`${!show ? 'is-hidden' : ''}`} onSubmit={ handleSubmit(execute, onError) }>
@@ -44,7 +55,7 @@ const AptTypeCreate = ({ creator }) => {
                                         ...register('price' , {
                                             required: 'This field is required',
                                             pattern: {
-                                                value: /^\d{0,8}(\.\d{1,4})?$/,
+                                                value: /^\d{0,8}(\.\d{1,2})?$/,
                                                 message: 'Not a valid price'
                                             }
                                         })
@@ -68,11 +79,6 @@ const AptTypeCreate = ({ creator }) => {
                                         })
                                     }></input>
                                 </div>
-                                <p className="control">
-                                    <a className="button is-primary is-small is-rounded">
-                                        Always use
-                                    </a>
-                                </p>
                             </div>
                         </div>
                     </div>

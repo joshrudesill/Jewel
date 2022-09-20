@@ -12,12 +12,14 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const CreateAppointment = ({ username, types }) => {
-    const { setValue, register, handleSubmit, formState: { errors }, reset, watch } = useForm({mode: 'onSubmit', defaultValues: { time: '9:00' }});
+    const { setValue, resetField, register, handleSubmit, formState: { errors }, reset, watch } = useForm({mode: 'onSubmit', defaultValues: { time: '9:00' }});
     const watchFields = watch()
     const tz = dayjs.tz.guess()
     const router = useRouter();
     const fm = useFetchManager('/api/createapt', { watchFields, tz: tz, username: username }, 'POST', false)
     const [show,  setShow] = useState(false)
+    const [lockDuration, setLockDuration] = useState(false)
+    const [typeIndex, setTypeIndex] = useState()
     useEffect(() => {
         if(!fm.isHandlingRequest) {
             if (fm.status === 201) {
@@ -34,12 +36,31 @@ const CreateAppointment = ({ username, types }) => {
             }
         }
     }, [fm.status, fm.isHandlingRequest])
+    useEffect(() => {
+        if(parseInt(watchFields.type) === 0) {
+            resetField('duration')
+            setLockDuration(false)
+        } else {
+            if(types) {
+                const typefound = types.findIndex(t => t.id === parseInt(watchFields.type))
+                if(typefound !== -1) {
+                    setTypeIndex(typefound)
+                    setLockDuration(true)
+                }
+            }
+        }
+    }, [watchFields.type])
 
+    useEffect(() => {
+        if(types && lockDuration) {
+            setValue('duration', types[typeIndex].defaultTime)
+        }
+    }, [typeIndex])
 
     return (
         <div className="card mt-5" >
             <div className="card-content has-text-weight-medium p-3">
-                <div className="columns" onClick={() => setShow(!show)}>
+                <div className="columns is-clickable is-unselectable" onClick={() => setShow(!show)}>
                     <div className="column has-background-success-light">
                         <span>Create Appointment <span className="has-text-weight-light">{`${!show ? 'Click to expand' : ''}`}</span></span>
                     </div>
@@ -91,7 +112,7 @@ const CreateAppointment = ({ username, types }) => {
                 <div className="field">
                     <label className="label is-size-7">Duration (minutes) {errors.duration?.message ? <span className="has-text-danger">({errors.duration?.message})</span> : ''}</label>
                     <div className="control">
-                    <input className="input is-small is-rounded" type="text" placeholder="Day" 
+                    <input className="input is-small is-rounded" type="text" placeholder="15 min" disabled={lockDuration}
                     {...register('duration', 
                             { 
                                     required: true, 

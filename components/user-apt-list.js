@@ -11,7 +11,16 @@ const UserAptList = ({ day, month, date, type }) => {
     const router = useRouter();
     const creator = router.query.scheduler
     const tz = dayjs.tz.guess()
-    const { isHandlingRequest, data, error } = useFetchManager('/api/usergetapts', { creator: creator, day: date ? date.d : undefined, month: date ? date.m : undefined, type: type, tz: tz } , 'GET')
+    const { isHandlingRequest, data, error } = useFetchManager('/api/usergetapts', 
+    { 
+        creator: creator, 
+        day: date ? date.d : undefined, 
+        month: date ? date.m : undefined, 
+        type: type, 
+        tz: tz 
+    }, 
+        'GET'
+    )
 
     if (error) return <>{error}</>
     if (isHandlingRequest) return <>Loading..</>
