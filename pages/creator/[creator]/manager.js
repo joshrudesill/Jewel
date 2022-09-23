@@ -111,7 +111,7 @@ const Manager = () => {
                     </ul>
                 </div>
                 <div className="container p-1">
-                    { visibilityState.schedule ? <CreateSchedule manager={true} types={types} showMessage={messageState.schedule} dispatch={messageDispatch}/> : <></>}
+                    { visibilityState.schedule ? <CreateSchedule creator={creator} manager={true} types={types} showMessage={messageState.schedule} dispatch={messageDispatch}/> : <></>}
                     { visibilityState.createapt ? <CreateAppointment types={types}/> : <></>}
                     { visibilityState.createtype ? <AptTypeCreate types={types}/> : <></>}
                 </div>

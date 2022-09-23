@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Link from 'next/link'
-import { useRouter } from "next/router";
 
 const CreatorNavBar = ({ creator })  => {
     const [showMenu, setShowMenu] = useState(false)
@@ -43,7 +42,7 @@ const CreatorNavBar = ({ creator })  => {
                     <a className="navbar-item" target='_blank'>
                         Blog
                     </a>
-                    <a className="navbar-item" target='_blank' href="github.com/joshrudesill/jewel">
+                    <a className="navbar-item" target='_blank' href="https://github.com/joshrudesill/jewel">
                         GitHub
                     </a>
                     

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetchManager from "../util/usefetchmanager";
+import useScreenSize from "../util/usescreensize";
 import TimeOptions from "./timeoptions";
 const dayjs = require('dayjs');
 var isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
@@ -51,6 +52,14 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
     useEffect(() => {
         reset()
     }, [])
+    
+    const { width } = useScreenSize()
+    
+    useEffect(() => {
+        if(width < 1000) {
+            console.log('wdith less than 1000')
+        }
+    }, [width])
 
     useEffect(() => {
         if(!isHandlingRequest && data){
@@ -86,7 +95,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
     <>
     
     <div className="columns is-centered">
-        <div className="column is-8">
+        <div className="column is-9">
             <div className="columns">
                 <div className="column">    
                     <div className={`${!showMessage ? 'is-hidden' : ''} notification is-shadowless has-background-primary p-3`}>
@@ -95,7 +104,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                         </span>
                         <button className="delete" onClick={()=>dispatch({type: 'schedule'})}></button>
                         <span>
-                            Once submitted this while create appointments of your desired time and within your desired time frame with an optional break. It will only apply to the days you choose
+                            Once submitted this will create appointments of your desired time and within your desired time frame with an optional break. It will only apply to the days you choose
                             and for the amount of weeks or months you want. Note: if you select a type it will lock the time and will also apply the appointment type price to all created appointments.<br/>
                             <span className="has-text-danger">Important: </span><span className="is-underlined"> Once submitted all conflicting appointments in your selected timeframe will be deleted and replaced!</span>
                         </span>
@@ -109,7 +118,15 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                     <div className="columns">
                         <div className="column">
                             <div className="field">
-                                <label>From</label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        From
+                                    </span>
+
+                                </label>
                                 <div className="control">
                                     <div className="select is-rounded is-small is-fullwidth">
                                         <select {...register('from')} value={watchFields.from}>
@@ -122,7 +139,14 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                         </div>
                         <div className="column">
                             <div className="field">
-                                <label>To</label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        To 
+                                    </span>
+                                </label>
                                 <div className="control">
                                     <div className="select is-rounded is-small is-fullwidth">
                                         <select value={watchFields.to} {...register('to', {
@@ -157,7 +181,15 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                     <div className="columns">
                         <div className="column">
                             <div className="field">
-                                <label>Except From</label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Except From
+                                    </span>
+                                        
+                                </label>
                                 <div className="control">
                                     <div className="select is-rounded is-small is-fullwidth">
                                         <select value={watchFields.efrom} {...register('efrom')}>
@@ -170,7 +202,15 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                         </div>
                         <div className="column">
                             <div className="field">
-                                <label>To</label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        To 
+                                    </span>
+                                        
+                                </label>
                                 <div className="control">
                                     <div className="select is-rounded is-small is-fullwidth">
                                         <select value={watchFields.eto} {...register('eto', {
@@ -216,7 +256,15 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                                 }
                             })} className='is-hidden'></input>
                             <div className="field">
-                                <label>Apply to days <span className="has-text-danger">{errors?.days?.type === 'checkOneDay' ? errors.days.message : ''}</span></label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Apply To Days <span className="has-text-danger">{errors?.days?.type === 'checkOneDay' ? errors.days.message : ''}</span>
+                                    </span>
+                                
+                                </label>
                             </div>
                             <div className="field is-grouped">
                                 <div className="control">
@@ -248,7 +296,15 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                     <div className="columns">
                         <div className="column">
                             <div className="field">
-                                <label>Time of Appointments</label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Time Of Appointments
+                                    </span>
+                                
+                                </label>
                                 <div className="control ">
                                     <div className="select is-small is-rounded is-fullwidth">
                                         
@@ -271,7 +327,15 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                         </div>
                         <div className="column">
                             <div className="field">
-                                <label>Type</label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Type 
+                                    </span>
+                                
+                                </label>
                                 <div className="control">
                                     <div className="select is-small is-rounded is-fullwidth">
                                         <select {...register('type')}>
@@ -294,7 +358,15 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                     <div className="columns">
                         <div className="column">
                             <div className="field">
-                                <label>For the next</label>
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        For The Next 
+                                    </span>
+                                
+                                </label>
                             </div>
                             <div className="field is-grouped">
                                 <div className="control">
@@ -321,10 +393,8 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                     
                 </div>
                 <div className="card-footer">
-                    <div className="card-footer-item">
-                    </div>
                 </div>
-                <button type='submit' className="button is-primary is-small card-footer-item is-3" disabled={isHandlingRequest}>Submit</button>
+                <button type='submit' className="button is-primary is-small card-footer-item mt-2" disabled={isHandlingRequest}>Submit</button>
             </div>
             </form>
         </div>
