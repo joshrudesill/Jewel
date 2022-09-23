@@ -1,8 +1,10 @@
 import { useState } from "react";
+import Link from 'next/link'
+import { useRouter } from "next/router";
 
-
-const CreatorNavBar = () => {
+const CreatorNavBar = ({ creator })  => {
     const [showMenu, setShowMenu] = useState(false)
+    
     return (
         <nav className="navbar is-primary">
             <div className="navbar-brand">
@@ -20,20 +22,31 @@ const CreatorNavBar = () => {
             </div>
             <div className={`navbar-menu ${showMenu ? 'is-active' : ''}`}>
                 <div className="navbar-start">
-                    <a className="navbar-item">
-                        Creator
-                    </a>
-                    <a className="navbar-item is-active">
-                        Manager
-                    </a>
+                    <Link href={{
+                      pathname: '/creator/[slug]',
+                      query: { slug: creator },
+                    }}>
+                        <a className="navbar-item">
+                            Appointments
+                        </a>
+                    </Link>
+                    <Link href={{
+                      pathname: '/creator/[slug]/manager',
+                      query: { slug: creator },
+                    }}>
+                        <a className="navbar-item">
+                            Manager
+                        </a>
+                    </Link>
                 </div>
                 <div className="navbar-end">
-                    <a className="navbar-item">
+                    <a className="navbar-item" target='_blank'>
                         Blog
                     </a>
-                    <a className="navbar-item">
+                    <a className="navbar-item" target='_blank' href="github.com/joshrudesill/jewel">
                         GitHub
                     </a>
+                    
                 </div>
             </div>
         </nav>
