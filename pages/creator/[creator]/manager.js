@@ -8,16 +8,17 @@ const Manager = () => {
     return (
         <>  
                 <CreatorNavBar />
-                <div class="tabs is-centered is-boxed mt-2">
+                <div className="tabs is-centered is-boxed mt-2">
                     <ul>
-                        <li class="is-active"><a>Create Schedule</a></li>
+                        <li className="is-active"><a>Create Schedule</a></li>
                         <li><a>Create Appointment</a></li>
-                        <li><a>Manager Appointment Types</a></li>
+                        <li><a>Manage Appointment Types</a></li>
                     </ul>
                 </div>
-                <CreateSchedule />
-                <CreateAppointment />
-                <AptTypeCreate />
+                <div className="container p-1">
+                    <CreateSchedule manager={true}/>
+                </div>
+                
             </>
         )
 }

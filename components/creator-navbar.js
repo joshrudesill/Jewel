@@ -23,7 +23,7 @@ const CreatorNavBar = () => {
                     <a className="navbar-item">
                         Creator
                     </a>
-                    <a className="navbar-item">
+                    <a className="navbar-item is-active">
                         Manager
                     </a>
                 </div>
