@@ -7,9 +7,11 @@ const AptListv2 = ({ creator, sortBy, showclaimed, typesort, types, date }) => {
   const [page, setPage] = useState(1)
   const [typesL, setTypesL] = useState()
   const { isHandlingRequest, data, error } = useFetchManager('/api/getapts', { creator: creator, sortby: sortBy, claimed: showclaimed, typesort: typesort, page: page, day: date ? date.d : 0, month: date ? date.m : 0 }, 'GET')
+
   useEffect(() => {
     setPage(1)
-  }, [showclaimed, typesort])
+  }, [showclaimed, typesort, date])
+  
   useEffect(() => {
     if(types !== undefined) {
       var arrToAdd = {}

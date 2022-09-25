@@ -59,24 +59,24 @@ const CreateAppointment = ({ username, types }) => {
 
     return (
         <div className="columns is-centered">
-            <div className="column is-8">
-            <div className="columns">
-                <div className="column">    
-                    <div className={`notification is-shadowless has-background-primary p-3`}>
-                        <span className="icon-text">
-                            <span className="icon is-size-5"><ion-icon name="information-circle-outline"></ion-icon></span>
-                        </span>
-                        <button className="delete"></button>
-                        <span>
-                            Once submitted this will create an appointment on the desired month, day, and time. The duration is also required unless you select an appointment type in which case in will lock the duration
-                            to the duration of the selected type.
-                            <br/>
-                            <span className="has-text-danger">Important: </span><span className="is-underlined"> If there are conflicting appointments within your criteria the appointment will not be created and you will be notified!</span>
-                        </span>
+            <div className="column is-9">
+                <div className="columns">
+                    <div className="column">    
+                        <div className={`notification is-shadowless has-background-primary p-3`}>
+                            <span className="icon-text">
+                                <span className="icon is-size-5"><ion-icon name="information-circle-outline"></ion-icon></span>
+                            </span>
+                            <button className="delete"></button>
+                            <span>
+                                Once submitted this will create an appointment on the desired month, day, and time. The duration is also required unless you select an appointment type in which case in will lock the duration
+                                to the duration of the selected type.
+                                <br/>
+                                <span className="has-text-danger">Important: </span><span className="is-underlined"> If there are conflicting appointments within your criteria the appointment will not be created and you will be notified!</span>
+                            </span>
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
                 <div className="card mt-3" >
                     <div className="card-content has-text-weight-medium p-3">
                         <form onSubmit={handleSubmit(execute)}>

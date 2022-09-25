@@ -66,18 +66,17 @@ export default async function handler(req, res) {
         aptsToDelete.forEach(a => {
             const timet = dayjs(a.startTime)
             const time = timet.utc()
+            const endtime = time.add(length, 'minutes')
             const from = dayjs(a.startTime).hour(fh).minute(fm).utc(true)
             const to = dayjs(a.startTime).hour(th).minute(tm).utc(true)
 
             if(daysOfWeek.includes(time.day())) {
-                if(time.utc().isBetween(from.utc(), to.utc(), 'minute', '[]')) {
+                if(time.utc().isBetween(from.utc(), to.utc(), 'minute', '[]') || endtime.utc().isBetween(from.utc(), to.utc(), 'minute', '[]')) {
                     toDeleteIDs.push(a.id)
                 } 
             }
         })
 
-        console.log(toDeleteIDs)
-        
         const deleted = await queryInterface.bulkDelete('appointments', {
             id: {
                 [model.op.in]: toDeleteIDs

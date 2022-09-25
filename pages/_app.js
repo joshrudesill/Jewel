@@ -1,5 +1,6 @@
-import '../styles/globals.css'
 import 'bulma'
+import '../styles/globals.css'
+import 'bulma-tooltip'
 import Script from 'next/script'
 
 function MyApp({ Component, pageProps }) {
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }) {
 </Script>
   <Component {...pageProps} />
   <Script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></Script>
+  <Script type="module" src="https://www.jsdelivr.com/package/npm/@creativebulma/bulma-tooltip"></Script>
   <Script noModule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></Script>
 
 

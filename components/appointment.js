@@ -60,7 +60,7 @@ const Appointment = ({ a, type }) => {
                             <div className="column is-narrow icon-text">
                                 <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="person-outline"></ion-icon></span>
                                 <span className="has-text-weight-bold mr-2">Claimed by:</span>
-                                <span>{a.userEmail ? a.userEmail : 'Unclaimed'} {a.userEmail ? <button className="button is-small ml-3 is-rounded">Message</button> : null}</span>
+                                <span>{a.userEmail ? a.userEmail : 'Unclaimed'}</span>
                             </div>
                         </div>
                         {

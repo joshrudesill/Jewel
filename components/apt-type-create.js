@@ -7,7 +7,6 @@ const AptTypeCreate = ({ creator }) => {
     const watchFields = watch();
     const { isHandlingRequest, error, status, execute, data } = useFetchManager('/api/createtype', { watchFields, admin: creator } , 'POST', false);
     const onError = e => console.log(e)
-    const [show,  setShow] = useState(false)
 
     useEffect(() => {
         if(!isHandlingRequest && data){
@@ -20,20 +19,27 @@ const AptTypeCreate = ({ creator }) => {
     }, [isHandlingRequest, status])
 
     return (
-        <div className="card mt-5" >
+        <div className="columns is-centered">
+            <div className="column is-7">
+
+        
+        <div className="card mt-5">
             <div className="card-content has-text-weight-medium p-3">
-                <div className="columns is-clickable is-unselectable" onClick={() => setShow(!show)}>
-                    <div className="column has-background-success-light">
-                        <span>Create Appointment Type <span className="has-text-weight-light ">{`${!show ? 'Click to expand' : ''}`}</span></span>
-                    </div>
-                </div>
-                <form className={`${!show ? 'is-hidden' : ''}`} onSubmit={ handleSubmit(execute, onError) }>
+                <form onSubmit={ handleSubmit(execute, onError) }>
                     <div className="columns">
                         <div className="column">
                             <div className="field">
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Type Name <span className="has-text-danger">{errors.tname?.message}</span>
+                                    </span>
+                                
+                                </label>
                                 <div className="control">
-                                    <label className="label is-small">Type Name <span className="has-text-danger">{errors.tname?.message}</span></label>
-                                    <input className="input is-rounded is-small" type='text' {
+                                    <input className="input is-rounded " type='text' {
                                         ...register('tname' , {
                                             required: {
                                                 value: true,
@@ -49,9 +55,17 @@ const AptTypeCreate = ({ creator }) => {
                     <div className="columns">
                         <div className="column">
                             <div className="field">
+                            <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Price <span className="has-text-danger">{errors.price?.message}</span>
+                                    </span>
+                                
+                                </label>
                                 <div className="control">
-                                    <label className="label is-small">Price <span className="has-text-danger">{errors.price?.message}</span></label>
-                                    <input className="input is-rounded is-small" type='text' {
+                                    <input className="input is-rounded " type='text' {
                                         ...register('price' , {
                                             required: 'This field is required',
                                             pattern: {
@@ -66,10 +80,18 @@ const AptTypeCreate = ({ creator }) => {
                     </div>
                     <div className="columns">
                         <div className="column">
-                            <label className="label is-small">Default Time (minutes) <span className="has-text-danger">{errors.dtime?.message}</span></label>
-                            <div className="field has-addons has-addons-right">
+                            <div className="field">
+                                <label className="icon-text is-size-5 mb-1" >
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Default Time<span className="has-text-danger" >{errors.dtime?.message}</span>
+                                    </span>
+                                
+                                </label>
                                 <div className="control is-expanded">
-                                    <input className="input is-rounded is-small" type='text' {
+                                    <input className="input is-rounded " type='text' {
                                         ...register('dtime' , {
                                             required: 'This field is required',
                                             pattern: {
@@ -85,8 +107,16 @@ const AptTypeCreate = ({ creator }) => {
                     <div className="columns">
                         <div className="column">
                             <div className="field">
+                                <label className="icon-text is-size-5 mb-1">
+                                    <span className="icon">
+                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                    </span>
+                                    <span className="label">
+                                        Type Name <span className="has-text-danger">{errors.tdesc?.message}</span>
+                                    </span>
+                                
+                                </label>
                                 <div className="control">
-                                    <label className="label is-small">Type Description <span className="has-text-danger">{errors.tdesc?.message}</span></label>
                                     <textarea className="textarea is-rounded " type='text' {
                                         ...register('tdesc' , {
                                             required: false,
@@ -100,14 +130,14 @@ const AptTypeCreate = ({ creator }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="columns">   
-                        <div className="column">
-                            <button type='submit' className="button is-small">Submit</button>
-                        </div>
+                    <div className="card-footer">
                     </div>
+                    <button type='submit' className="button is-primary  card-footer-item mt-2" disabled={isHandlingRequest}>Submit</button>
                 </form>
             </div>
         </div>
+    </div>
+</div>
     )
 }
 

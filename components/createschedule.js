@@ -120,7 +120,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                             <div className="field">
                                 <label className="icon-text is-size-5 mb-1">
                                     <span className="icon">
-                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                        <ion-icon name="play-outline"></ion-icon>
                                     </span>
                                     <span className="label">
                                         From
@@ -141,7 +141,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                             <div className="field">
                                 <label className="icon-text is-size-5 mb-1">
                                     <span className="icon">
-                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                        <ion-icon name="stop-outline"></ion-icon>
                                     </span>
                                     <span className="label">
                                         To 
@@ -183,7 +183,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                             <div className="field">
                                 <label className="icon-text is-size-5 mb-1">
                                     <span className="icon">
-                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                        <ion-icon name="close-outline"></ion-icon>
                                     </span>
                                     <span className="label">
                                         Except From
@@ -204,7 +204,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                             <div className="field">
                                 <label className="icon-text is-size-5 mb-1">
                                     <span className="icon">
-                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                        <ion-icon name="close-outline"></ion-icon>
                                     </span>
                                     <span className="label">
                                         To 
@@ -258,7 +258,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                             <div className="field">
                                 <label className="icon-text is-size-5 mb-1">
                                     <span className="icon">
-                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                        <ion-icon name="calendar-outline"></ion-icon>
                                     </span>
                                     <span className="label">
                                         Apply To Days <span className="has-text-danger">{errors?.days?.type === 'checkOneDay' ? errors.days.message : ''}</span>
@@ -329,7 +329,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                             <div className="field">
                                 <label className="icon-text is-size-5 mb-1">
                                     <span className="icon">
-                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                        <ion-icon name="construct-outline"></ion-icon>
                                     </span>
                                     <span className="label">
                                         Type 
@@ -360,7 +360,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                             <div className="field">
                                 <label className="icon-text is-size-5 mb-1">
                                     <span className="icon">
-                                        <ion-icon name="hourglass-outline"></ion-icon>
+                                        <ion-icon name="arrow-forward-outline"></ion-icon>
                                     </span>
                                     <span className="label">
                                         For The Next 
