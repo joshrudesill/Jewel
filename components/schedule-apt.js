@@ -1,8 +1,9 @@
 import { useState } from "react";
 import AptDate from "./apt-date";
 import UserAptModal from "./user-apt-modal";
+const dayjs = require('dayjs');
 
-const SchedApt = ({ a }) => {
+const SchedApt = ({ a, type }) => {
     const [active, setActive] = useState(false)
     const bookApt = async () => {
         const apt = await fetch('/api/bookapt' ,{
@@ -19,23 +20,41 @@ const SchedApt = ({ a }) => {
 
     return (
         <>
-        <div className="column is-one-quarter">
+        <div className="column is-one-quarter-desktop is-half-tablet">
             <div className="card">
-                <div className="card-content p-3">
-                    <div className="columns">
-                        <div className="column has-background-success-light">
-                            <span><AptDate startTime={a.startTime} endTime={a.endTime}/></span>
-                        </div>
+                <div className="card-header">
+                    
+                        <span className="card-header-icon is-size-4">
+                            <ion-icon name="calendar-number-outline"></ion-icon>
+                        </span>
+                        <span className="card-header-title has-text-weight-light is-size-5"><AptDate startTime={a.startTime} endTime={a.endTime}/></span>
+                </div>
+                <div className="columns mt-3 p-2 is-mobile">
+                    <div className="column">
+                        {
+                            type ? 
+                            <div class="control">
+                                <div class="tags has-addons" >
+                                    <span class="tag is-dark" data-tooltip='Type desc'>Type</span>
+                                    <span class="tag is-danger" data-tooltip='Type desc'>{type.typeName}</span>
+                                </div>
+                            </div>
+                            : <></>
+                        } 
                     </div>
-                    <div className='columns'>
-                        <div className='column'>
-                            <span className="has-text-weight-bold">Time</span><br></br>
-                            <AptDate startTime={a.startTime} endTime={a.endTime}/>
-                        </div>
-                        <div className='column has-text-right'>
-                            <button className="button is-small" onClick={() => setActive(true)}>Book</button>
-                        </div>
+                    <div className="column is-narrow">
+                        <button className="button is-primary is-rounded" onClick={() => setActive(true)}>
+                            <span className="icon-text">
+                                <span className="icon">
+                                    <ion-icon name="calendar-number-outline"></ion-icon>
+                                </span>
+                                <span>Book</span>
+                            </span>
+                        </button>
                     </div>
+                </div>
+                <div className="card-footer has-background-dark">
+                        <div className="card-footer-item"></div>
                 </div>
             </div>
         </div>

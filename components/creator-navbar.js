@@ -43,6 +43,14 @@ const CreatorNavBar = ({ creator })  => {
                             Manager
                         </a>
                     </Link>
+                    <Link href={{
+                      pathname: '/schedules/[slug]',
+                      query: { slug: creator },
+                    }}>
+                        <a className="navbar-item">
+                            View as User
+                        </a>
+                    </Link>
                 </div>
                 <div className="navbar-end">
                     <a className="navbar-item" target='_blank' rel="noreferrer">

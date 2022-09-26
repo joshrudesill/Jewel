@@ -7,7 +7,7 @@ var timezone = require('dayjs/plugin/timezone')
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const UserAptList = ({ day, month, date, type }) => {
+const UserAptList = ({ day, month, date, type, types }) => {
     const router = useRouter();
     const creator = router.query.scheduler
     const tz = dayjs.tz.guess()
@@ -26,9 +26,9 @@ const UserAptList = ({ day, month, date, type }) => {
     if (isHandlingRequest) return <>Loading..</>
     if (data && data.length === 0 && !isHandlingRequest) return <div>No appointments scheduled..</div>
     if (data) return (
-        <div className='columns is-multiline is-variable is-1'>
+        <div className='columns is-multiline is-variable is-2'>
             {
-                data.map(a => <SchedApt key={a.id} a={a}/>)
+                data.map(a => <SchedApt key={a.id} a={a} type={ types ? types[a.aptType] : false }/>)
             }
         </div>
     )

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import UserAptList from '../../components/user-apt-list';
 import UserAptSort from '../../components/user-apt-sort';
+import UserNavBar from '../../components/user-navbar';
 import useFetchManager from '../../util/usefetchmanager';
 
 const Scheduler = () => {
@@ -11,6 +12,7 @@ const Scheduler = () => {
     const [ day, setDay ] = useState()
     const [ date, setDate ] = useState()
     const [ types, setTypes ] = useState()
+    const [ typesL, setTypesL ] = useState()
     const [ sortType, setSortType ] = useState(0)
     const { data, error, isHandlingRequest, status } = useFetchManager('/api/getapttypes', { creator: creator }, 'GET')
 
@@ -20,15 +22,20 @@ const Scheduler = () => {
         }
     }, [status, isHandlingRequest])
 
+    useEffect(() => {
+        if(types !== undefined) {
+            var arrToAdd = {}
+            types.forEach(t => {
+              arrToAdd[t.id] = {...t}
+            })
+            setTypesL(arrToAdd)
+        }
+    }, [types])
+
     return (
+        <>
+        <UserNavBar creator={creator}/>
         <div className='container'>
-            <div className='columns mt-5'>
-                <div className='column'>
-                    <span className='is-size-4'>
-                        {`Schedule an appointment with ${creator}!`}
-                    </span>
-                </div>
-            </div>
             <UserAptSort 
                 day={day} 
                 setday={setDay} 
@@ -45,8 +52,10 @@ const Scheduler = () => {
                 month={month} 
                 date={date} 
                 type={sortType}
+                types={typesL}
             />
         </div>
+        </>
     )
 }
 
