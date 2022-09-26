@@ -21,15 +21,15 @@ const SchedApt = ({ a, type }) => {
     return (
         <>
         <div className="column is-one-quarter-desktop is-half-tablet">
-            <div className="card">
-                <div className="card-header">
+            <div className="card" style={{border: '1px solid black' }}>
+                <div className="card-header is-shadowless">
                     
                         <span className="card-header-icon is-size-4">
                             <ion-icon name="calendar-number-outline"></ion-icon>
                         </span>
                         <span className="card-header-title has-text-weight-light is-size-5"><AptDate startTime={a.startTime} endTime={a.endTime}/></span>
                 </div>
-                <div className="columns mt-3 p-2 is-mobile">
+                <div className="columns  p-3 is-mobile">
                     <div className="column">
                         {
                             type ? 
@@ -52,9 +52,6 @@ const SchedApt = ({ a, type }) => {
                             </span>
                         </button>
                     </div>
-                </div>
-                <div className="card-footer has-background-dark">
-                        <div className="card-footer-item"></div>
                 </div>
             </div>
         </div>
