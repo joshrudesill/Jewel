@@ -73,7 +73,7 @@ export default async function handler(req, res) {
                 aptType: type
             });
             if(create) {
-                res.status(201).send();
+                res.status(200).send();
             } else {
                 res.status(400).send();
             }

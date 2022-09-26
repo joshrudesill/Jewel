@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetchManager from "../util/usefetchmanager";
-import useScreenSize from "../util/usescreensize";
 import TimeOptions from "./timeoptions";
 const dayjs = require('dayjs');
 var isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
@@ -53,17 +52,11 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
         reset()
     }, [])
     
-    const { width } = useScreenSize()
-    
-    useEffect(() => {
-        if(width < 1000) {
-            console.log('wdith less than 1000')
-        }
-    }, [width])
 
     useEffect(() => {
         if(!isHandlingRequest && data){
             if(status === 200) {
+                reset()
                 alert('Success')
             } else {
                 alert('Failed to create schedule')
@@ -113,8 +106,8 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
 
             </div>
             <form onSubmit={handleSubmit(execute)}>  
-            <div className="card mt-3 p-3">
-                <div className="card-content has-text-weight-medium p-3">
+            <div className="card mt-3 ">
+                <div className="card-content has-text-weight-medium ">
                     <div className="columns">
                         <div className="column">
                             <div className="field">
@@ -391,10 +384,10 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
                         </div>
                     </div>
                     
-                </div>
                 <div className="card-footer">
                 </div>
                 <button type='submit' className="button is-primary is-small card-footer-item mt-2" disabled={isHandlingRequest}>Submit</button>
+                </div>
             </div>
             </form>
         </div>

@@ -103,7 +103,7 @@ const Manager = () => {
     if(authorized) return (
         <>  
                 <CreatorNavBar creator={creator}/>
-                <div className="tabs is-centered is-boxed mt-2">
+                <div className="tabs is-centered is-boxed mt-2 is-small">
                     <ul>
                         <li className={`${visibilityState.schedule ? 'is-active' : ''}`}><a onClick={() => visibilityDispatch({type: 'schedule'})}>Create Schedule</a></li>
                         <li className={`${visibilityState.createapt ? 'is-active' : ''}`}><a onClick={() => visibilityDispatch({type: 'createapt'})}>Create Appointment</a></li>
@@ -112,8 +112,8 @@ const Manager = () => {
                 </div>
                 <div className="container p-1">
                     { visibilityState.schedule ? <CreateSchedule creator={creator} manager={true} types={types} showMessage={messageState.schedule} dispatch={messageDispatch}/> : <></>}
-                    { visibilityState.createapt ? <CreateAppointment types={types}/> : <></>}
-                    { visibilityState.createtype ? <AptTypeCreate types={types}/> : <></>}
+                    { visibilityState.createapt ? <CreateAppointment types={types} creator={creator} showMessage={messageState.createapt} dispatch={messageDispatch}/> : <></>}
+                    { visibilityState.createtype ? <AptTypeCreate types={types} creator={creator} showMessage={messageState.createtype} dispatch={messageDispatch}/> : <></>}
                 </div>
                 
             </>

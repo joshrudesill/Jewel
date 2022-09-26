@@ -11,27 +11,31 @@ var timezone = require('dayjs/plugin/timezone')
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const CreateAppointment = ({ username, types }) => {
+const CreateAppointment = ({ creator, types, showMessage, dispatch }) => {
     const { setValue, resetField, register, handleSubmit, formState: { errors }, reset, watch } = useForm({mode: 'onSubmit', defaultValues: { time: '9:00' }});
     const watchFields = watch()
     const tz = dayjs.tz.guess()
     const router = useRouter();
-    const { isHandlingRequest, execute, status, error } = useFetchManager('/api/createapt', { watchFields, tz: tz, username: username }, 'POST', false)
-    const [show,  setShow] = useState(false)
+    const { isHandlingRequest, execute, status, error } = useFetchManager('/api/createapt', { watchFields, tz: tz, username: creator }, 'POST', false)
     const [lockDuration, setLockDuration] = useState(false)
     const [typeIndex, setTypeIndex] = useState()
     useEffect(() => {
         if(!isHandlingRequest) {
-            if (status === 201) {
-                router.reload();
+            if (status === 200) {
+                reset()
+                setLockDuration(false)
+                alert('Successfully created appointment')
             } else if(status === 400) {
                 reset()
+                setLockDuration(false)
                 alert('Failed to create Appointment')
             } else if(status === 401) {
                 reset()
+                setLockDuration(false)
                 alert('Conflicting Appointment: Failed to create')
             } else if(status === 403) {
                 reset()
+                setLockDuration(false)
                 alert('You are not authorized to make this request')
             }
         }
@@ -62,11 +66,11 @@ const CreateAppointment = ({ username, types }) => {
             <div className="column is-9">
                 <div className="columns">
                     <div className="column">    
-                        <div className={`notification is-shadowless has-background-primary p-3`}>
+                        <div className={`notification is-shadowless has-background-primary p-3 ${!showMessage ? 'is-hidden' : '' }`}>
                             <span className="icon-text">
                                 <span className="icon is-size-5"><ion-icon name="information-circle-outline"></ion-icon></span>
                             </span>
-                            <button className="delete"></button>
+                            <button className="delete" onClick={() => dispatch({type: 'createapt'})}></button>
                             <span>
                                 Once submitted this will create an appointment on the desired month, day, and time. The duration is also required unless you select an appointment type in which case in will lock the duration
                                 to the duration of the selected type.
@@ -178,7 +182,7 @@ const CreateAppointment = ({ username, types }) => {
                             </div>
                             <div className="control">
                                 <a className="button is-static">
-                                    Min.
+                                    Minutes
                                 </a>
                             </div>
                             

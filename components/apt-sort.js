@@ -9,8 +9,8 @@ const AptSort = ({ sortby, setsortby, showclaimed, setshowclaimed, typesort, set
         <div className="columns">
             <div className="column">
                 <div className="box is-shadowless has-background-primary p-3">
-                    <div className="columns"> 
-                        <div className="column">
+                    <div className="columns is-multiline is-mobile"> 
+                        <div className="column is-full-mobile">
                             <span className="is-size-3 has-text-weight-light ">Appointments</span>
                         </div>
                         <div className="column is-narrow">

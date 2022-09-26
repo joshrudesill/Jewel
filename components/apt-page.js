@@ -29,19 +29,23 @@ const AptPage = ({ page, results, setPage }) => {
     }, [pageOffset, results])
     
     if(pageNumbers) return (
-        <div className="columns is-centered">
-            <div className="column is-narrow">
+        <div className="columns is-centered is-mobile">
+            <div className="column">
                 <button onClick={() => setPage(page-1)} className="button is-small" disabled={page === 1 ? true : false}>Prev</button>
             </div>
-            <div className="column is-narrow mx-auto">
-                {
-                    pageNumbers.map(pn => 
-                        <a key={pn} onClick={() => setPage(pn+1)} className={`mx-5 ${pn+1 === page ? 'is-underlined' : ''}`}>{pn + 1}</a>
-                        ) 
-                }
+            <div className="column is-flex is-justify-content-center">
+                <div className="columns is-variable is-5-desktop is-2-mobile is-mobile">
+                    {
+                        pageNumbers.map(pn => 
+                            <div className="column">
+                                <a key={pn} onClick={() => setPage(pn+1)} className={`${pn+1 === page ? 'is-underlined' : ''}`}>{pn + 1}</a>
+                            </div>
+                            ) 
+                    }
+                </div>
             </div>
-            <div className="column is-narrow">
-                <button onClick={() => setPage(page+1)} className="button is-small" disabled={page === maxPages ? true : false}>Next</button>
+            <div className="column is-flex is-justify-content-end">
+                <button onClick={() => setPage(page+1)} className="button  is-small" disabled={page === maxPages ? true : false}>Next</button>
             </div>
 
         </div>

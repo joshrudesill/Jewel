@@ -47,7 +47,7 @@ const UserProfile = () => {
                 <section className="section pt-4">
                     <div className="container">
                         <div className="columns is-centered">
-                            <div className="column is-10">
+                            <div className="column">
 
                                 <AptSort 
                                     sortby={sortBy} 
