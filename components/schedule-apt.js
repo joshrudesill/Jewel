@@ -33,10 +33,10 @@ const SchedApt = ({ a, type }) => {
                     <div className="column">
                         {
                             type ? 
-                            <div class="control">
-                                <div class="tags has-addons" >
-                                    <span class="tag is-dark" data-tooltip='Type desc'>Type</span>
-                                    <span class="tag is-danger" data-tooltip='Type desc'>{type.typeName}</span>
+                            <div className="control">
+                                <div className="tags has-addons" >
+                                    <span className="tag is-dark" data-tooltip='Type desc'>Type</span>
+                                    <span className="tag is-danger" data-tooltip='Type desc'>{type.typeName}</span>
                                 </div>
                             </div>
                             : <></>
