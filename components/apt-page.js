@@ -37,8 +37,8 @@ const AptPage = ({ page, results, setPage }) => {
                 <div className="columns is-variable is-5-desktop is-2-mobile is-mobile">
                     {
                         pageNumbers.map(pn => 
-                            <div className="column">
-                                <a key={pn} onClick={() => setPage(pn+1)} className={`${pn+1 === page ? 'is-underlined' : ''}`}>{pn + 1}</a>
+                            <div className="column" key={pn}>
+                                <a  onClick={() => setPage(pn+1)} className={`${pn+1 === page ? 'is-underlined' : ''}`}>{pn + 1}</a>
                             </div>
                             ) 
                     }
