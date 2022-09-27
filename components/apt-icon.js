@@ -19,7 +19,7 @@ const AptIcon = ({ startTime }) => {
     {
       isToday 
       ? 
-      <span className='icon is-size-4 has-text-danger'><ion-icon name="alert-outline" ></ion-icon></span> 
+      <span className='icon is-size-4 has-text-danger'><ion-icon name="star-outline"></ion-icon></span> 
       : 
       <span></span>
     }

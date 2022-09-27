@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import AptListv2 from '../../../components/apt-list-v2';
 import AptSort from '../../../components/apt-sort';
 import CreatorNavBar from '../../../components/creator-navbar';
+import Footer from '../../../components/footer';
 import useAuthManager from '../../../util/useauthmanager';
 import useFetchManager from '../../../util/usefetchmanager';
 
@@ -42,10 +43,16 @@ const UserProfile = () => {
     if (authorized) {
         return (
             <>
+            
+            <body style={{
+                display: 'flex',
+                minHeight: '100vh',
+                flexDirection: 'column'
+            }}>
            
             <CreatorNavBar creator={creator}/>
                 <section className="section pt-4">
-                    <div className="container">
+                    <div className="container is-fullhd">
                         <div className="columns is-centered">
                             <div className="column">
 
@@ -60,7 +67,7 @@ const UserProfile = () => {
                                     date={date}
                                     setdate={setDate}
                                 />
-
+                                
                                 <AptListv2 
                                     creator={router.query.creator} 
                                     sortBy={sortBy} 
@@ -74,7 +81,10 @@ const UserProfile = () => {
                         </div>
                     </div>
                 </section>
-                </>
+                
+            </body>
+            <Footer />
+            </>
         )
     }
 }

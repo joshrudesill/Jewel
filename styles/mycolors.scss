@@ -1,0 +1,12 @@
+@import "/node_modules/bulma/sass/utilities/initial-variables";
+@import "/node_modules/bulma/sass/utilities/functions";
+
+$react: #61DBFB;
+$react-invert: findColorInvert($react);
+@import "/node_modules/bulma/sass/utilities/derived-variables";
+
+$addColors: (
+  "react": ($react, $react-invert)
+);
+$colors: map-merge($colors, $addColors);
+@import "/node_modules/bulma";

@@ -29,34 +29,42 @@ const Appointment = ({ a, type }) => {
     if (deleted) return null
     
     return (
+        <div className="column is-one-third-desktop is-half-tablet">
             <div className="card">
                 <div className="card-header is-clickable is-unselectable" onClick={toggleShow}>
                     <div className="card-header-title">
                         <div className="icon-text">
-                            {type ? <span className="mr-1">{type.typeName}</span> : <></>}
                             <AptIcon startTime={a.startTime}/>
                             <span className="has-text-weight-medium"><AptDate startTime={a.startTime} endTime={a.endTime} /></span>
                         </div>
                     </div>
-                    <AptTime start={a.startTime} end={a.endTime}/>
+                    {
+                        type ? 
+                        <div className="card-header-icon pr-2">
+                                <span className="tag is-success is-light is-medium">{type.typeName}</span>
+                        </div>
+                        :
+                        <></>
+                    }
+                    {
+                        a.userEmail !== null ?  
+                        <div className="card-header-icon pr-3 pt-2 pb-3 pl-0">
+                                <span className="icon is-size-5 is-medium"><ion-icon name="checkbox-outline"></ion-icon></span>
+                        </div>
+                        :
+                        <></>
+                    }
+                    
                 </div>
                 <div className={`${show ? '' : 'is-hidden'} card-content`}>
                     <div className="content">
-                        <div className="columns">
-                            <div className="column is-narrow icon-text">
-                                <span className='icon'>
-                                    <ion-icon name="time-outline" className=" is-size-4 mr-2 has-text-success"></ion-icon>
-                                </span>
-                                <span className="has-text-weight-bold mr-2">Times:</span>
-                                <AptDate startTime={a.startTime} endTime={a.endTime}/>
-                            </div>
+                        <div className="columns is-mobile is-multiline">
                             <div className="column is-narrow icon-text">
                                 <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="cash-outline"></ion-icon></span>
                                 <span className="has-text-weight-bold mr-2">Price:</span>
                                 <span>{type ? type.price : <></>}</span>
                             </div>
-                        </div>
-                        <div className="columns">
+                        
                             <div className="column is-narrow icon-text">
                                 <span className="icon is-size-4 mr-3 has-text-success"><ion-icon name="person-outline"></ion-icon></span>
                                 <span className="has-text-weight-bold mr-2">Claimed by:</span>
@@ -65,18 +73,19 @@ const Appointment = ({ a, type }) => {
                         </div>
                         {
                             a.message ? 
-                            <div className="columns">
                                 <div className="column">
                                     <div className="content">
                                         <span className="has-text-weight-medium">Message:</span>
                                         <p className="subtitle">{a.message}</p>
                                     </div>
                                 </div>
-                            </div>
                             : <></>
                         }
                         
                         <div className="columns">
+                            <div className="column">
+                                <AptTime start={a.startTime} end={a.endTime}/>
+                            </div>
                             <div className="column has-text-right p-0">
                                 <button className="button is-small is-danger is-rounded" onClick={onCancel} >Cancel</button>
                             </div>
@@ -85,6 +94,7 @@ const Appointment = ({ a, type }) => {
 
                     </div>
             </div>
+        </div>
 )}
 
 export default Appointment;

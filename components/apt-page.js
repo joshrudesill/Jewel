@@ -6,7 +6,7 @@ const AptPage = ({ page, results, setPage }) => {
     const [pageOffset, setPageOffset] = useState(0)
     const [maxPages, setMaxPages] = useState()
     useEffect(() => {
-        const maxpages = Math.floor(results/10) + 1
+        const maxpages = Math.floor(results/20) + 1
         setMaxPages(maxpages)
         const maxoffset = maxpages - 10
         var offset = 0;

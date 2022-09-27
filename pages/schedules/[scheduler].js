@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Footer from '../../components/footer';
 import UserAptList from '../../components/user-apt-list';
 import UserAptSort from '../../components/user-apt-sort';
 import UserNavBar from '../../components/user-navbar';
@@ -35,26 +36,34 @@ const Scheduler = () => {
     return (
         <>
         <UserNavBar creator={creator}/>
-        <div className='container'>
-            <UserAptSort 
-                day={day} 
-                setday={setDay} 
-                month={month} 
-                setmonth={setMonth}
-                date={date} 
-                setdate={setDate} 
-                types={types} 
-                setsorttype={setSortType}
-                sorttype={sortType}
-            />
-            <UserAptList 
-                day={day} 
-                month={month} 
-                date={date} 
-                type={sortType}
-                types={typesL}
-            />
+        
+            <div className='container is-fullhd'>
+                <UserAptSort 
+                    day={day} 
+                    setday={setDay} 
+                    month={month} 
+                    setmonth={setMonth}
+                    date={date} 
+                    setdate={setDate} 
+                    types={types} 
+                    setsorttype={setSortType}
+                    sorttype={sortType}
+                />
+                <UserAptList 
+                    day={day} 
+                    month={month} 
+                    date={date} 
+                    type={sortType}
+                    types={typesL}
+                />
+            </div>
+        <div style={{
+            display: 'flex',
+            minHeight: '15vh',
+            flexDirection: 'column'
+        }}>
         </div>
+        <Footer />
         </>
     )
 }

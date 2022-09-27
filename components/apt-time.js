@@ -12,11 +12,7 @@ const AptTime = ({ start, end }) => {
   }, [end, start])
 
   return (
-    <div className="card-header-icon">
-      <div className="has-text-right">
-        <span className="tag is-success is-light is-medium"><ion-icon className='is-size-5' name="stopwatch-outline"></ion-icon>{time} min</span>
-      </div>
-    </div>
+    <span className="tag is-success is-light is-medium"><ion-icon className='is-size-5' name="stopwatch-outline"></ion-icon>{time} min</span>
   )
 }
 

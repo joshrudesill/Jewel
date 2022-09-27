@@ -55,8 +55,8 @@ export default async function handler(req, res) {
         order: [
           ['startTime' , sortby]
         ],
-        offset: (pages - 1) * 10,
-        limit: 10,
+        offset: (pages - 1) * 20,
+        limit: 20,
         
       })
 
