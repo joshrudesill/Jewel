@@ -48,7 +48,7 @@ export default function Home() {
                 <div className='content '>
                   <h3>What is the purpose of this project?</h3>
                   <p>
-                    What you're about to use is a portfolio project built by me, Josh Rudesill (an aspiring web dev). The name Jewel comes from the word 'Sche<strong>dule</strong>'.. get it? Sched-Jewel. 
+                    What you&apos;re about to use is a portfolio project built by me, Josh Rudesill (an aspiring web dev). The name Jewel comes from the word 'Sche<strong>dule</strong>'.. get it? Sched-Jewel. 
                     It is built with React and Next.js with MySQL as a database paradigm. See <a className='has-text-link' target='_blank' href="https://github.com/joshrudesill/jewel" rel="noreferrer">GitHub </a>
                     for more technical information.
                   </p>
