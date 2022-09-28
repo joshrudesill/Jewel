@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     const parsed = cookie.parse(req.headers.cookie)
     const auth = await verifyJWT(parsed.token, req.body.creator)
     if(auth.auth && auth.act === 'admin' && auth.username === req.body.creator) {
-        const { tz } = req.body.tz
+        const { tz } = req.body
         const { 
             days, 
             from, 
@@ -201,7 +201,7 @@ export default async function handler(req, res) {
                 res.status(200).json({
                     offset: offset,
                     fromtime: fromTime,
-                    timezone: 'asdfasdfasdfasdf'
+                    timezone: tz
                 })
             } else {
                 res.status(400).send()
