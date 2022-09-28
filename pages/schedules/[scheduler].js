@@ -36,7 +36,10 @@ const Scheduler = () => {
     return (
         <>
         <UserNavBar creator={creator}/>
-        
+         <div style={{
+            display: 'flex',
+            minHeight: '100vh',
+        }}>
             <div className='container is-fullhd'>
                 <UserAptSort 
                     day={day} 
@@ -57,11 +60,7 @@ const Scheduler = () => {
                     types={typesL}
                 />
             </div>
-        <div style={{
-            display: 'flex',
-            minHeight: '15vh',
-            flexDirection: 'column'
-        }}>
+       
         </div>
         <Footer />
         </>

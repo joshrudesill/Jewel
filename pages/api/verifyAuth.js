@@ -11,9 +11,8 @@ export default async function handler(req, res) {
             if (decoded.u === req.query.username) {
                 if(decoded.act === admin) {
                     res.status(200).send()
-                }
-                if(admin === 'admin') {
-                    res.status(200).send()
+                } else {
+                    res.status(401).send()
                 }
             } else {
                 res.status(401).send()

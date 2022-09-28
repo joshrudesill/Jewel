@@ -21,7 +21,7 @@ const AptPage = ({ page, results, setPage }) => {
     }, [page, results])
     
     useEffect(() => {
-        var pns = Math.floor(results / 10) + 1
+        var pns = Math.floor(results / 20) + 1
         if (pns > 10) pns = 10
         var atp = Array.from(Array(pns).keys())
         const toadd = atp.map(p => p += pageOffset)

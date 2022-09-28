@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 
 
 export default async function handler(req, res) {
-  const user = await model.Users.findOne({where : {username: req.body.username}});
+  const user = await model.Users.findOne({where : {username: req.query.username}});
 
   if (!user) {
     res.status(401).send();
   }
-  if(user.password === req.body.password) {
+  if(user.password === req.query.password) {
     const token = await jwt.sign(
       {
         u: user.username,

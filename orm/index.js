@@ -41,7 +41,15 @@ const Users = sequelize.define('users',
       type: Sequelize.STRING,
       allowNull: false
     },
-    accountType: Sequelize.STRING
+    accountType: Sequelize.STRING,
+    trialAccount: {
+      type: Sequelize.BOOLEAN,
+      allowNull: true
+    },
+    trialAccountName: {
+      type: Sequelize.STRING,
+      allowNull: true
+    }
     ///...
   }, { 
     freezeTableName: true 
@@ -134,10 +142,9 @@ const AppointmentTypes = sequelize.define('appointment-types',
   ]
 });
 const sync = async () => {
-  const a = await Appointments.sync({alter: true})
+  const a = await Users.sync({alter: true})
   console.log(a)
 }
-
 module.exports = { 
   Users, 
   Appointments, 

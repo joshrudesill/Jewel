@@ -12,6 +12,7 @@ const model = require('../../orm/index')
 export default async function handler(req, res) {
   const parsed = cookie.parse(req.headers.cookie)
   const auth = await verifyJWT(parsed.token, req.query.creator)
+  
   if(auth.auth && auth.act === 'admin' && auth.username === req.query.creator) {
     const claimed = req.query.claimed;
     const sortby = req.query.sortby === 'dd' ? 'DESC' : 'ASC'
