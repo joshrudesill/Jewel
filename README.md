@@ -8,7 +8,7 @@
 - Create appointment types for easier creation and also increased user confidence
 - Make an availability window and set what types of appointments you would like it to be filled with
 - Sort and filter by date, appointment types, and claimed appointments
-- Cancel appointments and message users
+- Cancel appointments and message users (messagine coming soon)
 - Authenticated account system
 
 ## Features - *User*
