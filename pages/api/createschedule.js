@@ -14,7 +14,6 @@ export default async function handler(req, res) {
     const parsed = cookie.parse(req.headers.cookie)
     const auth = await verifyJWT(parsed.token, req.body.creator)
     if(auth.auth && auth.act === 'admin' && auth.username === req.body.creator) {
-        const tz = dayjs.tz.guess()
         const { 
             days, 
             from, 
@@ -50,8 +49,8 @@ export default async function handler(req, res) {
         const tm = to.substring(to.indexOf(':') +1, to.length)
 
         const currentTime = dayjs()
-        const fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0).utc()
-        const toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0).utc()
+        const fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0)
+        const toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0)
 
 
         const aptsToDelete = await model.Appointments.findAll({
