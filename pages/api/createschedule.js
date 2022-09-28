@@ -181,7 +181,7 @@ export default async function handler(req, res) {
                         var apt = {
                             userID: null,
                             adminID: auth.id,
-                            startTime: time.utc().toISOString(),
+                            startTime: time.toISOString(),
                             endTime: time.add(length, 'minutes').toISOString(),
                         }
                         if(type !== 0) {
@@ -198,7 +198,7 @@ export default async function handler(req, res) {
         if(aptsToAdd && aptsToAdd.length > 0) {
             const newSchedule = await model.Appointments.bulkCreate(aptsToAdd)
             if(newSchedule) {
-                res.status(200).send()
+                res.status(200).json(aptsToAdd)
             } else {
                 res.status(400).send()
             }
