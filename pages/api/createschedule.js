@@ -175,8 +175,8 @@ export default async function handler(req, res) {
                         var apt = {
                             userID: null,
                             adminID: auth.id,
-                            startTime: time.utc().toISOString(),
-                            endTime: time.utc().add(length, 'minutes').toISOString(),
+                            startTime: time.toISOString(),
+                            endTime: time.add(length, 'minutes').toISOString(),
                         }
                         if(type !== 0) {
                             apt.aptType = type
