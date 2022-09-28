@@ -200,7 +200,8 @@ export default async function handler(req, res) {
             if(newSchedule) {
                 res.status(200).json({
                     offset: offset,
-                    fromtime : fromTime
+                    fromtime : fromTime,
+                    timezone: tz
                 })
             } else {
                 res.status(400).send()
