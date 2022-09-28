@@ -9,14 +9,15 @@ const AptDate = ({ startTime, endTime }) => {
   const [date, setDate] = useState('')
   useEffect(() => {
     const tz = dayjs.tz.guess()
-    const current = dayjs().tz(tz, true)
-    const start = dayjs(startTime).tz(tz, true)
-    const end = dayjs(endTime).tz(tz, true)
+    console.log(tz)
+    const current = dayjs().tz(tz)
+    const start = dayjs(startTime).tz(tz)
+    const end = dayjs(endTime).tz(tz)
     var formattedDate = ''
-    if (start.utc().date() === current.utc().date() && start.utc().month() === current.utc().month()) {
-      formattedDate = `Today, ${start.utc().format('H:mm')} to ${end.utc().format('H:mm')}`
+    if (start.date() === current.date() && start.month() === current.month()) {
+      formattedDate = `Today, ${start.format('H:mm')} to ${end.format('H:mm')}`
     } else {
-      formattedDate = `${start.utc().format('ddd, MMM. D H:mm')} to ${end.utc().format('H:mm')}`
+      formattedDate = `${start.format('ddd, MMM. D H:mm')} to ${end.format('H:mm')}`
     }
     setDate(formattedDate)
   }, [startTime, endTime])

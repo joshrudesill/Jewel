@@ -4,8 +4,11 @@ import useFetchManager from "../util/usefetchmanager";
 import TimeOptions from "./timeoptions";
 const dayjs = require('dayjs');
 var isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+var timezone = require('dayjs/plugin/timezone') 
+dayjs.extend(timezone)
 dayjs.extend(isSameOrAfter)
 const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
+    const tz = dayjs.tz.guess()
     const { 
         reset,
         resetField,
@@ -43,7 +46,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
     })
 
     const watchFields = watch()
-    const { execute, data, status, isHandlingRequest, error } = useFetchManager('/api/createschedule', { watchFields, creator: creator }, 'POST', false)
+    const { execute, data, status, isHandlingRequest, error } = useFetchManager('/api/createschedule', { watchFields, creator: creator, tz: tz }, 'POST', false)
     const [lockDuration, setLockDuration] = useState(false)
     const [lockPrice, setLockPrice] = useState(false)
     const [typeIndex, setTypeIndex] = useState()

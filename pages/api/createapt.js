@@ -55,6 +55,7 @@ export default async function handler(req, res) {
     if (auth.auth && auth.act === 'admin') {
         const hm = dayjs(time, 'H:mm')
         const hour = hm.utc(true).get('hour')
+        console.log(tz)
         const minute = hm.utc(true).get('minute')
         const start = dayjs()
             .set('year', dayjs().year())
@@ -62,14 +63,16 @@ export default async function handler(req, res) {
             .set('date', day)
             .set('hour', hour)
             .set('minute', minute)
+            .tz(tz)
         const end = start.add(duration, 'm')
+        console.log(start.utc().format())
         const result = await verifyApt(auth.id, start.utc(true), end.utc(true), tz)
         if (result) {
             const create = await model.Appointments.create({
                 userId: null,
                 adminID: auth.id,
-                startTime: start.utc(true).toDate(),
-                endTime: end.utc(true).toDate(), 
+                startTime: start.toISOString(),
+                endTime: end.toISOString(), 
                 aptType: type
             });
             if(create) {

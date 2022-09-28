@@ -14,7 +14,8 @@ export default async function handler(req, res) {
     const parsed = cookie.parse(req.headers.cookie)
     const auth = await verifyJWT(parsed.token, req.body.creator)
     if(auth.auth && auth.act === 'admin' && auth.username === req.body.creator) {
-        
+        console.log(dayjs.tz.guess())
+        const { tz } = req.body.tz
         const { 
             days, 
             from, 
@@ -49,16 +50,15 @@ export default async function handler(req, res) {
         const th =  to.substring(0, to.indexOf(':'))
         const tm = to.substring(to.indexOf(':') +1, to.length)
 
-        const fromTime = dayjs().set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0)
-        const toTime = dayjs().set('hour', th).set('minute',  tm).second(0).millisecond(0)
         const currentTime = dayjs()
+        const fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0).tz(tz)
+        const toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0).tz(tz)
 
-        
 
         const aptsToDelete = await model.Appointments.findAll({
             where: {
                 adminID: auth.id,
-                startTime: { [model.op.gte]: currentTime }
+                startTime: { [model.op.gte]: currentTime.utc() }
             }
         })
 
@@ -67,11 +67,11 @@ export default async function handler(req, res) {
             const timet = dayjs(a.startTime)
             const time = timet.utc()
             const endtime = time.add(length, 'minutes')
-            const from = dayjs(a.startTime).hour(fh).minute(fm).utc(true)
-            const to = dayjs(a.startTime).hour(th).minute(tm).utc(true)
+            const from = dayjs(a.startTime).hour(fh).minute(fm)
+            const to = dayjs(a.startTime).hour(th).minute(tm)
 
             if(daysOfWeek.includes(time.day())) {
-                if(time.utc().isBetween(from.utc(), to.utc(), 'minute', '[]') || endtime.utc().isBetween(from.utc(), to.utc(), 'minute', '[]')) {
+                if(time.isBetween(from.utc(), to.utc(), 'minute', '[]') || endtime.utc().isBetween(from.utc(), to.utc(), 'minute', '[]')) {
                     toDeleteIDs.push(a.id)
                 } 
             }
@@ -100,20 +100,20 @@ export default async function handler(req, res) {
             var efm = efrom.substring(efrom.indexOf(':') +1, efrom.length)
             var eth =  eto.substring(0, eto.indexOf(':'))
             var etm = eto.substring(eto.indexOf(':') +1, eto.length)
-            const efromTime = dayjs().set('hour', parseInt(efh)).set('minute', efm).second(0).millisecond(0)
-            const etoTime = dayjs().set('hour', eth).set('minute',  etm).second(0).millisecond(0)
+            const efromTime = dayjs().set('hour', parseInt(efh)).set('minute', efm).second(0).millisecond(0).utc()
+            const etoTime = dayjs().set('hour', eth).set('minute',  etm).second(0).millisecond(0).utc()
 
-            if(!efromTime.isBetween(fromTime, toTime) && !etoTime.isBetween(fromTime, toTime)) {
+            if(!efromTime.isBetween(fromTime.utc(), toTime.utc()) && !etoTime.isBetween(fromTime.utc(), toTime.utc())) {
                 res.status(400).send()
             } else {
                 
-            const timeDiffInMin1P = efromTime.diff(fromTime, 'minute')
+            const timeDiffInMin1P = efromTime.utc().diff(fromTime.utc(), 'minute')
             const numAptsIn1P = Math.floor(timeDiffInMin1P / length)
-            const timeDiffInMin2P = toTime.diff(etoTime, 'minute')
+            const timeDiffInMin2P = toTime.utc().diff(etoTime.utc(), 'minute')
             const numAptsIn2P = Math.floor(timeDiffInMin2P / length)
 
             var aptsToAdd = []
-            var loopStartTime = fromTime
+            var loopStartTime = fromTime.utc()
 
             for(let j = 0; j < numberOfDays; j++) {
                 if(j !== 0) {
@@ -122,14 +122,14 @@ export default async function handler(req, res) {
                 if(daysOfWeek.includes(loopStartTime.day())) {
                     for(let i = 0; i < numAptsIn1P; i++) {
                         const time = loopStartTime.add(length * i, 'minutes')
-                        const efrom = dayjs(loopStartTime).hour(efh).minute(efm)
-                        const eto = dayjs(loopStartTime).hour(eth).minute(etm)
-                        if(!time.isBetween(efrom, eto) && !time.add(length, 'minutes').isBetween(efrom, eto)) {
+                        const efrom = dayjs(loopStartTime).hour(efh).minute(efm).utc()
+                        const eto = dayjs(loopStartTime).hour(eth).minute(etm).utc()
+                        if(!time.utc().isBetween(efrom, eto) && !time.utc().add(length, 'minutes').isBetween(efrom, eto)) {
                             var apt = {
                                 userID: null,
                                 adminID: auth.id,
-                                startTime: time.utc(true).toDate(),
-                                endTime: time.utc(true).add(length, 'minutes').toDate(),
+                                startTime: time.utc().toISOString(),
+                                endTime: time.utc().add(length, 'minutes').toISOString(),
                             }
                             if(type !== 0) {
                                 apt.aptType = type
@@ -143,14 +143,14 @@ export default async function handler(req, res) {
 
                     for(let y = 0; y < numAptsIn2P; y++) {
                         const time = loopStartTime2P.add(length * y, 'minutes')
-                        const efrom = dayjs(loopStartTime2P).hour(efh).minute(efm)
-                        const eto = dayjs(loopStartTime2P).hour(eth).minute(etm)
-                        if(!time.isBetween(efrom, eto) && !time.add(length, 'minutes').isBetween(efrom, eto, null, '()')) {
+                        const efrom = dayjs(loopStartTime2P).hour(efh).minute(efm).utc()
+                        const eto = dayjs(loopStartTime2P).hour(eth).minute(etm).utc()
+                        if(!time.utc().isBetween(efrom, eto) && !time.add(length, 'minutes').utc().isBetween(efrom, eto, null, '()')) {
                             var apt = {
                                 userID: null,
                                 adminID: auth.id,
-                                startTime: time.utc(true).toDate(),
-                                endTime: time.utc(true).add(length, 'minutes').toDate(),
+                                startTime: time.utc().toISOString(),
+                                endTime: time.utc().add(length, 'minutes').toISOString(),
                             }
                             if(type !== 0) {
                                 apt.aptType = type
@@ -166,7 +166,7 @@ export default async function handler(req, res) {
         } else {
 
             var aptsToAdd = []
-            var loopStartTime = fromTime
+            var loopStartTime = fromTime.utc()
             for(let j = 0; j < numberOfDays; j++) {
                 if(j !== 0) {
                     loopStartTime = loopStartTime.add(1, 'day')
@@ -177,8 +177,8 @@ export default async function handler(req, res) {
                         var apt = {
                             userID: null,
                             adminID: auth.id,
-                            startTime: time.utc(true).toDate(),
-                            endTime: time.utc(true).add(length, 'minutes').toDate(),
+                            startTime: time.utc().toISOString(),
+                            endTime: time.utc().add(length, 'minutes').toISOString(),
                         }
                         if(type !== 0) {
                             apt.aptType = type
