@@ -50,8 +50,8 @@ export default async function handler(req, res) {
         const tm = to.substring(to.indexOf(':') +1, to.length)
 
         const currentTime = dayjs()
-        var fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0).tz(tz)
-        var toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0).tz(tz)
+        var fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0).tz(tz, true)
+        var toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0).tz(tz, true)
         fromTime = fromTime.utc()
         toTime = toTime.utc()
 
