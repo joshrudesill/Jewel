@@ -164,7 +164,7 @@ export default async function handler(req, res) {
         } else {
 
             var aptsToAdd = []
-            var loopStartTime = fromTime.utc()
+            var loopStartTime = fromTime
             for(let j = 0; j < numberOfDays; j++) {
                 if(j !== 0) {
                     loopStartTime = loopStartTime.add(1, 'day')
