@@ -50,8 +50,8 @@ export default async function handler(req, res) {
         const tm = to.substring(to.indexOf(':') +1, to.length)
 
         const currentTime = dayjs()
-        const fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0).tz(tz).utc()
-        const toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0).tz(tz).utc()
+        const fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0).utc()
+        const toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0).utc()
 
 
         const aptsToDelete = await model.Appointments.findAll({
