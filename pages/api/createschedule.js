@@ -14,8 +14,7 @@ export default async function handler(req, res) {
     const parsed = cookie.parse(req.headers.cookie)
     const auth = await verifyJWT(parsed.token, req.body.creator)
     if(auth.auth && auth.act === 'admin' && auth.username === req.body.creator) {
-        console.log(dayjs.tz.guess())
-        const { tz } = req.body.tz
+        const tz = dayjs.tz.guess()
         const { 
             days, 
             from, 
