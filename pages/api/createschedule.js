@@ -198,7 +198,10 @@ export default async function handler(req, res) {
         if(aptsToAdd && aptsToAdd.length > 0) {
             const newSchedule = await model.Appointments.bulkCreate(aptsToAdd)
             if(newSchedule) {
-                res.status(200).json(aptsToAdd)
+                res.status(200).json({
+                    offset: offset,
+                    fromtime : fromTime
+                })
             } else {
                 res.status(400).send()
             }
