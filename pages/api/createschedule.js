@@ -50,10 +50,14 @@ export default async function handler(req, res) {
         const tm = to.substring(to.indexOf(':') +1, to.length)
 
         const currentTime = dayjs()
-        var fromTime = currentTime.set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0).tz(tz, true)
-        var toTime = currentTime.set('hour', th).set('minute',  tm).second(0).millisecond(0).tz(tz, true)
-        fromTime = fromTime.utc()
-        toTime = toTime.utc()
+        const currentTimeLocal = dayjs().tz(tz)
+        const offset = currentTimeLocal.utcOffset()
+        console.log(offset)
+        var fromTime = dayjs().set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0)
+        var toTime = dayjs().set('hour', th).set('minute',  tm).second(0).millisecond(0)
+
+        fromTime = fromTime.subtract(offset, 'minute')
+        toTime = toTime.subtract(offset, 'minutes')
 
         const aptsToDelete = await model.Appointments.findAll({
             where: {
@@ -177,7 +181,7 @@ export default async function handler(req, res) {
                         var apt = {
                             userID: null,
                             adminID: auth.id,
-                            startTime: time.toISOString(),
+                            startTime: time.utc().toISOString(),
                             endTime: time.add(length, 'minutes').toISOString(),
                         }
                         if(type !== 0) {
