@@ -72,8 +72,8 @@ export default async function handler(req, res) {
             const time = dayjs(a.startTime)
             
             const endtime = time.add(length, 'minutes')
-            const from = dayjs(a.startTime).hour(fh).minute(fm)
-            const to = dayjs(a.startTime).hour(th).minute(tm)
+            const from = dayjs(a.startTime).hour(fromTime.hour()).minute(fromTime.minute())
+            const to = dayjs(a.startTime).hour(toTime.hour()).minute(toTime.minute())
 
             if(daysOfWeek.includes(time.day())) {
                 if(time.isBetween(from, to, 'minute', '[]') || endtime.isBetween(from, to, 'minute', '[]')) {
