@@ -51,18 +51,6 @@ export default async function handler(req, res) {
             var aptsToAdd = []
             var typesToAdd = []
 
-            appointments.forEach(a => {
-                var ata = {
-                    userId: a.userID,
-                    adminID: trialUser.id,
-                    startTime: a.startTime,
-                    endTime: a.endTime,
-                    message: a.message,
-                    userEmail: a.userEmail,
-                    aptType: a.aptType
-                }
-                aptsToAdd.push(ata)
-            })
 
             types.forEach(t => {
                 var tta = {
@@ -75,8 +63,28 @@ export default async function handler(req, res) {
                 typesToAdd.push(tta)
             })
             
-            const createdApts = await model.Appointments.bulkCreate(aptsToAdd)
             const createdTypes = await model.AppointmentTypes.bulkCreate(typesToAdd)
+            var typeIndexMap = {}
+            createdTypes.forEach(t => {
+                const found = types.find(type => type.typeName === t.typeName)
+                typeIndexMap[found.id] = t.id
+            })
+
+            appointments.forEach(a => {
+                var ata = {
+                    userId: a.userID,
+                    adminID: trialUser.id,
+                    startTime: a.startTime,
+                    endTime: a.endTime,
+                    message: a.message,
+                    userEmail: a.userEmail,
+                    aptType: typeIndexMap[a.aptType]
+                }
+                aptsToAdd.push(ata)
+            })
+            
+            const createdApts = await model.Appointments.bulkCreate(aptsToAdd)
+            
             if(createdApts && createdTypes) {
                 res.status(200).send(JSON.stringify(trialUser.username))
             }
