@@ -105,16 +105,19 @@ export default async function handler(req, res) {
             var efm = efrom.substring(efrom.indexOf(':') +1, efrom.length)
             var eth =  eto.substring(0, eto.indexOf(':'))
             var etm = eto.substring(eto.indexOf(':') +1, eto.length)
-            const efromTime = dayjs().set('hour', parseInt(efh)).set('minute', efm).second(0).millisecond(0).utc()
-            const etoTime = dayjs().set('hour', eth).set('minute',  etm).second(0).millisecond(0).utc()
+            var efromTime = dayjs().set('hour', parseInt(efh)).set('minute', efm).second(0).millisecond(0)
+            var etoTime = dayjs().set('hour', eth).set('minute',  etm).second(0).millisecond(0)
+            
+            efromTime = efromTime.subtract(offset, 'minutes')
+            eToTime = eToTime.subtract(offset, 'minutes')
 
-            if(!efromTime.isBetween(fromTime.utc(), toTime.utc()) && !etoTime.isBetween(fromTime.utc(), toTime.utc())) {
+            if(!efromTime.isBetween(fromTime, toTime) && !etoTime.isBetween(fromTime, toTime)) {
                 res.status(400).send()
             } else {
                 
-            const timeDiffInMin1P = efromTime.utc().diff(fromTime.utc(), 'minute')
+            const timeDiffInMin1P = efromTime.diff(fromTime, 'minute')
             const numAptsIn1P = Math.floor(timeDiffInMin1P / length)
-            const timeDiffInMin2P = toTime.utc().diff(etoTime.utc(), 'minute')
+            const timeDiffInMin2P = toTime.diff(etoTime, 'minute')
             const numAptsIn2P = Math.floor(timeDiffInMin2P / length)
 
             var aptsToAdd = []
@@ -127,9 +130,9 @@ export default async function handler(req, res) {
                 if(daysOfWeek.includes(loopStartTime.day())) {
                     for(let i = 0; i < numAptsIn1P; i++) {
                         const time = loopStartTime.add(length * i, 'minutes')
-                        const efrom = dayjs(loopStartTime).hour(efh).minute(efm).utc()
-                        const eto = dayjs(loopStartTime).hour(eth).minute(etm).utc()
-                        if(!time.utc().isBetween(efrom, eto) && !time.utc().add(length, 'minutes').isBetween(efrom, eto)) {
+                        const efrom = dayjs(loopStartTime).hour(efromTime.hour()).minute(efromTime.minute())
+                        const eto = dayjs(loopStartTime).hour(eToTime.hour()).minute(eToTime.minute())
+                        if(!time.isBetween(efrom, eto) && !time.utc().add(length, 'minutes').isBetween(efrom, eto)) {
                             var apt = {
                                 userID: null,
                                 adminID: auth.id,
@@ -148,14 +151,14 @@ export default async function handler(req, res) {
 
                     for(let y = 0; y < numAptsIn2P; y++) {
                         const time = loopStartTime2P.add(length * y, 'minutes')
-                        const efrom = dayjs(loopStartTime2P).hour(efh).minute(efm).utc()
-                        const eto = dayjs(loopStartTime2P).hour(eth).minute(etm).utc()
-                        if(!time.utc().isBetween(efrom, eto) && !time.add(length, 'minutes').utc().isBetween(efrom, eto, null, '()')) {
+                        const efrom = dayjs(loopStartTime2P).hour(efromTime.hour()).minute(efromTime.minute())
+                        const eto = dayjs(loopStartTime2P).hour(eToTime.hour()).minute(eToTime.minute())
+                        if(!time.isBetween(efrom, eto) && !time.add(length, 'minutes').isBetween(efrom, eto, null, '()')) {
                             var apt = {
                                 userID: null,
                                 adminID: auth.id,
-                                startTime: time.utc().toISOString(),
-                                endTime: time.utc().add(length, 'minutes').toISOString(),
+                                startTime: time.toISOString(),
+                                endTime: time.add(length, 'minutes').toISOString(),
                             }
                             if(type !== 0) {
                                 apt.aptType = type

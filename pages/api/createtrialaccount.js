@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 import { serialize } from 'cookie';
 
 export default async function handler(req, res) {
-    const trialAccount = 46;
+    const trialAccount = 1;
 
     const appointments = await model.Appointments.findAll({
         where: {
