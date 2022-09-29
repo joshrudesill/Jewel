@@ -40,8 +40,13 @@ const useFetchManager = (url, params, method, immediate = true) => {
         } else {
           setIsHandlingRequest(false)
           setStatus(fetchResult.status)
-          const d = await fetchResult.json()
-          setData(d ? d : true)
+          var d;
+          try {
+            d = await fetchResult.json()
+          } catch(err) {
+            d = true
+          }
+          setData(d)
         }
     
       } else if(method === 'GET') {

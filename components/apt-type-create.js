@@ -100,7 +100,7 @@ const AptTypeCreate = ({ creator, showMessage, dispatch }) => {
                                         <ion-icon name="hourglass-outline"></ion-icon>
                                     </span>
                                     <span className="label" data-tooltip='Duration that will be applied to all appointments created with this type'>
-                                        Default Time<span className="has-text-danger" >{errors.dtime?.message}</span>
+                                        Default Time (minutes)<span className="has-text-danger" >{errors.dtime?.message}</span>
                                     </span>
                                 
                                 </label>

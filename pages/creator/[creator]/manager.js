@@ -103,11 +103,7 @@ const Manager = () => {
     }
     if(authorized) return (
         <>
-        <body style={{
-            display: 'flex',
-            minHeight: '100vh',
-            flexDirection: 'column'
-        }}>  
+          
                 <CreatorNavBar creator={creator}/>
                 <div className="tabs is-centered is-boxed mt-2 is-small">
                     <ul>
@@ -121,7 +117,13 @@ const Manager = () => {
                     { visibilityState.createapt ? <CreateAppointment types={types} creator={creator} showMessage={messageState.createapt} dispatch={messageDispatch}/> : <></>}
                     { visibilityState.createtype ? <AptTypeCreate types={types} creator={creator} showMessage={messageState.createtype} dispatch={messageDispatch}/> : <></>}
                 </div>
-        </body>
+                <div style={{
+            display: 'flex',
+            minHeight: '15vh',
+            flexDirection: 'column'
+        }}>
+        </div>
+        
         <Footer />
         </>
         )

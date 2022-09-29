@@ -17,16 +17,16 @@ export default function Home() {
       router.push(`/creator/${data}`)
     } 
   }, [data, status, isHandlingRequest])
-/*
-<button onClick={
+
+
+ 
+  return (
+  <>
+    <button onClick={
       () => {
         fetch('/api/login?username=josh&password=asdf')
       }
     }>l</button>
- */
-  return (
-  <>
-    
     <nav className="navbar is-primary">
       <div className="navbar-brand">
         <span className="is-unselectable icon-text p-3" >
@@ -103,7 +103,13 @@ export default function Home() {
                       <h3>What is the purpose of this project?</h3>
                       <p>
                         What you&apos;re about to use is a portfolio project built by me, Josh Rudesill (an aspiring web dev). The name Jewel comes from the word &apos;Sche<strong>dule</strong>&apos;.. get it? Sched-Jewel. 
-                        It is built with React and Next.js with MySQL as a database paradigm. See <a className='has-text-link' target='_blank' href="https://github.com/joshrudesill/jewel" rel="noreferrer">GitHub </a>
+                        It is built with React and Next.js with MySQL as a database paradigm. See 
+                        <span className='icon-text has-text-link'>
+                          <a target='_blank' href="https://github.com/joshrudesill/jewel" rel="noreferrer" className='icon mr-0'><ion-icon name="logo-github"></ion-icon></a>
+                          <a className='has-text-link mr-1' target='_blank' href="https://github.com/joshrudesill/jewel" rel="noreferrer">
+                            GitHub 
+                          </a>
+                        </span>
                         for more technical information.
                       </p>
                       <p>It is built with a business owner in mind who needs to create and manage appointments and have their customers book times.</p>

@@ -63,7 +63,7 @@ export default async function handler(req, res) {
             .set('date', day)
             .set('hour', hour)
             .set('minute', minute)
-            .tz(tz)
+            .tz(tz, true)
         const end = start.add(duration, 'm')
         console.log(start.utc().format())
         const result = await verifyApt(auth.id, start.utc(true), end.utc(true), tz)
@@ -71,8 +71,8 @@ export default async function handler(req, res) {
             const create = await model.Appointments.create({
                 userId: null,
                 adminID: auth.id,
-                startTime: start.toISOString(),
-                endTime: end.toISOString(), 
+                startTime: start.utc().toISOString(),
+                endTime: end.utc().toISOString(), 
                 aptType: type
             });
             if(create) {

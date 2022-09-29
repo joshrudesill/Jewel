@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     const type = parseInt(req.query.typesort)
     var params = { 
       adminID: auth.id, 
-      startTime: { [model.op.gte]: dayjs().utc(true).toDate() }
+      startTime: { [model.op.gte]: dayjs().toDate() }
     }
     
     if(claimed === 'c') {
@@ -43,10 +43,12 @@ export default async function handler(req, res) {
             .set('minute', 0)
             .set('second', 0)
       const lt = dayjs(gt).add(86399, 'second')
+      
       params.startTime = {
         [model.op.and]: [
-            {[model.op.gte]: gt.utc(true).toDate()},
-            {[model.op.lte]: lt.utc(true).toDate()}
+            {[model.op.gte]: gt.utc(true).toDate() },
+            {[model.op.lte]: lt.utc(true).toDate() },
+            {[model.op.gte]: dayjs().toDate() }
         ],
     }
     }

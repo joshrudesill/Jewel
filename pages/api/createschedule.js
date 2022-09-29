@@ -52,7 +52,6 @@ export default async function handler(req, res) {
         const currentTime = dayjs()
         const currentTimeLocal = dayjs().tz(tz)
         const offset = currentTimeLocal.utcOffset()
-        console.log(offset)
         var fromTime = dayjs().set('hour', parseInt(fh)).set('minute', fm).second(0).millisecond(0)
         var toTime = dayjs().set('hour', th).set('minute',  tm).second(0).millisecond(0)
 
@@ -198,11 +197,7 @@ export default async function handler(req, res) {
         if(aptsToAdd && aptsToAdd.length > 0) {
             const newSchedule = await model.Appointments.bulkCreate(aptsToAdd)
             if(newSchedule) {
-                res.status(200).json({
-                    offset: offset,
-                    fromtime: fromTime,
-                    timezone: tz
-                })
+                res.status(200).send()
             } else {
                 res.status(400).send()
             }
