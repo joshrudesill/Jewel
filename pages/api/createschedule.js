@@ -69,14 +69,14 @@ export default async function handler(req, res) {
 
         var toDeleteIDs = []
         aptsToDelete.forEach(a => {
-            const timet = dayjs(a.startTime).tz(tz, true)
-            const time = timet.utc()
+            const time = dayjs(a.startTime)
+            
             const endtime = time.add(length, 'minutes')
-            const from = dayjs(a.startTime).hour(fh).minute(fm).tz(tz, true)
-            const to = dayjs(a.startTime).hour(th).minute(tm).tz(tz, true)
+            const from = dayjs(a.startTime).hour(fh).minute(fm)
+            const to = dayjs(a.startTime).hour(th).minute(tm)
 
             if(daysOfWeek.includes(time.day())) {
-                if(time.isBetween(from.utc(), to.utc(), 'minute', '[]') || endtime.isBetween(from.utc(), to.utc(), 'minute', '[]')) {
+                if(time.isBetween(from, to, 'minute', '[]') || endtime.isBetween(from, to, 'minute', '[]')) {
                     toDeleteIDs.push(a.id)
                 } 
             }
