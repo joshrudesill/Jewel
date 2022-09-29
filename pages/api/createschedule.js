@@ -26,6 +26,8 @@ export default async function handler(req, res) {
             nextunit, 
             nextamount 
         } = req.body.watchFields;
+
+        
         
         const dayMap = {
             'su': 0,
@@ -67,14 +69,14 @@ export default async function handler(req, res) {
 
         var toDeleteIDs = []
         aptsToDelete.forEach(a => {
-            const timet = dayjs(a.startTime)
+            const timet = dayjs(a.startTime).tz(tz, true)
             const time = timet.utc()
             const endtime = time.add(length, 'minutes')
-            const from = dayjs(a.startTime).hour(fh).minute(fm)
-            const to = dayjs(a.startTime).hour(th).minute(tm)
+            const from = dayjs(a.startTime).hour(fh).minute(fm).tz(tz, true)
+            const to = dayjs(a.startTime).hour(th).minute(tm).tz(tz, true)
 
             if(daysOfWeek.includes(time.day())) {
-                if(time.isBetween(from.utc(), to.utc(), 'minute', '[]') || endtime.utc().isBetween(from.utc(), to.utc(), 'minute', '[]')) {
+                if(time.isBetween(from.utc(), to.utc(), 'minute', '[]') || endtime.isBetween(from.utc(), to.utc(), 'minute', '[]')) {
                     toDeleteIDs.push(a.id)
                 } 
             }
@@ -116,7 +118,7 @@ export default async function handler(req, res) {
             const numAptsIn2P = Math.floor(timeDiffInMin2P / length)
 
             var aptsToAdd = []
-            var loopStartTime = fromTime.utc()
+            var loopStartTime = fromTime
 
             for(let j = 0; j < numberOfDays; j++) {
                 if(j !== 0) {
