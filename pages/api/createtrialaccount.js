@@ -58,7 +58,8 @@ export default async function handler(req, res) {
                     startTime: a.startTime,
                     endTime: a.endTime,
                     message: a.message,
-                    userEmail: a.userEmail
+                    userEmail: a.userEmail,
+                    aptType: a.aptType
                 }
                 aptsToAdd.push(ata)
             })
