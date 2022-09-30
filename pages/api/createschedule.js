@@ -60,23 +60,37 @@ export default async function handler(req, res) {
         fromTime = fromTime.subtract(offset, 'minute')
         toTime = toTime.subtract(offset, 'minutes')
 
+
+        var numberOfDays = 0
+        if(nextunit === 'week') {
+            numberOfDays = nextamount * 7
+        }
+        if(nextunit === 'month') {
+            numberOfDays = nextamount * 30
+        }
+
         const aptsToDelete = await model.Appointments.findAll({
             where: {
                 adminID: auth.id,
-                startTime: { [model.op.gte]: currentTime.utc() }
+                startTime: {
+                    [model.op.and]: [
+                    { [model.op.gte]: currentTime.toISOString() },
+                    { [model.op.lte]: currentTime.add(numberOfDays, 'day').toISOString() },
+                ]}
             }
         })
 
         var toDeleteIDs = []
+        var i =0;
         aptsToDelete.forEach(a => {
-            const time = dayjs(a.startTime)
+            const startTime = dayjs(a.startTime)
             
-            const endtime = time.add(length, 'minutes')
+            const endTime = startTime.add(length, 'minutes')
             const from = dayjs(a.startTime).hour(fromTime.hour()).minute(fromTime.minute())
             const to = dayjs(a.startTime).hour(toTime.hour()).minute(toTime.minute())
 
-            if(daysOfWeek.includes(time.day())) {
-                if(time.isBetween(from, to, 'minute', '[]') || endtime.isBetween(from, to, 'minute', '[]')) {
+            if(daysOfWeek.includes(startTime.day())) {
+                if(startTime.isBetween(from, to, 'minute', '[]') || endTime.isBetween(from, to, 'minute', '[]')) {
                     toDeleteIDs.push(a.id)
                 } 
             }
@@ -91,15 +105,9 @@ export default async function handler(req, res) {
         const timeDiffInMin = toTime.diff(fromTime, 'minute')
         const numAptsInPeriod = Math.floor(timeDiffInMin / length)
 
-        var numberOfDays = 0
-        if(nextunit === 'week') {
-            numberOfDays = nextamount * 7
-        }
-        if(nextunit === 'month') {
-            numberOfDays = nextamount * 30
-        }
+        
 
-        if(efrom !== 0 && eto !== 0) {
+        if(parseInt(efrom) !== 0 && parseInt(eto) !== 0) {
             
             var efh = efrom.substring(0, efrom.indexOf(':'))
             var efm = efrom.substring(efrom.indexOf(':') +1, efrom.length)

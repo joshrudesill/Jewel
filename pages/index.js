@@ -18,15 +18,15 @@ export default function Home() {
     } 
   }, [data, status, isHandlingRequest])
 
-/*<button onClick={
-      () => {
-        fetch('/api/randomclaim')
-      }
-    }>l</button> */
+
  
   return (
   <>
-    
+    <button onClick={
+      () => {
+        fetch('/api/login?username=josh&password=asdf')
+      }
+    }>l</button> 
     <nav className="navbar is-primary">
       <div className="navbar-brand">
         <span className="is-unselectable icon-text p-3" >
