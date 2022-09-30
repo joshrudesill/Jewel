@@ -37,8 +37,8 @@ export default async function handler(req, res) {
     if(d !== 0 && m !== 0) {
       const gt = dayjs()
             .set('year', dayjs().year())
-            .set('date', day)
             .set('month', month)
+            .set('date', day)
             .set('hour', 0)
             .set('minute', 0)
             .set('second', 0)

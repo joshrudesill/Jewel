@@ -55,6 +55,11 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
         reset()
     }, [])
     
+    useEffect(() => {
+        if(error) {
+            console.error(error)
+        }
+    }, [error])
 
     useEffect(() => {
         if(!isHandlingRequest && data){

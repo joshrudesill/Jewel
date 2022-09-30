@@ -36,7 +36,6 @@ const Scheduler = () => {
     return (
         <>
         <UserNavBar creator={creator}/>
-         
             <div className='container is-fullhd'>
                 <UserAptSort 
                     day={day} 
@@ -59,7 +58,7 @@ const Scheduler = () => {
             </div>
        <div style={{
             display: 'flex',
-            minHeight: '100vh',
+            minHeight: '15vh',
         }}>
         </div>
         <Footer />

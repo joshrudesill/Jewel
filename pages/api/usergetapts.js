@@ -24,8 +24,8 @@ export default async function handler(req, res) {
         }
         const gt = dayjs()
             .set('year', dayjs().year())
-            .set('date', d)
             .set('month', month)
+            .set('date', d)
             .set('hour', 0)
             .set('minute', 0)
             .set('second', 0)

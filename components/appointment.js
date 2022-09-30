@@ -30,8 +30,8 @@ const Appointment = ({ a, type }) => {
     
     return (
         <div className="column is-one-third-desktop is-half-tablet">
-            <div className="card">
-                <div className="card-header is-clickable is-unselectable" onClick={toggleShow}>
+            <div className="card is-shadowless" style={{border: '1px solid rgb(209, 209, 209)' }}>
+                <div className="card-header is-clickable is-unselectable is-shadowless" onClick={toggleShow}>
                     <div className="card-header-title">
                         <div className="icon-text">
                             <AptIcon startTime={a.startTime}/>
@@ -54,7 +54,6 @@ const Appointment = ({ a, type }) => {
                         :
                         <></>
                     }
-                    
                 </div>
                 <div className={`${show ? '' : 'is-hidden'} card-content`}>
                     <div className="content">

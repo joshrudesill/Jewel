@@ -7,9 +7,10 @@ dayjs.extend(timezone)
 
 const AptDate = ({ startTime, endTime }) => {
   const [date, setDate] = useState('')
+  const [timezone, setTZ] = useState('')
   useEffect(() => {
     const tz = dayjs.tz.guess()
-    console.log(tz)
+    setTZ(tz)
     const current = dayjs().tz(tz)
     const start = dayjs(startTime).tz(tz)
     const end = dayjs(endTime).tz(tz)
