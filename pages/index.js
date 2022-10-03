@@ -18,15 +18,15 @@ export default function Home() {
     } 
   }, [data, status, isHandlingRequest])
 
-
- 
-  return (
-  <>
-    <button onClick={
+/*<button onClick={
       () => {
         fetch('/api/login?username=josh&password=asdf')
       }
-    }>l</button> 
+    }>l</button>  */
+ 
+  return (
+  <>
+    
     <nav className="navbar is-primary">
       <div className="navbar-brand">
         <span className="is-unselectable icon-text p-3" >
@@ -89,8 +89,8 @@ export default function Home() {
                   </div>
                   <div className='column is-5'>
                     <div className='control'> 
-                      <label className='label'>Name (optional)</label>
-                      <input className='input' {...register('name', { required: false, maxLength: 50 })}></input>
+                      <label className='label'>Name</label>
+                      <input className='input' {...register('name', { required: true, maxLength: 50 })} required></input>
                     </div>
                   </div>
                 </div>

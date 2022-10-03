@@ -48,7 +48,6 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
     const watchFields = watch()
     const { execute, data, status, isHandlingRequest, error } = useFetchManager('/api/createschedule', { watchFields, creator: creator, tz: tz }, 'POST', false)
     const [lockDuration, setLockDuration] = useState(false)
-    const [lockPrice, setLockPrice] = useState(false)
     const [typeIndex, setTypeIndex] = useState()
     
     useEffect(() => {
@@ -71,6 +70,7 @@ const CreateSchedule = ({ types, creator, showMessage, dispatch }) => {
             }
         }
     }, [isHandlingRequest, status])
+    
     useEffect(() => {
         if(parseInt(watchFields.type) === 0) {
             resetField('length', { defaultValue: 45 })
