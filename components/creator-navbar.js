@@ -53,7 +53,7 @@ const CreatorNavBar = ({ creator })  => {
                     </Link>
                 </div>
                 <div className="navbar-end">
-                    <a className="navbar-item" target='_blank' rel="noreferrer">
+                    <a className="navbar-item" href="https://blog.jrudesill.dev" target='_blank' rel="noreferrer">
                         Blog
                     </a>
                     <a className="navbar-item" target='_blank' href="https://github.com/joshrudesill/jewel" rel="noreferrer">

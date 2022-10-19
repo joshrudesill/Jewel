@@ -45,7 +45,7 @@ export default function Home() {
       <div className={`navbar-menu ${showMenu ? 'is-active' : ''}`}>
 
           <div className="navbar-end">
-              <a className="navbar-item" target='_blank' rel="noreferrer">
+              <a className="navbar-item" target='_blank' rel="noreferrer" href="https://blog.jrudesill.dev">
                   Blog
               </a>
               <a className="navbar-item" target='_blank' href="https://github.com/joshrudesill/jewel" rel="noreferrer">

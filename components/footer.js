@@ -26,7 +26,7 @@ const Footer = () => (
                     </div>
                     <div className='icon-text mt-2'>
                         <a className='icon is-size-1' href='#'target='_blank' rel='noreferrer'><ion-icon name="open-outline"></ion-icon></a>
-                        <a href='#'target='_blank' rel='noreferrer'>Resume</a>
+                        <a target='_blank' rel='noreferrer' href='https://jrudesill.dev'>Resume</a>
                     </div>
                 </div>
             </div>
